@@ -33,6 +33,7 @@
   },
   "dependencies": {
     "ky": "^0.33.3",
-    "ky-universal": "^0.12.0"
+    "ky-universal": "^0.12.0",
+    "tw-elements": "1.0.0-beta3"
   }
 }
