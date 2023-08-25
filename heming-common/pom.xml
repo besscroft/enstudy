@@ -15,6 +15,16 @@
     <description>公共模块</description>
 
     <dependencies>
+        <dependency>
+            <groupId>dev.heming.enstudy.doc</groupId>
+            <artifactId>heming-doc</artifactId>
+            <version>${revision}</version>
+        </dependency>
+        <!-- Sa-Token 权限认证 -->
+        <dependency>
+            <groupId>cn.dev33</groupId>
+            <artifactId>sa-token-spring-boot3-starter</artifactId>
+        </dependency>
         <!-- mybatis-plus -->
         <dependency>
             <groupId>com.baomidou</groupId>

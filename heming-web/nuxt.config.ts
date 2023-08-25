@@ -28,6 +28,14 @@ export default defineNuxtConfig({
   },
 
   nitro: {
+    devProxy: {
+      "/@api": {
+        target: 'http://localhost:8080',
+        prependPath: true,
+        changeOrigin: true,
+        autoRewrite: true,
+      }
+    },
     esbuild: {
       options: {
         target: 'esnext',
