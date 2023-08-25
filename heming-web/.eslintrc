@@ -1,0 +1,11 @@
+{
+  "extends": [
+    "@antfu",
+    "@unocss"
+  ],
+  "rules": {
+    "curly": "off",
+    "@typescript-eslint/brace-style": "off",
+    "no-mixed-operators": "off"
+  }
+}
