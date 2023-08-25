@@ -8,7 +8,19 @@ export default defineNuxtConfig({
     '@pinia/nuxt',
     '@nuxtjs/color-mode',
     '@vite-pwa/nuxt',
+    '@pinia-plugin-persistedstate/nuxt',
   ],
+
+  pinia: {
+    autoImports: [
+      'defineStore',
+    ]
+  },
+
+  piniaPersistedstate: {
+    storage: 'localStorage',
+    debug: true,
+  },
 
   experimental: {
     // when using generate, payload js assets included in sw precache manifest
@@ -27,6 +39,8 @@ export default defineNuxtConfig({
     classSuffix: '',
   },
 
+  server: true,
+
   nitro: {
     devProxy: {
       "/@api": {
@@ -34,6 +48,11 @@ export default defineNuxtConfig({
         prependPath: true,
         changeOrigin: true,
         autoRewrite: true,
+      },
+    },
+    routeRules: {
+      '/@api/**': {
+        proxy: 'http://localhost:8080/**'
       }
     },
     esbuild: {

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { Login } from '../types'
 import { useUserStore } from '../stores/user'
+import ky from 'ky'
 
 const user = useUserStore()
 const router = useRouter()
@@ -11,22 +12,34 @@ const loginForm = reactive<Login.ReqLoginForm>({
 })
 
 const handleSubmitClick = async () => {
-  await $fetch('/@api/user/login', {
-    method: 'POST',
-    body: {username: loginForm.username, password: loginForm.password},
-    parseResponse: JSON.parse,
-  }).then((res: any) => {
-    if (res.code === 200) {
-      user.setToken(res.data.tokenValue)
-      // 等待一秒
-      setTimeout(() => {
-        router.push('/')
-      }, 1000)
-    } else {
-      console.log(res.message)
-    }
-  })
+  const json = await ky.post('/@api/user/login', {
+    json: {username: loginForm.username, password: loginForm.password}
+  }).json();
+  if (json.code === 200) {
+    user.setToken(json.data.tokenValue)
+    user.setTokenName(json.data.tokenName)
+    // 等待一秒
+    setTimeout(() => {
+      router.push('/learn')
+    }, 500)
+  } else {
+    console.log(json.message)
+  }
 }
+
+const keyDown = (e) => {
+  if (e.keyCode === 13 || e.keyCode === 100) {
+    handleSubmitClick()
+  }
+}
+
+onMounted(() => {
+  window.addEventListener('keydown', keyDown)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('keydown', keyDown, false)
+})
 </script>
 
 <template>
@@ -41,22 +54,23 @@ const handleSubmitClick = async () => {
 
         <div chidden lg:relative lg:block lg:p-12>
 
-          <h2 mt-6 text-2xl font-bold text-white sm:text-3xl md:text-4xl>
+          <h2 mt-6 text-2xl font-ark text-white sm:text-3xl md:text-4xl>
             HeMing Fast
           </h2>
 
-          <p mt-4 leading-relaxed  class="text-white/90">
-            HeMing 工作室出品，一款基于 SpringBoot 3 和 Nuxt3 的脚手架
+          <p mt-4 font-ark leading-relaxed  class="text-white/90">
+            鹤鸣工作室出品，一款基于 SpringBoot 3 和 Nuxt3 的脚手架。<br />
+            本项目基于 HeMing Fast 构建！
           </p>
         </div>
       </section>
 
       <main flex flex-col items-center justify-center px-4 py-4 sm:px-12 lg:col-span-7 lg:px-16 lg:py-12 xl:col-span-6>
-        <h2 mt-6 text-2xl font-bold sm:text-3xl md:text-4xl>
-          HeMing Fast
+        <h2 mt-6 text-2xl font-ark sm:text-3xl md:text-4xl>
+          嗯学英语
         </h2>
         <div flex items-center justify-center mt-2>
-          <p w-16>用户名</p>
+          <p w-16 font-ark>用户名</p>
           <input
               type="text"
               v-model="loginForm.username"
@@ -67,7 +81,7 @@ const handleSubmitClick = async () => {
           />
         </div>
         <div flex items-center justify-center mt-2>
-          <p w-16>密码</p>
+          <p w-16 font-ark>密码</p>
           <input
               type="text"
               v-model="loginForm.password"
@@ -80,7 +94,7 @@ const handleSubmitClick = async () => {
         <button
             name="button"
             @click="handleSubmitClick"
-            mt-2 border-2 rounded p-1 border-teal-400
+            mt-2 border-2 rounded p-1 border-teal-400 font-ark
         >登录</button>
       </main>
     </div>

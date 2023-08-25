@@ -60,6 +60,7 @@ export const useUserStore = defineStore('user', {
       this.roleCode = roleCode
     },
   },
+  persist: true,
 })
 
 if (import.meta.hot)
