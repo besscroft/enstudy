@@ -17,7 +17,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-@TableName(value = "book_dict")
+@TableName(value = "enstudy_book_dict")
 @Schema(title = "词典实体")
 public class BookDict extends BaseEntity {
 

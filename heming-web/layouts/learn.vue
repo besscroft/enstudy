@@ -3,7 +3,7 @@
 
 <template>
   <Header />
-  <div flex flex-wrap sm:flex-nowrap justify-center>
+  <div flex flex-wrap-reverse sm:flex-nowrap justify-center>
     <div w-full h-full mx-1 class="sm:w-3/5 lg:w-4/5">
       <slot />
     </div>
