@@ -2,8 +2,8 @@
   "private": true,
   "packageManager": "pnpm@8.6.11",
   "scripts": {
-    "build": "nuxi build",
-    "dev": "nuxi dev",
+    "build": "nuxi build --dotenv .env.production",
+    "dev": "nuxi dev --dotenv .env.local",
     "dev:pwa": "VITE_PLUGIN_PWA=true nuxi dev",
     "start": "node .output/server/index.mjs",
     "typecheck": "vue-tsc --noEmit",

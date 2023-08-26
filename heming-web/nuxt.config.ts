@@ -45,7 +45,7 @@ export default defineNuxtConfig({
   nitro: {
     devProxy: {
       "/@api": {
-        target: 'https://api.heming.dev/@api',
+        target: process.env.PROXY_URL,
         prependPath: true,
         changeOrigin: true,
         autoRewrite: true,
@@ -53,7 +53,7 @@ export default defineNuxtConfig({
     },
     routeRules: {
       '/@api/**': {
-        proxy: 'https://api.heming.dev/@api/**'
+        proxy: process.env.PROXY_URL+'/**'
       }
     },
     esbuild: {
