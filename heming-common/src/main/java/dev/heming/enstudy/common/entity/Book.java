@@ -1,5 +1,6 @@
 package dev.heming.enstudy.common.entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.springframework.data.annotation.Id;
@@ -140,9 +141,11 @@ public class Book implements Serializable {
         static class Sentences {
 
             /** 英语 */
+            @JsonProperty("sContent")
             private String sContent;
 
             /** 中文翻译 */
+            @JsonProperty("sCn")
             private String sCn;
 
         }
@@ -173,6 +176,7 @@ public class Book implements Serializable {
             @Data
             static class Hwds {
 
+                @JsonProperty("w")
                 private String w;
 
             }
@@ -195,9 +199,11 @@ public class Book implements Serializable {
         static class Phrases {
 
             /** 英语 */
+            @JsonProperty("pContent")
             private String pContent;
 
             /** 翻译 */
+            @JsonProperty("pCn")
             private String pCn;
 
         }
