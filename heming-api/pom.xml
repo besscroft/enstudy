@@ -16,8 +16,9 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter</artifactId>
+            <groupId>dev.heming.enstudy.common</groupId>
+            <artifactId>heming-common</artifactId>
+            <version>${revision}</version>
         </dependency>
     </dependencies>
 
