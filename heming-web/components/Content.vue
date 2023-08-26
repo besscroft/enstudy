@@ -4,7 +4,7 @@
 
 <template>
   <div
-    border rounded border-solid
+    border rounded border-solid p-2
   >
     <div min-h-80>内容</div>
   </div>

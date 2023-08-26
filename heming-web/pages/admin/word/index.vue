@@ -1,11 +1,11 @@
 <script setup lang="ts">
-
+definePageMeta({
+  layout: 'admin',
+})
 </script>
 
 <template>
-  <div border rounded border-solid p-1>
-    <p font-ark>其它</p>
-  </div>
+  单词维护
 </template>
 
 <style scoped>

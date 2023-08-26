@@ -120,6 +120,8 @@ onMounted(() => {
             </li>
           </ul>
         </div>
+
+        <DarkToggle ml-2 />
       </div>
     </div>
   </nav>
