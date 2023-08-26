@@ -49,4 +49,49 @@
             username = #{username}
     </select>
 
+    <select id="selectPageList" resultSets="java.util.List" resultMap="userMap">
+        SELECT
+        id,
+        username,
+        password,
+        avatar,
+        email,
+        role,
+        name,
+        telephone,
+        remark,
+        login_time,
+        creator,
+        updater,
+        create_time,
+        update_time,
+        status,
+        del
+        FROM
+        user
+        WHERE
+        del = 1
+        <if test="role != null and role != ''">
+            AND role = #{role}
+        </if>
+    </select>
+
+    <select id="selectPasswordById" resultType="java.lang.String">
+        SELECT
+            password
+        FROM
+            user
+        WHERE
+            id = #{id}
+    </select>
+
+    <update id="updatePasswordById">
+        UPDATE
+            user
+        SET
+            password = #{password}
+        WHERE
+            id = #{id}
+    </update>
+
 </mapper>
