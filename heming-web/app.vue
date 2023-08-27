@@ -11,7 +11,7 @@ useHead({
 
 <template>
   <VitePwaManifest />
-  <n-config-provider :theme="color.value === 'dark' ? darkTheme : undefined">
+  <n-config-provider h-full w-full :theme="color.value === 'dark' ? darkTheme : undefined">
     <n-message-provider>
       <NuxtLayout>
         <NuxtLoadingIndicator />
