@@ -1,5 +1,7 @@
 import { pwa } from './config/pwa'
 import { appDescription } from './constants/index'
+import Components from 'unplugin-vue-components/vite'
+import { NaiveUiResolver } from 'unplugin-vue-components/resolvers'
 
 export default defineNuxtConfig({
   modules: [
@@ -10,6 +12,15 @@ export default defineNuxtConfig({
     '@vite-pwa/nuxt',
     '@pinia-plugin-persistedstate/nuxt',
   ],
+
+  vite: {
+    plugins: [
+      Components({
+        dts: true,
+        resolvers: [NaiveUiResolver()], // Automatically register all components in the `components` directory
+      }),
+    ],
+  },
 
   pinia: {
     autoImports: [

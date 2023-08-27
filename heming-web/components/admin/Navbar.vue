@@ -5,8 +5,10 @@ import {
   Ripple,
   initTE,
 } from 'tw-elements'
+import { useUserStore } from '~/stores/user'
 
 const router = useRouter()
+const user = useUserStore()
 
 onMounted(() => {
   initTE({ Collapse, Dropdown, Ripple })
@@ -99,7 +101,7 @@ onMounted(() => {
               aria-expanded="false">
             <!-- User avatar -->
             <img
-                src="https://besscroft.com/uploads/avatar.jpeg"
+                :src="user.avatar"
                 rounded-full
                 style="height: 25px; width: 25px"
                 alt="avatar"
