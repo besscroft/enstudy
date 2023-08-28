@@ -8,7 +8,9 @@ import Menu from '~/components/admin/Menu'
     <Navbar />
     <Menu />
   </ClientOnly>
-  <slot />
+  <div p-4>
+    <slot />
+  </div>
 </template>
 
 <style scoped>

@@ -1,30 +1,54 @@
 <script setup lang="ts">
-import ky from 'ky'
-import { NButton, useMessage } from 'naive-ui'
+import { NAvatar, NButton, useMessage } from 'naive-ui'
 import type { DataTableColumns } from 'naive-ui'
 
-const pagination = ref(false)
 const message = useMessage()
+const nuxtApp = useNuxtApp()
 
-type Song = {
-  no: number
-  title: string
-  length: string
-}
+const dataList = ref([])
+const pageInfo = reactive({
+  total: 0,
+  totalPage: 0,
+  pageNum: 1,
+  pageSize: 10,
+})
+const roleFlag = ref<string>('')
+const data = reactive({
+  form: {},
+  queryParam: {
+    pageNum: 1,
+    pageSize: 8,
+    role: '',
+  },
+})
 
-const createColumns = ({ play }: { play: (row: Song) => void }): DataTableColumns<Song> => {
+const createColumns = ({ handInfo }: { handInfo: (row: any) => void }): DataTableColumns<any> => {
   return [
     {
-      title: 'No',
-      key: 'no'
+      title: '账号',
+      key: 'username'
     },
     {
-      title: 'Title',
-      key: 'title'
+      title: '邮箱',
+      key: 'email'
     },
     {
-      title: 'Length',
-      key: 'length'
+      title: '角色',
+      key: 'role'
+    },
+    {
+      title: '头像',
+      key: 'avatar',
+      render (row) {
+        return h(
+            NAvatar,
+            {
+              src: row.avatar,
+              size: 'small',
+              round: true
+            }
+        )
+      }
     },
     {
       title: 'Action',
@@ -36,38 +60,44 @@ const createColumns = ({ play }: { play: (row: Song) => void }): DataTableColumn
               strong: true,
               tertiary: true,
               size: 'small',
-              onClick: () => play(row)
+              onClick: () => handInfo(row)
             },
-            { default: () => 'Play' }
+            { default: () => '详情' }
         )
       }
     }
   ]
 }
 
-const data: Song[] = [
-  { no: 3, title: 'Wonderwall', length: '4:18' },
-  { no: 4, title: "Don't Look Back in Anger", length: '4:48' },
-  { no: 12, title: 'Champagne Supernova', length: '7:27' }
-]
-
 const columns = createColumns({
-  play (row: Song) {
-    message.info(`Play ${row.title}`)
+  handInfo (row: any) {
+    message.info(`Play ${row.id}`)
   }
 })
 
-const dataList = ref([])
-
-onUnmounted(async () => {
-  const json = await ky.post('/@api/user/userPage', {
-    searchParams: {pageNum: 1, pageSize: 10}
+const useUserPage = async (role: string) => {
+  if (role) {
+    data.queryParam.role = role
+    roleFlag.value = role.toString()
+  } else {
+    data.queryParam.role = ''
+    roleFlag.value = ''
+  }
+  data.queryParam.pageNum = pageInfo.pageNum
+  data.queryParam.pageSize = pageInfo.pageSize
+  dataList.value = []
+  const json = await nuxtApp.$api.get('/@api/user/userPage', {
+    searchParams: data.queryParam,
   }).json();
   if (json.code === 200) {
     dataList.value = json.data.list
   } else {
     console.log(json.message)
   }
+}
+
+onBeforeMount(async () => {
+  await useUserPage('')
 })
 
 definePageMeta({
@@ -78,9 +108,15 @@ definePageMeta({
 <template>
   <n-data-table
       :columns="columns"
-      :data="data"
-      :pagination="pagination"
+      :data="dataList"
       :bordered="false"
+  />
+  <n-pagination
+      v-if="pageInfo.totalPage > 1"
+      v-model:page="pageInfo.pageNum"
+      v-model:page-size="pageInfo.pageSize"
+      :page-count="pageInfo.totalPage"
+      @update:page="(current) => { pageInfo.pageNum = current; useUserPage(roleFlag) }"
   />
 </template>
 

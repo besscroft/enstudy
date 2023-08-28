@@ -4,6 +4,7 @@ import ky from 'ky'
 export default defineNuxtPlugin((nuxtApp) => {
     const app = nuxtApp.vueApp;
     const userStore = useUserStore(app.$pinia)
+    const router = useRouter()
 
     const apiFetch = ky.extend({
         hooks: {
@@ -15,7 +16,10 @@ export default defineNuxtPlugin((nuxtApp) => {
             beforeError: [
                 error => {
                     const {response} = error;
-                    console.log(response);
+                    console.log(response.status);
+                    if (response.status === 401) {
+                        router.push('/login');
+                    }
                     return error;
                 }
             ]
