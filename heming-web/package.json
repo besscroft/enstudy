@@ -28,7 +28,7 @@
     "consola": "^3.2.3",
     "eslint": "^8.47.0",
     "naive-ui": "^2.34.4",
-    "nuxt": "^3.6.5",
+    "nuxt": "^3.7.0",
     "pinia": "^2.1.6",
     "typescript": "^5.1.6",
     "unplugin-vue-components": "^0.25.1",
