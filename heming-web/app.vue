@@ -19,6 +19,8 @@ useHead({
       </NuxtLayout>
     </n-message-provider>
   </n-config-provider>
+
+  <UNotifications />
 </template>
 
 <style>

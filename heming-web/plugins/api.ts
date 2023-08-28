@@ -1,13 +1,15 @@
 import { useUserStore } from '~/stores/user'
 import ky from 'ky'
 
-const createApi = ({ $pinia }: { $pinia: any }): any => {
-    const user = useUserStore($pinia)
-    const api = ky.extend({
+export default defineNuxtPlugin((nuxtApp) => {
+    const app = nuxtApp.vueApp;
+    const userStore = useUserStore(app.$pinia)
+
+    const apiFetch = ky.extend({
         hooks: {
             beforeRequest: [
                 request => {
-                    request.headers.set('Authorization', 'Bearer ' + user.token);
+                    request.headers.set('Authorization', 'Bearer ' + userStore.token);
                 }
             ],
             beforeError: [
@@ -19,7 +21,7 @@ const createApi = ({ $pinia }: { $pinia: any }): any => {
             ]
         }
     })
-    return api
-}
 
-export default createApi
+    app.config.globalProperties.$api = apiFetch;
+    nuxtApp.provide("api", apiFetch);
+});

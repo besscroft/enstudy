@@ -5,22 +5,24 @@ import ky from 'ky'
 
 const user = useUserStore()
 const router = useRouter()
+const toast = useToast()
+const nuxtApp = useNuxtApp()
 
 const loginForm = reactive<Login.ReqLoginForm>({
   username: 'view',
   password: '666666',
 })
 
-// const handUserInfo = async () => {
-//   const json = await api.get('/@api/user/info').json();
-//   if (json.code === 200) {
-//     user.setUserName(json.data.userName)
-//     user.setAvatar(json.data.avatar)
-//     user.setRoleCode(json.data.role)
-//   } else {
-//     console.log(json.message)
-//   }
-// }
+const handUserInfo = async () => {
+  const json = await nuxtApp.$api.get('/@api/user/info').json();
+  if (json.code === 200) {
+    user.setUserName(json.data.userName)
+    user.setAvatar(json.data.avatar)
+    user.setRoleCode(json.data.role)
+  } else {
+    console.log(json.message)
+  }
+}
 
 const handleSubmitClick = async () => {
   const json = await ky.post('/@api/user/login', {
@@ -29,10 +31,13 @@ const handleSubmitClick = async () => {
   if (json.code === 200) {
     user.setToken(json.data.tokenValue)
     user.setTokenName(json.data.tokenName)
-    // handUserInfo()
+    toast.add({ title: '登录成功!', timeout: 1000, ui: {
+        width: 'w-full sm:w-96'
+      }})
+    handUserInfo()
     setTimeout(() => {
       router.push('/learn')
-    }, 500)
+    }, 1000)
   } else {
     console.log(json.message)
   }

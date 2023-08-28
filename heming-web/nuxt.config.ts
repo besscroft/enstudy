@@ -11,6 +11,7 @@ export default defineNuxtConfig({
     '@nuxtjs/color-mode',
     '@vite-pwa/nuxt',
     '@pinia-plugin-persistedstate/nuxt',
+    '@nuxthq/ui',
   ],
 
   build: {
