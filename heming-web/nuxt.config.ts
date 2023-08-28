@@ -84,6 +84,7 @@ export default defineNuxtConfig({
       crawlLinks: false,
       routes: ['/'],
     },
+    preset: 'vercel'
   },
 
   app: {
