@@ -14,11 +14,15 @@ export default defineNuxtConfig({
   ],
 
   build: {
-    transpile: process.env.NODE_ENV === 'production'
-        ? [
-          'naive-ui',
-          '@css-render/vue3-ssr',
-        ] : []
+    transpile:
+        process.env.NODE_ENV === 'production'
+            ? [
+              'naive-ui',
+              'vueuc',
+              '@css-render/vue3-ssr',
+              '@juggle/resize-observer'
+            ]
+            : ['@juggle/resize-observer']
   },
 
   vite: {
@@ -28,6 +32,12 @@ export default defineNuxtConfig({
         resolvers: [NaiveUiResolver()], // Automatically register all components in the `components` directory
       }),
     ],
+    optimizeDeps: {
+      include:
+          process.env.NODE_ENV === 'development'
+              ? ['naive-ui', 'vueuc', 'date-fns-tz/esm/formatInTimeZone']
+              : []
+    }
   },
 
   pinia: {
