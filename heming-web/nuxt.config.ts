@@ -97,6 +97,10 @@ export default defineNuxtConfig({
         '/login',
         '/learn',
         '/admin',
+        '/admin/user',
+        '/admin/word',
+        '/admin/feedback',
+        '/admin/dict',
       ],
     },
     preset: 'vercel'
