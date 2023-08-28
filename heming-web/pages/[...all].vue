@@ -1,5 +1,9 @@
 <script setup lang="ts">
 const router = useRouter()
+
+definePageMeta({
+  layout: 'layout',
+})
 </script>
 
 <template>

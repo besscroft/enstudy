@@ -19,6 +19,9 @@ const handUserInfo = async () => {
     user.setUserName(json.data.userName)
     user.setAvatar(json.data.avatar)
     user.setRoleCode(json.data.role)
+    setTimeout(() => {
+      router.push('/learn')
+    }, 888)
   } else {
     console.log(json.message)
   }
@@ -31,13 +34,8 @@ const handleSubmitClick = async () => {
   if (json.code === 200) {
     user.setToken(json.data.tokenValue)
     user.setTokenName(json.data.tokenName)
-    toast.add({ title: '登录成功!', timeout: 1000, ui: {
-        width: 'w-full sm:w-96'
-      }})
-    handUserInfo()
-    setTimeout(() => {
-      router.push('/learn')
-    }, 1000)
+    toast.add({ title: '登录成功!', timeout: 1000, ui: { width: 'w-full sm:w-96' }})
+    await handUserInfo()
   } else {
     console.log(json.message)
   }
@@ -55,6 +53,10 @@ onMounted(() => {
 
 onUnmounted(() => {
   window.removeEventListener('keydown', keyDown, false)
+})
+
+definePageMeta({
+  layout: 'default',
 })
 </script>
 
