@@ -10,6 +10,8 @@ target/
 */out/
 */logs
 *.log
+*/.output/
+*/.vercel/
 
 ### STS ###
 .apt_generated
