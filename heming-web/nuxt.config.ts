@@ -82,7 +82,16 @@ export default defineNuxtConfig({
     },
     prerender: {
       crawlLinks: true,
-      routes: ['/', '/learn', '/admin/**'],
+      routes: [
+        '/',
+        '/login',
+        '/learn',
+        '/admin',
+        '/admin/user',
+        '/admin/word',
+        '/admin/dict',
+        '/admin/feedback',
+      ],
     },
     preset: 'vercel'
   },
