@@ -13,6 +13,14 @@ export default defineNuxtConfig({
     '@pinia-plugin-persistedstate/nuxt',
   ],
 
+  build: {
+    transpile: process.env.NODE_ENV === 'production'
+        ? [
+          'naive-ui',
+          '@css-render/vue3-ssr',
+        ] : []
+  },
+
   vite: {
     plugins: [
       Components({
