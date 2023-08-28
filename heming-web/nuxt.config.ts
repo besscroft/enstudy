@@ -82,7 +82,7 @@ export default defineNuxtConfig({
     },
     prerender: {
       crawlLinks: true,
-      routes: ['/', '/learn', '/admin'],
+      routes: ['/', '/learn', '/admin/**'],
     },
     preset: 'vercel'
   },
