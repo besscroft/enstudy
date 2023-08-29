@@ -5,7 +5,7 @@ import type { DataTableColumns } from 'naive-ui'
 const message = useMessage()
 const nuxtApp = useNuxtApp()
 
-const dataList = ref([])
+const dataList = ref<Array<any>>([])
 const pageInfo = reactive({
   total: 0,
   totalPage: 0,
@@ -17,7 +17,7 @@ const data = reactive({
   form: {},
   queryParam: {
     pageNum: 1,
-    pageSize: 8,
+    pageSize: 10,
     role: '',
   },
 })
@@ -90,6 +90,8 @@ const useUserPage = async (role: string) => {
     searchParams: data.queryParam,
   }).json();
   if (json.code === 200) {
+    pageInfo.total = json.data.total
+    pageInfo.totalPage = json.data.totalPage
     dataList.value = json.data.list
   } else {
     console.log(json.message)
@@ -111,13 +113,17 @@ definePageMeta({
       :data="dataList"
       :bordered="false"
   />
-  <n-pagination
-      v-if="pageInfo.totalPage > 1"
-      v-model:page="pageInfo.pageNum"
-      v-model:page-size="pageInfo.pageSize"
-      :page-count="pageInfo.totalPage"
-      @update:page="(current) => { pageInfo.pageNum = current; useUserPage(roleFlag) }"
-  />
+  <div flex justify-end pt-1>
+    <n-pagination
+        v-if="pageInfo.totalPage > 1"
+        v-model:page="pageInfo.pageNum"
+        v-model:page-size="pageInfo.pageSize"
+        :page-count="pageInfo.totalPage"
+        :page-slot="5"
+        @update:page="(current) => { pageInfo.pageNum = current; useUserPage(roleFlag) }"
+    />
+    <p ml-2>共 {{ pageInfo.total }} 条</p>
+  </div>
 </template>
 
 <style scoped>
