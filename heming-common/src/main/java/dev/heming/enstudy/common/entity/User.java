@@ -15,7 +15,7 @@ import lombok.*;
 import java.time.LocalDateTime;
 
 /**
- * @Description 用户实体
+ * @Description 用户
  * @Author Bess Croft
  * @Date 2023/8/23 22:40
  */
@@ -25,7 +25,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 @TableName(value = "enstudy_user")
-@Schema(title = "用户实体")
+@Schema(title = "用户")
 public class User extends BaseEntity {
 
     @TableId(type = IdType.AUTO)

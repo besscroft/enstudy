@@ -6,7 +6,7 @@ import dev.heming.enstudy.common.entity.BookDict;
 import java.util.List;
 
 /**
- * @Description 词典 Service
+ * @Description 词典 服务
  * @Author Bess Croft
  * @Date 2023/8/26 17:04
  */
