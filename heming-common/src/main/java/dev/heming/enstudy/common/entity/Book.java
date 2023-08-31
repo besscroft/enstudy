@@ -25,12 +25,12 @@ public class Book implements Serializable {
     private String id;
 
     /** 单词序号 */
-    private Long wordRank;
+    private Integer wordRank;
 
     /** 单词 */
     private String headWord;
 
-    /** 单词书 ID */
+    /** 词典 id */
     private String bookId;
 
     private Content content;
