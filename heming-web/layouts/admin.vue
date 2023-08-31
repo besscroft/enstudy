@@ -5,10 +5,10 @@ import Menu from '~/components/admin/Menu'
 
 <template>
   <ClientOnly>
-    <Navbar />
+    <Navbar id="heming-content" />
     <Menu />
   </ClientOnly>
-  <div p-4>
+  <div p-4 id="heming-content">
     <slot />
   </div>
 </template>
