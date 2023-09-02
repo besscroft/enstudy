@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import { appName } from '~/constants'
 
-const color = useColorMode()
-
 useHead({
   title: appName,
 })
