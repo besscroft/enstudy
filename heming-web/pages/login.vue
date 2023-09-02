@@ -19,6 +19,7 @@ const handUserInfo = async () => {
     user.setUserName(json.data.userName)
     user.setAvatar(json.data.avatar)
     user.setRoleCode(json.data.role)
+    user.setEmail(json.data.email)
     setTimeout(() => {
       router.push('/learn')
     }, 888)

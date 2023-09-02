@@ -67,6 +67,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         map.put("userName", user.getName());
         map.put("avatar", user.getAvatar());
         map.put("role", user.getRole());
+        map.put("email", user.getEmail());
         return map;
     }
 

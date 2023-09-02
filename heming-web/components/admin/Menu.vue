@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useUserStore } from '~/stores/user'
 
+const toast = useToast()
 const router = useRouter()
 const user = useUserStore()
 const activeItem = ref<string | null>(null)
@@ -12,6 +13,12 @@ const handleOpen = (item: string) => {
   } else if (item === '/admin/user') {
     open.value = ['System']
   }
+}
+
+const logout = () => {
+  user.$reset()
+  toast.add({ title: '退出成功!', timeout: 1000, ui: { width: 'w-full sm:w-96' }})
+  router.push('/')
 }
 
 watch(router.currentRoute, (val) => {
@@ -27,10 +34,19 @@ onMounted(() => {
 
 <template>
   <div flex flex-col h-full data-te-sidenav-menu-ref>
-    <div flex items-center justify-center px-2 py-3>
+    <div flex flex-col items-center justify-center px-2 pt-4>
       <v-avatar color="info" size="x-large">
         <v-img :src="user.avatar" alt="用户头像"></v-img>
       </v-avatar>
+      <p font-ark>{{ user.userName }}</p>
+      <p font-ark>{{ user.email || '暂未绑定邮箱' }}</p>
+      <div flex items-center justify-center m-2>
+        <v-tooltip text="退出">
+          <template v-slot:activator="{ props }">
+            <v-icon v-bind="props" icon="mdi-logout-variant" cursor-pointer @click="logout"></v-icon>
+          </template>
+        </v-tooltip>
+      </div>
     </div>
     <div h-full>
       <v-list
@@ -94,7 +110,25 @@ onMounted(() => {
       </v-list>
     </div>
     <div items-end p-2>
-      菜单底部
+      <NuxtLink target="_blank" to="https://heming.dev">
+        <h1 font-serif text-3xl>
+          <ruby>鹤
+            <rp>(</rp>
+            <rt>He</rt>
+            <rp>)</rp>
+          </ruby>
+          <ruby>鸣
+            <rp>(</rp>
+            <rt>Ming</rt>
+            <rp>)</rp>
+          </ruby>
+          <span
+              justify-center items-center inline px-2 text-2xl border-4 light:border-pink-100
+          >工作室</span>
+          <span text-2xl>出品</span>
+        </h1>
+      </NuxtLink>
+      <span font-serif>Made with ❤ by <NuxtLink target="_blank" to="https://besscroft.com">云淑鹤鸣真君</NuxtLink>.</span>
     </div>
   </div>
 </template>
