@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import Menu from '~/components/admin/Menu'
-
 const router = useRouter()
 const drawer = ref(null)
 </script>
@@ -20,8 +18,11 @@ const drawer = ref(null)
     </v-app-bar>
 
     <v-main>
-      <div p-2>
-        <slot />
+      <div flex flex-col p-2>
+        <BreadCrumb />
+        <div mt-2>
+          <slot />
+        </div>
       </div>
     </v-main>
   </v-app>
