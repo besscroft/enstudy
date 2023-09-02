@@ -33,6 +33,7 @@ const headers = ref([
   { title: 'Actions', key: 'actions', sortable: false },
 ])
 const useDictPage = async () => {
+  loading.value = true
   data.queryParam.pageNum = pageInfo.pageNum
   data.queryParam.pageSize = pageInfo.pageSize
   dataList.value = []
@@ -46,6 +47,7 @@ const useDictPage = async () => {
   } else {
     console.log(json.message)
   }
+  loading.value = false
 }
 
 definePageMeta({
