@@ -57,8 +57,9 @@ definePageMeta({
 
 <template>
   <v-data-table-server
+      overflow-y-auto
     fixed-header
-    height="680px"
+    height="650px"
     :headers="headers"
     :items="dataList"
     :items-length="pageInfo.total"

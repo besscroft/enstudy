@@ -70,7 +70,7 @@ definePageMeta({
 <template>
   <v-data-table-server
     fixed-header
-    height="680px"
+    height="650px"
     :headers="headers"
     :items="dataList"
     :items-length="pageInfo.total"
