@@ -168,4 +168,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         this.baseMapper.updatePasswordById(userId, sha256Pwd);
     }
 
+    @Override
+    public void logout() {
+        StpUtil.logout();
+    }
+
 }

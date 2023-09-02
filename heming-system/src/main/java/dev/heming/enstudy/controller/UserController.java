@@ -130,4 +130,11 @@ public class UserController {
         return CommonResult.success(MessageConstants.UPDATE_SUCCESS);
     }
 
+    @Operation(summary = "退出登录接口")
+    @PostMapping("/logout")
+    public CommonResult<Void> logout() {
+        userService.logout();
+        return CommonResult.success(MessageConstants.SUCCESS);
+    }
+
 }

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useUserStore } from '~/stores/user'
 
+const nuxtApp = useNuxtApp()
 const toast = useToast()
 const router = useRouter()
 const user = useUserStore()
@@ -15,9 +16,10 @@ const handleOpen = (item: string) => {
   }
 }
 
-const logout = () => {
+const logout = async () => {
+  const json = await nuxtApp.$api.post('/@api/user/logout').json();
   user.$reset()
-  toast.add({ title: '退出成功!', timeout: 1000, ui: { width: 'w-full sm:w-96' }})
+  toast.add({title: '退出成功!', timeout: 1000, ui: {width: 'w-full sm:w-96'}})
   router.push('/')
 }
 
