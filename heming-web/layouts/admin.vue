@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import Menu from '~/components/admin/Menu'
 
+const router = useRouter()
 const drawer = ref(null)
 </script>
 
@@ -13,7 +14,7 @@ const drawer = ref(null)
     <v-app-bar>
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
 
-      <v-app-bar-title>嗯学英语</v-app-bar-title>
+      <v-app-bar-title cursor-pointer @click="router.push('/')">嗯学英语</v-app-bar-title>
 
       <DarkToggle mr-4 />
     </v-app-bar>
