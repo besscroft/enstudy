@@ -3,14 +3,17 @@ const router = useRouter()
 </script>
 
 <template>
-  <div flex items-center justify-between h-16 pr-4 border-b-1 w-full>
-    <Logo />
-    <div flex space-x-4>
-      <p cursor-pointer font-ark>头顶菜单栏</p>
-      <p cursor-pointer font-ark @click="router.push('/admin')">进入后台</p>
+  <v-toolbar>
+    <v-toolbar
+      color="primary"
+      :dark="true"
+    >
+      <v-toolbar-title font-ark>嗯学英语</v-toolbar-title>
+      <v-spacer></v-spacer>
+      <v-btn icon="mdi-view-dashboard" @click="router.push('/admin')" />
       <DarkToggle />
-    </div>
-  </div>
+    </v-toolbar>
+  </v-toolbar>
 </template>
 
 <style scoped>

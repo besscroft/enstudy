@@ -42,7 +42,12 @@ onMounted(() => {
       </v-avatar>
       <p font-ark>{{ user.userName }}</p>
       <p font-ark>{{ user.email || '暂未绑定邮箱' }}</p>
-      <div flex items-center justify-center m-2>
+      <div flex items-center justify-center m-2 space-x-2>
+        <v-tooltip text="学习">
+          <template v-slot:activator="{ props }">
+            <v-icon v-bind="props" icon="mdi-school-outline" cursor-pointer @click="router.push('/learn')"></v-icon>
+          </template>
+        </v-tooltip>
         <v-tooltip text="退出">
           <template v-slot:activator="{ props }">
             <v-icon v-bind="props" icon="mdi-logout-variant" cursor-pointer @click="logout"></v-icon>

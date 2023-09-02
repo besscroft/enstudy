@@ -3,11 +3,17 @@
 </script>
 
 <template>
-  <div
-    border rounded border-solid p-2
+  <v-card
+    mx-auto w-full h-80
   >
-    <div min-h-80>内容</div>
-  </div>
+    <template v-slot:title>
+      内容
+    </template>
+
+    <v-card-text>
+      待开发...
+    </v-card-text>
+  </v-card>
 </template>
 
 <style scoped>

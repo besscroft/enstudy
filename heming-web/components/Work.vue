@@ -3,9 +3,18 @@
 </script>
 
 <template>
-  <div border rounded border-solid p-1>
-    <p font-ark>错题本</p><p>233 题</p>
-  </div>
+  <v-card
+    mx-auto w-full
+    prepend-icon="mdi-file-document-alert-outline"
+  >
+    <template v-slot:title>
+      错题本
+    </template>
+
+    <v-card-text>
+      233 题
+    </v-card-text>
+  </v-card>
 </template>
 
 <style scoped>

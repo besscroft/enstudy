@@ -3,7 +3,7 @@ export default defineAppConfig({
         notification: {
             wrapper: 'w-full pointer-events-auto',
             container: 'relative overflow-hidden',
-            title: 'text-sm font-medium text-gray-900 dark:text-white',
+            title: 'text-sm font-medium text-gray-900 dark:text-black',
             description: 'mt-1 text-sm leading-4 text-gray-500 dark:text-gray-400',
             background: 'bg-white dark:bg-gray-900',
             shadow: 'shadow-lg',
@@ -49,7 +49,7 @@ export default defineAppConfig({
         notifications: {
             // Show toasts at the top right of the screen
             position: 'top-0 right-0',
-            wrapper: 'fixed flex flex-col justify-end z-[55]',
+            wrapper: 'fixed flex flex-col justify-end z-[9999]',
             width: 'w-full sm:w-96',
             container: 'px-4 sm:px-6 py-6 space-y-3 overflow-y-auto'
         }

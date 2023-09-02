@@ -3,6 +3,7 @@ import { useTheme } from 'vuetify'
 
 const theme = useTheme()
 const color = useColorMode()
+const router = useRouter()
 
 useHead({
   meta: [{
@@ -19,7 +20,9 @@ function toggleDark() {
 </script>
 
 <template>
-  <button class="!outline-none" @click="toggleDark">
+  <button v-if="router.currentRoute.value.path === '/'" class="!outline-none" @click="toggleDark">
     <div class="i-carbon-sun dark:i-carbon-moon" />
   </button>
+  <v-btn v-else class="!outline-none" @click="toggleDark" icon="mdi-theme-light-dark">
+  </v-btn>
 </template>
