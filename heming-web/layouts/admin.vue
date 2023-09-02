@@ -14,6 +14,8 @@ const drawer = ref(null)
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
 
       <v-app-bar-title>嗯学英语</v-app-bar-title>
+
+      <DarkToggle mr-4 />
     </v-app-bar>
 
     <v-main>

@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import { useTheme } from 'vuetify'
+
+const theme = useTheme()
 const color = useColorMode()
 
 useHead({
@@ -11,6 +14,7 @@ useHead({
 
 function toggleDark() {
   color.preference = color.value === 'dark' ? 'light' : 'dark'
+  theme.global.name.value = theme.global.current.value.dark ? 'light' : 'dark'
 }
 </script>
 
