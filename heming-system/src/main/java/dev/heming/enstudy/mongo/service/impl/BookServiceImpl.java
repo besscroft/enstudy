@@ -1,6 +1,6 @@
-package dev.heming.enstudy.api.service.impl;
+package dev.heming.enstudy.mongo.service.impl;
 
-import dev.heming.enstudy.api.service.BookService;
+import dev.heming.enstudy.mongo.service.BookService;
 import dev.heming.enstudy.common.entity.Book;
 import dev.heming.enstudy.common.param.book.GetBookParam;
 import lombok.RequiredArgsConstructor;

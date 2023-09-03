@@ -19,7 +19,6 @@
     <modules>
         <module>heming-common</module>
         <module>heming-doc</module>
-        <module>heming-api</module>
         <module>heming-system</module>
     </modules>
 

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dev.heming.enstudy.mapper.UserBookDictMapper">
+
+    <resultMap id="userMap" type="dev.heming.enstudy.common.entity.UserBookDict">
+        <result column="id" property="id"/>
+        <result column="user_id" property="userId"/>
+        <result column="book_id" property="bookId"/>
+        <result column="book_name" property="bookName"/>
+        <result column="studied" property="studied"/>
+        <result column="action" property="action"/>
+        <result column="creator" property="creator"/>
+        <result column="updater" property="updater"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="del" property="del"/>
+    </resultMap>
+
+    <select id="selectAllByUserId" resultSets="java.util.List" resultMap="userMap">
+        SELECT
+            id,
+            user_id,
+            book_id,
+            book_name,
+            studied,
+            action,
+            creator,
+            updater,
+            create_time,
+            update_time,
+            del
+        FROM
+            enstudy_user_book_dict
+        WHERE
+            del = 1
+        AND
+            user_id = #{userId}
+    </select>
+
+    <update id="updateActionNoByUserId">
+        UPDATE
+            enstudy_user_book_dict
+        SET
+            action = 0
+        WHERE
+            del = 1
+        AND
+            user_id = #{userId}
+    </update>
+
+</mapper>

@@ -8,6 +8,7 @@ import dev.heming.enstudy.common.result.CommonResult;
 import dev.heming.enstudy.common.utils.CommonPage;
 import dev.heming.enstudy.service.BookDictService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,6 +22,7 @@ import java.util.List;
  * @Author Bess Croft
  * @Date 2023/8/26 17:06
  */
+@Tag(name = "词库管理")
 @RestController
 @RequestMapping("/bookDict")
 @RequiredArgsConstructor

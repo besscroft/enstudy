@@ -1,4 +1,4 @@
-package dev.heming.enstudy.api.service;
+package dev.heming.enstudy.mongo.service;
 
 import dev.heming.enstudy.common.entity.Book;
 import dev.heming.enstudy.common.param.book.GetBookParam;

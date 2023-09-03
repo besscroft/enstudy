@@ -16,8 +16,8 @@
 
     <dependencies>
         <dependency>
-            <groupId>dev.heming.enstudy.api</groupId>
-            <artifactId>heming-api</artifactId>
+            <groupId>dev.heming.enstudy.common</groupId>
+            <artifactId>heming-common</artifactId>
             <version>${revision}</version>
         </dependency>
         <dependency>
