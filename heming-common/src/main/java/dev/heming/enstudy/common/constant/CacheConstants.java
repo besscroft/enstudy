@@ -10,4 +10,7 @@ public interface CacheConstants {
     /** 用户信息 */
     String USER = "user:userId:";
 
+    /** 单词列表信息 */
+    String WORD_LIST = "word:bookId:";
+
 }

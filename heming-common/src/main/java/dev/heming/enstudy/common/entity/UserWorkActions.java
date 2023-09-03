@@ -26,9 +26,9 @@ public class UserWorkActions extends BaseEntity {
     private Long id;
 
     /** 单词 id */
-    @TableField(value = "work_id")
+    @TableField(value = "word_id")
     @Schema(title = "单词 id", type = "Long")
-    private Long workId;
+    private Long wordId;
 
     /** 用户 id */
     @TableField(value = "user_id")

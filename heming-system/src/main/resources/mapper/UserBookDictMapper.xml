@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="dev.heming.enstudy.mapper.UserBookDictMapper">
 
-    <resultMap id="userMap" type="dev.heming.enstudy.common.entity.UserBookDict">
+    <resultMap id="userBookDictMap" type="dev.heming.enstudy.common.entity.UserBookDict">
         <result column="id" property="id"/>
         <result column="user_id" property="userId"/>
         <result column="book_id" property="bookId"/>
@@ -18,7 +18,7 @@
         <result column="del" property="del"/>
     </resultMap>
 
-    <select id="selectAllByUserId" resultSets="java.util.List" resultMap="userMap">
+    <select id="selectAllByUserId" resultSets="java.util.List" resultMap="userBookDictMap">
         SELECT
             id,
             user_id,

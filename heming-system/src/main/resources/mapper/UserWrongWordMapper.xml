@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="dev.heming.enstudy.mapper.UserWrongWordMapper">
 
-    <resultMap id="userMap" type="dev.heming.enstudy.common.entity.UserWrongWord">
+    <resultMap id="userWrongWordMap" type="dev.heming.enstudy.common.entity.UserWrongWord">
         <result column="id" property="id"/>
         <result column="work_id" property="workId"/>
         <result column="user_id" property="userId"/>
