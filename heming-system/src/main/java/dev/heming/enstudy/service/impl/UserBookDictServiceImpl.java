@@ -51,13 +51,14 @@ public class UserBookDictServiceImpl extends ServiceImpl<UserBookDictMapper, Use
             userBookDict.setBookId(bookDict.getBookId());
             userBookDict.setBookName(bookDict.getBookName());
             userBookDict.setStudied(0);
+            userBookDict.setAction(SystemConstants.STATUS_OK);
             this.save(userBookDict);
             // TODO 异步生成学习汇总数据
             userActionsHandler(bookDict.getBookId());
         } else {
             // 有数据
             Optional<UserBookDict> bookDictOp = userBookDictList.stream()
-                    .filter(userBookDict -> Objects.equals(userBookDict.getBookId(), param.getBookId()))
+                    .filter(userBookDict -> Objects.equals(userBookDict.getBookId(), bookDict.getBookId()))
                     .findFirst();
             // 先全部设置为不启用
             this.baseMapper.updateActionNoByUserId(userId);
@@ -68,6 +69,7 @@ public class UserBookDictServiceImpl extends ServiceImpl<UserBookDictMapper, Use
                 userBookDict.setBookId(bookDict.getBookId());
                 userBookDict.setBookName(bookDict.getBookName());
                 userBookDict.setStudied(0);
+                userBookDict.setAction(SystemConstants.STATUS_OK);
                 this.save(userBookDict);
                 // TODO 异步生成学习汇总数据
                 userActionsHandler(bookDict.getBookId());
