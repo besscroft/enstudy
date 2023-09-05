@@ -8,7 +8,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
 /**
- * @Description 词典实体
+ * @Description 词典
  * @Author Bess Croft
  * @Date 2023/8/26 17:00
  */
@@ -18,7 +18,7 @@ import lombok.*;
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 @TableName(value = "enstudy_book_dict")
-@Schema(title = "词典实体")
+@Schema(title = "词典")
 public class BookDict extends BaseEntity {
 
     @TableId(type = IdType.AUTO)
@@ -26,12 +26,12 @@ public class BookDict extends BaseEntity {
     private Long id;
 
     /** 词典id */
-    @TableField(value = "book_id", select = false)
+    @TableField(value = "book_id")
     @Schema(title = "词典id", type = "String")
     private String bookId;
 
     /** 词典名称 */
-    @TableField(value = "book_name", select = false)
+    @TableField(value = "book_name")
     @Schema(title = "词典名称", type = "String")
     private String bookName;
 

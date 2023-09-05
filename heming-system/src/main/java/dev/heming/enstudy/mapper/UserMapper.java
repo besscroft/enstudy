@@ -43,4 +43,10 @@ public interface UserMapper extends BaseMapper<User> {
     int updatePasswordById(@Param("id") Long id,
                            @Param("password") String password);
 
+    /**
+     * 查询用户总数
+     * @return 用户总数
+     */
+    Integer selectUserCount();
+
 }

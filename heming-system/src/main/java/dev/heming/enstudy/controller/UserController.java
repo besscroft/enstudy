@@ -16,6 +16,7 @@ import dev.heming.enstudy.common.result.CommonResult;
 import dev.heming.enstudy.common.utils.CommonPage;
 import dev.heming.enstudy.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -28,6 +29,7 @@ import java.util.Map;
  * @Author Bess Croft
  * @Date 2023/8/24 23:05
  */
+@Tag(name = "用户管理")
 @RestController
 @RequestMapping("/user")
 @RequiredArgsConstructor
@@ -128,6 +130,13 @@ public class UserController {
     public CommonResult<Void> updatePassword(@RequestBody @Valid UserUpdatePwdParam param) {
         userService.updatePassword(param.getUserId(), param.getIsSelf(), param.getOldPassword(), param.getNewPassword());
         return CommonResult.success(MessageConstants.UPDATE_SUCCESS);
+    }
+
+    @Operation(summary = "退出登录接口")
+    @PostMapping("/logout")
+    public CommonResult<Void> logout() {
+        userService.logout();
+        return CommonResult.success(MessageConstants.SUCCESS);
     }
 
 }

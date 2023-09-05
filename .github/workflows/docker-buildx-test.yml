@@ -10,7 +10,7 @@ jobs:
     name: Running Compile Java Multi-arch Docker Test Image
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout enstydy
+      - name: Checkout enstudy
         uses: actions/checkout@v3
       - name: Get Version
         id: get_version
@@ -33,12 +33,12 @@ jobs:
       - name: Set up Docker Buildx
         id: buildx
         uses: docker/setup-buildx-action@v2
-      - name: Build and push enstydy test
-        id: docker_build_enstydy_test
+      - name: Build and push enstudy test
+        id: docker_build_enstudy_test
         uses: docker/build-push-action@v3
         with:
           context: ./
           file: ./.github/docker/Dockerfile
           platforms: linux/amd64,linux/arm64,linux/arm/v7,linux/ppc64le,linux/s390x
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/enstydy:test
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/enstudy:test

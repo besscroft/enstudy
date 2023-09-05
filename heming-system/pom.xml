@@ -16,8 +16,8 @@
 
     <dependencies>
         <dependency>
-            <groupId>dev.heming.enstudy.api</groupId>
-            <artifactId>heming-api</artifactId>
+            <groupId>dev.heming.enstudy.common</groupId>
+            <artifactId>heming-common</artifactId>
             <version>${revision}</version>
         </dependency>
         <dependency>
@@ -54,6 +54,10 @@
         <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>cn.dev33</groupId>
+            <artifactId>sa-token-redis-jackson</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>

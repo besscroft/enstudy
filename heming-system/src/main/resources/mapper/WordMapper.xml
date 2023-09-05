@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dev.heming.enstudy.mapper.WordMapper">
+
+    <resultMap id="wordMap" type="dev.heming.enstudy.common.entity.Word">
+        <result column="id" property="id"/>
+        <result column="word_json_id" property="wordJsonId"/>
+        <result column="word_rank" property="wordRank"/>
+        <result column="head_word" property="headWord"/>
+        <result column="book_id" property="bookId"/>
+        <result column="creator" property="creator"/>
+        <result column="updater" property="updater"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="del" property="del"/>
+    </resultMap>
+
+    <select id="selectAllByBookId" resultSets="java.util.List" resultMap="wordMap">
+        SELECT
+            id,
+            word_json_id,
+            word_rank,
+            head_word,
+            book_id,
+            creator,
+            updater,
+            create_time,
+            update_time,
+            del
+        FROM
+            enstudy_word
+        WHERE
+            del = 1
+        AND
+            book_id = #{bookId}
+    </select>
+
+    <select id="selectWordCount" resultType="java.lang.Integer">
+        SELECT
+            COUNT(1)
+        FROM
+            enstudy_word
+        WHERE
+            del = 1
+    </select>
+
+    <select id="selectByWordJsonId" resultMap="wordMap">
+        SELECT
+            id,
+            word_json_id,
+            word_rank,
+            head_word,
+            book_id,
+            creator,
+            updater,
+            create_time,
+            update_time,
+            del
+        FROM
+            enstudy_word
+        WHERE
+            del = 1
+        AND
+            word_json_id = #{wordJsonId}
+    </select>
+
+</mapper>

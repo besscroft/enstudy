@@ -1,8 +1,13 @@
 spring:
   data:
     mongodb:
-      uri: mongodb://${MONGO_HOST:localhost}:${MONGO_PORT:27017}
+      uri: ${MONGO_URI:mongodb+srv://用户名:密码@cluster.mongodb.net/?ssl=true&authSource=admin}
       database: ${MONGO_DATABASE:enstudy}
+      username: ${MONGO_USERNAME:mongoadmin}
+      password: ${MONGO_PASSWORD:password}
+      authentication-database: ${MONGO_AUTHENTICATION_DATABASE:admin}
+      ssl:
+        enabled: ${MONGO_SSL:false}
     redis:
       # Redis数据库索引（默认为0）
       database: ${REDIS_DATABASE:0}
@@ -12,6 +17,8 @@ spring:
       port: ${REDIS_PORT:6379}
       # Redis服务器连接密码（默认为空）
       password: ${REDIS_PASSWORD:password}
+      ssl:
+        enabled: ${REDIS_SSL:false}
       # 连接超时时间（毫秒）
       timeout: 5000
       # 连接池最大连接数（使用负值表示没有限制）
@@ -108,7 +115,7 @@ sa-token:
   # token有效期，单位s 默认30天, -1代表永不过期
   timeout: 2592000
   # token临时有效期 (指定时间内无操作就视为token过期) 单位: 秒
-  activity-timeout: -1
+  active-timeout: -1
   # 是否允许同一账号并发登录 (为true时允许一起登录, 为false时新登录挤掉旧登录)
   is-concurrent: true
   # 在多人登录同一账号时，是否共用一个token (为true时所有登录共用一个token, 为false时每次登录新建一个token)

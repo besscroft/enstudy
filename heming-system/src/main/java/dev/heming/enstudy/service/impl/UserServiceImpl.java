@@ -67,6 +67,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         map.put("userName", user.getName());
         map.put("avatar", user.getAvatar());
         map.put("role", user.getRole());
+        map.put("email", user.getEmail());
         return map;
     }
 
@@ -99,6 +100,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     @Override
     public User getUser(String username) {
+        // TODO 缓存优化
         return this.baseMapper.selectByUsername(username);
     }
 
@@ -165,6 +167,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         }
         String sha256Pwd = SaSecureUtil.sha256(newPassword);
         this.baseMapper.updatePasswordById(userId, sha256Pwd);
+    }
+
+    @Override
+    public void logout() {
+        StpUtil.logout();
     }
 
 }

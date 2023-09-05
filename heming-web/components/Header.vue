@@ -1,15 +1,26 @@
 <script setup lang="ts">
+import { useUserStore } from '~/stores/user'
+
 const router = useRouter()
+const user = useUserStore()
 </script>
 
 <template>
-  <div flex items-center justify-between h-16 pr-4>
-    <Logo />
-    <div flex space-x-4>
-      <p cursor-pointer font-ark>头顶菜单栏</p>
-      <p cursor-pointer font-ark @click="router.push('/admin')">进入后台</p>
-    </div>
-  </div>
+  <v-toolbar>
+    <v-toolbar
+      color="primary"
+      :dark="true"
+    >
+      <v-toolbar-title font-ark>嗯学英语</v-toolbar-title>
+      <v-spacer></v-spacer>
+      <v-btn
+        v-if="user.roleCode === 'platform-super-admin' || user.roleCode === 'platform-admin' || user.roleCode === 'platform-self-provisioner' || user.roleCode === 'platform-view'"
+        icon="mdi-view-dashboard"
+        @click="router.push('/admin')"
+      />
+      <DarkToggle />
+    </v-toolbar>
+  </v-toolbar>
 </template>
 
 <style scoped>

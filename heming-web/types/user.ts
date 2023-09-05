@@ -18,4 +18,6 @@ export interface UserStore {
   beian: string
   /** 角色 Code */
   roleCode: string
+  /** 邮箱 */
+  email: string
 }

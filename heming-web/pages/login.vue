@@ -5,11 +5,28 @@ import ky from 'ky'
 
 const user = useUserStore()
 const router = useRouter()
+const toast = useToast()
+const nuxtApp = useNuxtApp()
 
 const loginForm = reactive<Login.ReqLoginForm>({
-  username: '',
-  password: '',
+  username: 'view',
+  password: '666666',
 })
+
+const handUserInfo = async () => {
+  const json = await nuxtApp.$api.get('/@api/user/info').json();
+  if (json.code === 200) {
+    user.setUserName(json.data.userName)
+    user.setAvatar(json.data.avatar)
+    user.setRoleCode(json.data.role)
+    user.setEmail(json.data.email)
+    setTimeout(() => {
+      router.push('/learn')
+    }, 888)
+  } else {
+    console.log(json.message)
+  }
+}
 
 const handleSubmitClick = async () => {
   const json = await ky.post('/@api/user/login', {
@@ -18,10 +35,8 @@ const handleSubmitClick = async () => {
   if (json.code === 200) {
     user.setToken(json.data.tokenValue)
     user.setTokenName(json.data.tokenName)
-    // 等待一秒
-    setTimeout(() => {
-      router.push('/learn')
-    }, 500)
+    toast.add({ title: '登录成功!', timeout: 1000, ui: { width: 'w-full sm:w-96' }})
+    await handUserInfo()
   } else {
     console.log(json.message)
   }
@@ -40,90 +55,66 @@ onMounted(() => {
 onUnmounted(() => {
   window.removeEventListener('keydown', keyDown, false)
 })
+
+definePageMeta({
+  layout: 'default',
+})
 </script>
 
 <template>
-  <section gradient-form h-full bg-gray-50 dark:bg-neutral-700>
-    <div h-full p-10>
-      <div g-6 flex h-full flex-wrap items-center justify-center text-neutral-800 dark:text-neutral-200>
-        <div w-full>
-          <div block rounded-lg bg-white shadow-lg dark:bg-neutral-800>
-            <div g-0 lg:flex lg:flex-wrap>
-              <div px-4 md:px-0 class="lg:w-6/12">
-                <div md:mx-6 md:p-12>
-                  <!--Logo-->
-                  <div text-center>
-                    <p text-2xl font-ark m:text-3xl md:text-4xl>嗯学英语</p>
-                    <h4 mb-12 mt-1 pb-1 text-xl font-ark>
-                      学英语，就嗯学！
-                    </h4>
-                  </div>
+  <div class="bg-white dark:bg-gray-900 w-full">
+    <div class="flex justify-center h-screen">
+      <div class="hidden bg-cover lg:block lg:w-2/3" style="background-image: url(https://images.unsplash.com/photo-1616763355603-9755a640a287?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80)">
+        <div class="flex items-center h-full px-20 bg-gray-900 bg-opacity-40">
+          <div>
+            <h2 class="text-4xl font-ark text-white">嗯学英语</h2>
 
-                  <form>
-                    <div relative mb-4 data-te-input-wrapper-init>
-                      <p font-ark>用户名</p>
-                      <input
-                          type="text"
-                          class="border-2 peer block min-h-[auto] w-full rounded border-0 bg-transparent px-3 py-[0.32rem] leading-[1.6] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
-                          id="exampleFormControlInput1"
-                          v-model="loginForm.username" />
-                    </div>
-                    <div relative mb-4 data-te-input-wrapper-init>
-                      <p font-ark>密码</p>
-                      <input
-                          type="password"
-                          class="border-2 peer block min-h-[auto] w-full rounded border-0 bg-transparent px-3 py-[0.32rem] leading-[1.6] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
-                          id="exampleFormControlInput11"
-                          v-model="loginForm.password" />
-                    </div>
-                    预览账号：view/666666
-                    <div mb-12 pb-1 pt-1 text-center>
-                      <button
-                          class="font-ark mb-3 inline-block w-full rounded px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_rgba(0,0,0,0.2)] transition duration-150 ease-in-out hover:shadow-[0_8px_9px_-4px_rgba(0,0,0,0.1),0_4px_18px_0_rgba(0,0,0,0.2)] focus:shadow-[0_8px_9px_-4px_rgba(0,0,0,0.1),0_4px_18px_0_rgba(0,0,0,0.2)] focus:outline-none focus:ring-0 active:shadow-[0_8px_9px_-4px_rgba(0,0,0,0.1),0_4px_18px_0_rgba(0,0,0,0.2)]"
-                          type="button"
-                          data-te-ripple-init
-                          data-te-ripple-color="light"
-                          @click="handleSubmitClick"
-                          style="
-                        background: linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593);
-                      ">
-                        登录
-                      </button>
-                      <a font-ark href="#!">忘记密码？</a>
-                    </div>
-                    <div flex items-center justify-between pb-6>
-                      <p mb-0 mr-2 font-ark>还没有帐号？</p>
-                      <button
-                          type="button"
-                          class="font-ark inline-block rounded border-2 border-danger px-6 pb-[6px] pt-2 text-xs font-medium uppercase leading-normal text-danger transition duration-150 ease-in-out hover:border-danger-600 hover:bg-neutral-500 hover:bg-opacity-10 hover:text-danger-600 focus:border-danger-600 focus:text-danger-600 focus:outline-none focus:ring-0 active:border-danger-700 active:text-danger-700 dark:hover:bg-neutral-100 dark:hover:bg-opacity-10"
-                          data-te-ripple-init
-                          data-te-ripple-color="light">
-                        立即注册
-                      </button>
-                    </div>
-                  </form>
-                </div>
-              </div>
+            <p class="max-w-xl font-ark mt-3 text-gray-300">学英语，就嗯学！</p>
 
-              <div
-                  flex items-center rounded-b-lg lg:rounded-r-lg lg:rounded-bl-none
-                  class="lg:w-6/12"
-                  style="background: linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593)">
-                <div px-4 py-6 text-white md:mx-6 md:p-12>
-                  <h4 mb-6 text-xl font-ark m:text-3xl md:text-4xl>
-                    HeMing Fast
-                  </h4>
-                  <p text-sm font-ark>
-                    鹤鸣工作室出品，一款基于 SpringBoot 3 和 Nuxt3 的脚手架。本项目基于 HeMing Fast 构建！
-                  </p>
-                </div>
-              </div>
+            <p text-sm font-ark text-gray-300 mt-4>
+              鹤鸣工作室出品，一款基于 SpringBoot 3 和 Nuxt3 的脚手架。本项目基于 HeMing Fast 构建！
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex items-center w-full max-w-md px-6 mx-auto lg:w-2/6">
+        <div class="flex-1">
+          <div class="text-center">
+            <h2 class="text-4xl font-ark text-center text-gray-700 dark:text-white">嗯学英语</h2>
+
+            <p class="mt-3 font-ark text-gray-500 dark:text-gray-300">登录你的帐号</p>
+          </div>
+
+          <div class="mt-8">
+            <div>
+              <label for="account" class="font-ark block mb-2 text-sm text-gray-600 dark:text-gray-200">帐号</label>
+              <input type="account" v-model="loginForm.username" name="account" id="account" class="block w-full px-4 py-2 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-md dark:placeholder-gray-600 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-700 focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40" />
             </div>
+
+            <div class="mt-6">
+              <div class="flex justify-between mb-2">
+                <label for="password" class="font-ark text-sm text-gray-600 dark:text-gray-200">密码</label>
+                <a href="#" class="font-ark text-sm text-gray-400 focus:text-blue-500 hover:text-blue-500 hover:underline">忘记密码？</a>
+              </div>
+
+              <input type="password" v-model="loginForm.password" name="password" id="password" class="block w-full px-4 py-2 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-md dark:placeholder-gray-600 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-700 focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40" />
+            </div>
+
+            <div class="mt-6">
+              <button
+                  @click="handleSubmitClick"
+                  class="font-ark w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-blue-500 rounded-md hover:bg-blue-400 focus:outline-none focus:bg-blue-400 focus:ring focus:ring-blue-300 focus:ring-opacity-50">
+                登录
+              </button>
+            </div>
+
+            <p class="font-ark mt-6 text-sm text-center text-gray-400">还没有帐号？<a href="#" class="text-blue-500 focus:outline-none focus:underline hover:underline">立即注册</a>.</p>
           </div>
         </div>
       </div>
     </div>
-  </section>
+  </div>
 </template>
 
 <style scoped>

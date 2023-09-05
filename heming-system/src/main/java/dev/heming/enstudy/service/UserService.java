@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @Description 用户 Service
+ * @Description 用户 服务
  * @Author Bess Croft
  * @Date 2023/8/24 23:04
  */
@@ -86,5 +86,10 @@ public interface UserService extends IService<User> {
      * @param newPassword 新密码
      */
     void updatePassword(Long userId, Boolean isSelf, String oldPassword, String newPassword);
+
+    /**
+     * 退出登录
+     */
+    void logout();
 
 }

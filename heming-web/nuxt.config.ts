@@ -9,7 +9,12 @@ export default defineNuxtConfig({
     '@nuxtjs/color-mode',
     '@vite-pwa/nuxt',
     '@pinia-plugin-persistedstate/nuxt',
+    '@nuxthq/ui',
   ],
+
+  build: {
+    transpile: ["vuetify"],
+  },
 
   pinia: {
     autoImports: [
@@ -34,18 +39,17 @@ export default defineNuxtConfig({
   css: [
     '@unocss/reset/tailwind.css',
     'tw-elements/dist/css/tw-elements.min.css',
+    '@mdi/font/css/materialdesignicons.css',
   ],
 
   colorMode: {
     classSuffix: '',
   },
 
-  server: true,
-
   nitro: {
     devProxy: {
       "/@api": {
-        target: 'http://localhost:8080',
+        target: process.env.PROXY_URL,
         prependPath: true,
         changeOrigin: true,
         autoRewrite: true,
@@ -53,7 +57,7 @@ export default defineNuxtConfig({
     },
     routeRules: {
       '/@api/**': {
-        proxy: 'http://localhost:8080/**'
+        proxy: process.env.PROXY_URL+'/**'
       }
     },
     esbuild: {
@@ -62,9 +66,19 @@ export default defineNuxtConfig({
       },
     },
     prerender: {
-      crawlLinks: false,
-      routes: ['/'],
+      crawlLinks: true,
+      routes: [
+        '/',
+        '/login',
+        '/learn',
+        '/admin',
+        '/admin/user',
+        '/admin/word',
+        '/admin/feedback',
+        '/admin/dict',
+      ],
     },
+    preset: 'vercel'
   },
 
   app: {

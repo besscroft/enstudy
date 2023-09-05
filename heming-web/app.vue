@@ -12,6 +12,8 @@ useHead({
     <NuxtLoadingIndicator />
     <NuxtPage />
   </NuxtLayout>
+
+  <UNotifications />
 </template>
 
 <style>
@@ -19,12 +21,17 @@ html, body , #__nuxt{
   height: 100vh;
   margin: 0;
   padding: 0;
+  overflow-y: inherit;
   font-family: LXGWNeoXiHei;
 }
 
 html.dark {
   background: #222;
   color: white;
+}
+
+.chat {
+  padding: 0;
 }
 
 @font-face {

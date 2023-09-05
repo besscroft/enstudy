@@ -3,9 +3,18 @@
 </script>
 
 <template>
-  <div border rounded border-solid>
-    <p p-1 font-ark>其它</p>
-  </div>
+  <v-card
+    mx-auto w-full
+    prepend-icon="mdi-clock-fast"
+  >
+    <template v-slot:title>
+      其它
+    </template>
+
+    <v-card-text>
+      待开发...
+    </v-card-text>
+  </v-card>
 </template>
 
 <style scoped>

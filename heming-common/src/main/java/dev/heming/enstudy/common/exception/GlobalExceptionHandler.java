@@ -17,6 +17,7 @@ import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import java.nio.file.AccessDeniedException;
@@ -116,16 +117,6 @@ public class GlobalExceptionHandler {
     }
 
     /**
-     * Spring Security 权限异常
-     */
-    @ResponseBody
-    @ExceptionHandler(value = AccessDeniedException.class)
-    public CommonResult<?> accessDeniedExceptionHandler(AccessDeniedException ex) {
-        log.warn("权限异常.[异常原因={}]", ex.getMessage(), ex);
-        return CommonResult.failed(HttpStatus.FORBIDDEN.value(), ex.getMessage(), null);
-    }
-
-    /**
      * 自定义异常 HeMingFileException
      */
     @ResponseBody
@@ -171,6 +162,7 @@ public class GlobalExceptionHandler {
     /**
      * 登录失效/token失效 NotLoginException
      */
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
     @ResponseBody
     @ExceptionHandler(NotLoginException.class)
     public CommonResult<?> handleException(NotLoginException ex) {
@@ -181,6 +173,7 @@ public class GlobalExceptionHandler {
     /**
      * 角色不匹配异常 NotRoleException
      */
+    @ResponseStatus(HttpStatus.FORBIDDEN)
     @ResponseBody
     @ExceptionHandler(NotRoleException.class)
     public CommonResult<?> handleException(NotRoleException ex) {

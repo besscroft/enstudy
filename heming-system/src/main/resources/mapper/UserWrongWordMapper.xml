@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dev.heming.enstudy.mapper.UserWrongWordMapper">
+
+    <resultMap id="userWrongWordMap" type="dev.heming.enstudy.common.entity.UserWrongWord">
+        <result column="id" property="id"/>
+        <result column="work_id" property="workId"/>
+        <result column="user_id" property="userId"/>
+        <result column="book_id" property="bookId"/>
+        <result column="fail_count" property="failCount"/>
+        <result column="creator" property="creator"/>
+        <result column="updater" property="updater"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="del" property="del"/>
+    </resultMap>
+
+    <select id="selectCountByUserIdAndBookId" resultType="java.lang.Integer">
+        SELECT
+            count(1)
+        FROM
+            enstudy_user_wrong_word
+        WHERE
+            del = 1
+        AND
+            book_id = #{bookId}
+        AND
+            user_id = #{userId}
+    </select>
+
+    <select id="selectByUserIdAndBookIdAndWordId" resultMap="userWrongWordMap">
+        SELECT
+            id,
+            word_id,
+            user_id,
+            book_id,
+            fail_count,
+            creator,
+            updater,
+            create_time,
+            update_time,
+            del
+        FROM
+            enstudy_user_wrong_word
+        WHERE
+            del = 1
+        AND
+            user_id = #{userId}
+        AND
+            book_id = #{bookId}
+        AND
+            word_id =#{wordId}
+    </select>
+
+</mapper>

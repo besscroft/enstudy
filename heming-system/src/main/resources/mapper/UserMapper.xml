@@ -42,7 +42,7 @@
             status,
             del
         FROM
-            user
+            enstudy_user
         WHERE
             del = 1
           AND
@@ -51,26 +51,26 @@
 
     <select id="selectPageList" resultSets="java.util.List" resultMap="userMap">
         SELECT
-        id,
-        username,
-        password,
-        avatar,
-        email,
-        role,
-        name,
-        telephone,
-        remark,
-        login_time,
-        creator,
-        updater,
-        create_time,
-        update_time,
-        status,
-        del
+            id,
+            username,
+            password,
+            avatar,
+            email,
+            role,
+            name,
+            telephone,
+            remark,
+            login_time,
+            creator,
+            updater,
+            create_time,
+            update_time,
+            status,
+            del
         FROM
-        user
+            enstudy_user
         WHERE
-        del = 1
+            del = 1
         <if test="role != null and role != ''">
             AND role = #{role}
         </if>
@@ -80,18 +80,27 @@
         SELECT
             password
         FROM
-            user
+            enstudy_user
         WHERE
             id = #{id}
     </select>
 
     <update id="updatePasswordById">
         UPDATE
-            user
+            enstudy_user
         SET
             password = #{password}
         WHERE
             id = #{id}
     </update>
+
+    <select id="selectUserCount" resultType="java.lang.Integer">
+        SELECT
+            COUNT(1)
+        FROM
+            enstudy_user
+        WHERE
+            del = 1
+    </select>
 
 </mapper>
