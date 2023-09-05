@@ -27,4 +27,11 @@ public interface UserBookDictMapper extends BaseMapper<UserBookDict> {
      */
     int updateActionNoByUserId(@Param("userId") Long userId);
 
+    /**
+     * 获取用户的活动词库
+     * @param userId 用户 id
+     * @return 活动词库
+     */
+    UserBookDict selectActionByUserId(@Param("userId") Long userId);
+
 }

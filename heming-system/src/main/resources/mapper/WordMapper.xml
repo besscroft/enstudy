@@ -37,4 +37,13 @@
             book_id = #{bookId}
     </select>
 
+    <select id="selectWordCount" resultType="java.lang.Integer">
+        SELECT
+            COUNT(1)
+        FROM
+            enstudy_word
+        WHERE
+            del = 1
+    </select>
+
 </mapper>

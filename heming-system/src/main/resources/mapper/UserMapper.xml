@@ -94,4 +94,13 @@
             id = #{id}
     </update>
 
+    <select id="selectUserCount" resultType="java.lang.Integer">
+        SELECT
+            COUNT(1)
+        FROM
+            enstudy_user
+        WHERE
+            del = 1
+    </select>
+
 </mapper>

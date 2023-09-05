@@ -100,6 +100,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     @Override
     public User getUser(String username) {
+        // TODO 缓存优化
         return this.baseMapper.selectByUsername(username);
     }
 

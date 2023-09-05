@@ -20,4 +20,10 @@ public interface WordMapper extends BaseMapper<Word> {
      */
     List<Word> selectAllByBookId(@Param("bookId") String bookId);
 
+    /**
+     * 查询单词总数
+     * @return 单词总数
+     */
+    Integer selectWordCount();
+
 }

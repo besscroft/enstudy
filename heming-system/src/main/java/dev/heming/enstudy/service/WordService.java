@@ -2,6 +2,7 @@ package dev.heming.enstudy.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import dev.heming.enstudy.common.entity.Word;
+import dev.heming.enstudy.common.vo.console.ConsoleVo;
 
 import java.util.List;
 
@@ -26,5 +27,11 @@ public interface WordService extends IService<Word> {
      * @return 单词列表
      */
     List<Word> wordPage(Integer pageNum, Integer pageSize);
+
+    /**
+     * 获取控制台统计信息
+     * @return 控制台统计信息
+     */
+    ConsoleVo getConsoleInfo();
 
 }

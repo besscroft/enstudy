@@ -1,4 +1,21 @@
 <script setup lang="ts">
+const nuxtApp = useNuxtApp()
+
+const consoleInfo = ref({})
+
+const getConsoleInfo = async () => {
+  const json = await nuxtApp.$api.get('/@api/console/getInfo').json();
+  if (json.code === 200) {
+    consoleInfo.value = json.data
+  } else {
+    console.log(json.message)
+  }
+}
+
+onBeforeMount(async () => {
+  await getConsoleInfo()
+})
+
 definePageMeta({
   layout: 'admin',
 })
@@ -26,7 +43,7 @@ definePageMeta({
               单词总数
             </dt>
 
-            <dd class="text-4xl font-ark text-blue-600 md:text-5xl">153009</dd>
+            <dd class="text-4xl font-ark text-blue-600 md:text-5xl">{{ consoleInfo.wordCount || 0 }}</dd>
           </div>
 
           <div
@@ -36,7 +53,7 @@ definePageMeta({
               词库总数
             </dt>
 
-            <dd class="text-4xl font-ark text-blue-600 md:text-5xl">81</dd>
+            <dd class="text-4xl font-ark text-blue-600 md:text-5xl">{{ consoleInfo.dictCount || 0 }}</dd>
           </div>
 
           <div
@@ -46,7 +63,7 @@ definePageMeta({
               用户总数
             </dt>
 
-            <dd class="text-4xl font-ark text-blue-600 md:text-5xl">12</dd>
+            <dd class="text-4xl font-ark text-blue-600 md:text-5xl">{{ consoleInfo.userCount || 0 }}</dd>
           </div>
         </dl>
       </div>

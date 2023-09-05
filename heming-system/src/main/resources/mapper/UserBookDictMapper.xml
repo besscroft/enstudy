@@ -50,4 +50,27 @@
             user_id = #{userId}
     </update>
 
+    <select id="selectActionByUserId" resultMap="userBookDictMap">
+        SELECT
+            id,
+            user_id,
+            book_id,
+            book_name,
+            studied,
+            action,
+            creator,
+            updater,
+            create_time,
+            update_time,
+            del
+        FROM
+            enstudy_user_book_dict
+        WHERE
+            del = 1
+        AND
+            action = 1
+        AND
+            user_id = #{userId}
+    </select>
+
 </mapper>

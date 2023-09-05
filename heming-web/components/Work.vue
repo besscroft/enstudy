@@ -1,5 +1,20 @@
 <script setup lang="ts">
+const nuxtApp = useNuxtApp()
 
+const wrongBook = ref({})
+
+const getWrongBook = async () => {
+  const json = await nuxtApp.$api.get('/@api/dict/getWrongBook').json();
+  if (json.code === 200) {
+    wrongBook.value = json.data
+  } else {
+    console.log(json.message)
+  }
+}
+
+onBeforeMount(async () => {
+  await getWrongBook()
+})
 </script>
 
 <template>
@@ -12,7 +27,7 @@
     </template>
 
     <v-card-text>
-      233 题
+      {{ wrongBook.count || 0 }} 题
     </v-card-text>
   </v-card>
 </template>

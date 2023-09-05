@@ -16,4 +16,33 @@
         <result column="del" property="del"/>
     </resultMap>
 
+    <select id="selectByBookId" resultMap="bookDictMap">
+        SELECT
+            id,
+            book_id,
+            book_name,
+            book_size,
+            creator,
+            updater,
+            create_time,
+            update_time,
+            status,
+            del
+        FROM
+            enstudy_book_dict
+        WHERE
+            del = 1
+        AND
+            book_id = #{bookId}
+    </select>
+
+    <select id="selectDictCount" resultType="java.lang.Integer">
+        SELECT
+            COUNT(1)
+        FROM
+            enstudy_book_dict
+        WHERE
+            del = 1
+    </select>
+
 </mapper>

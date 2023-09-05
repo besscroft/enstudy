@@ -3,13 +3,19 @@ package dev.heming.enstudy.service.impl;
 import cn.dev33.satoken.stp.StpUtil;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import dev.heming.enstudy.common.constant.SystemConstants;
+import dev.heming.enstudy.common.converter.UserBookDictConverterMapper;
 import dev.heming.enstudy.common.entity.BookDict;
 import dev.heming.enstudy.common.entity.UserBookDict;
 import dev.heming.enstudy.common.entity.UserWorkActions;
 import dev.heming.enstudy.common.entity.Word;
 import dev.heming.enstudy.common.param.dict.DictChoiceParam;
+import dev.heming.enstudy.common.vo.statistics.TodayVo;
+import dev.heming.enstudy.common.vo.userBookDict.UserBookDictVo;
+import dev.heming.enstudy.common.vo.userWrongWord.UserWrongWordVo;
 import dev.heming.enstudy.mapper.BookDictMapper;
 import dev.heming.enstudy.mapper.UserBookDictMapper;
+import dev.heming.enstudy.mapper.UserWorkActionsMapper;
+import dev.heming.enstudy.mapper.UserWrongWordMapper;
 import dev.heming.enstudy.service.UserBookDictService;
 import dev.heming.enstudy.service.UserWorkActionsService;
 import dev.heming.enstudy.service.WordService;
@@ -18,6 +24,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.ObjectUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +43,8 @@ public class UserBookDictServiceImpl extends ServiceImpl<UserBookDictMapper, Use
     private final BookDictMapper bookDictMapper;
     private final WordService wordService;
     private final UserWorkActionsService userWorkActionsService;
+    private final UserWrongWordMapper userWrongWordMapper;
+    private final UserWorkActionsMapper userWorkActionsMapper;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -80,6 +89,46 @@ public class UserBookDictServiceImpl extends ServiceImpl<UserBookDictMapper, Use
                 this.updateById(dict);
             }
         }
+    }
+
+    @Override
+    public UserBookDictVo getUserDict() {
+        // TODO 缓存优化
+        long userId = StpUtil.getLoginIdAsLong();
+        UserBookDict userBookDict = this.baseMapper.selectActionByUserId(userId);
+        if (ObjectUtils.isEmpty(userBookDict)) {
+            return new UserBookDictVo();
+        }
+        UserBookDictVo vo = UserBookDictConverterMapper.INSTANCE.UserBookDictToVo(userBookDict);
+        BookDict bookDict = bookDictMapper.selectByBookId(userBookDict.getBookId());
+        vo.setBookSize(bookDict.getBookSize());
+        return vo;
+    }
+
+    @Override
+    public UserWrongWordVo getWrongBook() {
+        // TODO 缓存优化
+        long userId = StpUtil.getLoginIdAsLong();
+        UserBookDict userBookDict = this.baseMapper.selectActionByUserId(userId);
+        UserWrongWordVo vo = new UserWrongWordVo();
+        vo.setUserId(userId);
+        if (ObjectUtils.isEmpty(userBookDict)) {
+            return vo;
+        }
+        Integer count = userWrongWordMapper.selectCountByUserIdAndBookId(userId, userBookDict.getBookId());
+        vo.setBookId(userBookDict.getBookId());
+        vo.setCount(count);
+        return vo;
+    }
+
+    @Override
+    public TodayVo getToday() {
+        // TODO 缓存优化
+        long userId = StpUtil.getLoginIdAsLong();
+        TodayVo vo = new TodayVo();
+        Integer count = userWorkActionsMapper.selectTodayCountByUserId(userId);
+        vo.setStudied(count);
+        return vo;
     }
 
     /**

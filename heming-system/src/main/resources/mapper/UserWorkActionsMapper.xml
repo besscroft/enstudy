@@ -6,7 +6,7 @@
 
     <resultMap id="userWorkActionsMap" type="dev.heming.enstudy.common.entity.UserWorkActions">
         <result column="id" property="id"/>
-        <result column="work_id" property="workId"/>
+        <result column="word_id" property="wordId"/>
         <result column="user_id" property="userId"/>
         <result column="book_id" property="bookId"/>
         <result column="state" property="state"/>
@@ -16,5 +16,18 @@
         <result column="update_time" property="updateTime"/>
         <result column="del" property="del"/>
     </resultMap>
+
+    <select id="selectTodayCountByUserId" resultType="java.lang.Integer">
+        SELECT
+            COUNT(1)
+        FROM
+            enstudy_user_work_actions
+        WHERE
+            del = 1
+        AND
+            user_id = #{userId}
+        AND
+            DATE(update_time) = DATE(NOW())
+    </select>
 
 </mapper>

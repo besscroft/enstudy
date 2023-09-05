@@ -17,4 +17,17 @@
         <result column="del" property="del"/>
     </resultMap>
 
+    <select id="selectCountByUserIdAndBookId" resultType="java.lang.Integer">
+        SELECT
+            count(1)
+        FROM
+            enstudy_user_wrong_word
+        WHERE
+            del = 1
+        AND
+            book_id = #{bookId}
+        AND
+            user_id = #{userId}
+    </select>
+
 </mapper>
