@@ -1,6 +1,7 @@
 package dev.heming.enstudy.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.github.pagehelper.PageHelper;
 import dev.heming.enstudy.common.constant.CacheConstants;
 import dev.heming.enstudy.common.entity.Word;
 import dev.heming.enstudy.mapper.WordMapper;
@@ -22,6 +23,12 @@ public class WordServiceImpl extends ServiceImpl<WordMapper, Word> implements Wo
     @Cacheable(value = CacheConstants.WORD_LIST, key = "#bookId", unless = "#result == null")
     public List<Word> getWordListByBookId(String bookId) {
         return this.baseMapper.selectAllByBookId(bookId);
+    }
+
+    @Override
+    public List<Word> wordPage(Integer pageNum, Integer pageSize) {
+        PageHelper.startPage(pageNum, pageSize);
+        return this.list();
     }
 
 }

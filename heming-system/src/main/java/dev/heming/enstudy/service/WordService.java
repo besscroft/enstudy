@@ -19,4 +19,12 @@ public interface WordService extends IService<Word> {
      */
     List<Word> getWordListByBookId(String bookId);
 
+    /**
+     * 单词分页
+     * @param pageNum 页码
+     * @param pageSize 页大小
+     * @return 单词列表
+     */
+    List<Word> wordPage(Integer pageNum, Integer pageSize);
+
 }
