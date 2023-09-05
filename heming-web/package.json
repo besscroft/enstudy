@@ -27,7 +27,6 @@
     "@vite-pwa/nuxt": "^0.1.0",
     "@vueuse/nuxt": "^10.3.0",
     "consola": "^3.2.3",
-    "daisyui": "^3.6.5",
     "eslint": "^8.47.0",
     "nuxt": "^3.7.0",
     "pinia": "^2.1.6",
