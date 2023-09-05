@@ -30,6 +30,10 @@ html.dark {
   color: white;
 }
 
+.chat {
+  padding: 0;
+}
+
 @font-face {
   font-family: 'LXGWNeoXiHei';
   src: url('public/fonts/LXGWNeoXiHei.ttf');
