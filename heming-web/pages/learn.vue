@@ -85,12 +85,8 @@ definePageMeta({
           <template v-slot:title>
             <div space-x-2>
               {{ wordInfo.headWord }}
-              <span class="badge" cursor-pointer @click="handleAudio(2)">
-            美[{{ wordInfo.content.word.content.usphone }}]
-          </span>
-              <span class="badge" cursor-pointer @click="handleAudio(1)">
-            英[{{ wordInfo.content.word.content.ukphone }}]
-          </span>
+              <UBadge color="black" cursor-pointer @click="handleAudio(2)">美[{{ wordInfo.content.word.content.usphone }}]</UBadge>
+              <UBadge cursor-pointer @click="handleAudio(1)">英[{{ wordInfo.content.word.content.ukphone }}]</UBadge>
             </div>
           </template>
 
@@ -124,20 +120,20 @@ definePageMeta({
             <v-spacer></v-spacer>
 
             <v-btn
-              v-show="phrases"
+              v-show="Array.isArray(phrases)"
               @click="phraseShow = !phraseShow"
             >
               短语
             </v-btn>
             <v-btn
-              v-show="exam"
+              v-show="Array.isArray(exam)"
               @click="examShow = !examShow"
             >
               练习
             </v-btn>
           </v-card-actions>
 
-          <v-expand-transition v-show="phrases">
+          <v-expand-transition v-show="Array.isArray(phrases)">
             <div v-show="phraseShow">
               <v-divider></v-divider>
 
@@ -152,12 +148,13 @@ definePageMeta({
               </v-card-text>
             </div>
           </v-expand-transition>
-          <v-expand-transition v-show="exam">
+          <v-expand-transition v-show="Array.isArray(exam)">
             <div v-show="examShow" px-4 py-2 space-y-2>
               <div v-for="item in exam" :key="item">
-                <div class="chat chat-start">
-                  <div class="chat-bubble">{{ item.question }}</div>
-                </div>
+                <UAlert
+                  :description="item.question"
+                  :avatar="{ src: 'https://besscroft.com/uploads/avatar.jpeg' }"
+                />
               </div>
             </div>
           </v-expand-transition>

@@ -8,7 +8,6 @@ import {
   transformerDirectives,
   transformerVariantGroup,
 } from 'unocss'
-import { presetDaisy } from 'unocss-preset-daisy'
 
 export default defineConfig({
   shortcuts: [
@@ -31,7 +30,6 @@ export default defineConfig({
         ark: 'ark',
       },
     }),
-    presetDaisy(),
   ],
   transformers: [
     transformerDirectives(),

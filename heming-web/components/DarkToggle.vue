@@ -20,9 +20,11 @@ function toggleDark() {
 </script>
 
 <template>
-  <button v-if="router.currentRoute.value.path === '/'" class="!outline-none" @click="toggleDark">
-    <div class="i-carbon-sun dark:i-carbon-moon" />
-  </button>
-  <v-btn v-else class="!outline-none" @click="toggleDark" icon="mdi-theme-light-dark">
-  </v-btn>
+  <v-no-ssr>
+    <button v-if="router.currentRoute.value.path === '/'" class="!outline-none" @click="toggleDark">
+      <div class="i-carbon-sun dark:i-carbon-moon" />
+    </button>
+    <v-btn v-else class="!outline-none" @click="toggleDark" icon="mdi-theme-light-dark">
+    </v-btn>
+  </v-no-ssr>
 </template>
