@@ -61,9 +61,6 @@ devDependencies:
   consola:
     specifier: ^3.2.3
     version: 3.2.3
-  daisyui:
-    specifier: ^3.6.5
-    version: 3.6.5
   eslint:
     specifier: ^8.47.0
     version: 8.48.0
@@ -5010,13 +5007,6 @@ packages:
       nth-check: 2.1.1
     dev: true
 
-  /css-selector-tokenizer@0.8.0:
-    resolution: {integrity: sha512-Jd6Ig3/pe62/qe5SBPTN8h8LeUg/pT4lLgtavPf7updwwHpvFzxvOQBHYj2LZDMjUnBzgvIUSjRcf6oT5HzHFg==}
-    dependencies:
-      cssesc: 3.0.0
-      fastparse: 1.1.2
-    dev: true
-
   /css-tree@2.2.1:
     resolution: {integrity: sha512-OA0mILzGc1kCOCSJerOeqDxDQ4HOh+G8NbOJFOTgOCzpw7fCBubk0fEyxp8AgOL/jvLgYA/uV0cMbe43ElF1JA==}
     engines: {node: ^10 || ^12.20.0 || ^14.13.0 || >=15.0.0, npm: '>=7.0.0'}
@@ -5118,19 +5108,6 @@ packages:
   /custom-event-polyfill@1.0.7:
     resolution: {integrity: sha512-TDDkd5DkaZxZFM8p+1I3yAlvM3rSr1wbrOliG4yJiwinMZN8z/iGL7BTlDkrJcYTmgUSb4ywVCc3ZaUtOtC76w==}
     dev: false
-
-  /daisyui@3.6.5:
-    resolution: {integrity: sha512-1yPTKlCf1usfSsUaTvu5l/Fi8TEchy8H9/rAtvPMwWd++ifl56ASnaDQfHZhl9lnPtCWj/mWicrwL7aaNz53KA==}
-    engines: {node: '>=16.9.0'}
-    dependencies:
-      colord: 2.9.3
-      css-selector-tokenizer: 0.8.0
-      postcss: 8.4.28
-      postcss-js: 4.0.1(postcss@8.4.28)
-      tailwindcss: 3.3.3
-    transitivePeerDependencies:
-      - ts-node
-    dev: true
 
   /data-uri-to-buffer@4.0.1:
     resolution: {integrity: sha512-0R9ikRb668HB7QDxT1vkpuUBtqc53YyAwMwGeUFKRojY/NWKvdZ+9UYtRfGmhqNbRkTSVpMbmyhXipFFv2cb/A==}
@@ -6150,10 +6127,6 @@ packages:
 
   /fast-levenshtein@2.0.6:
     resolution: {integrity: sha512-DCXu6Ifhqcks7TZKY3Hxp3y6qphY5SJZmrWMDrKcERSOXWQdMhU9Ig/PYrzyw/ul9jOIyh0N4M0tbC5hodg8dw==}
-    dev: true
-
-  /fastparse@1.1.2:
-    resolution: {integrity: sha512-483XLLxTVIwWK3QTrMGRqUfUpoOs/0hbQrl2oz4J0pAcm3A3bu84wxTFqGqkJzewCLdME38xJLJAxBABfQT8sQ==}
     dev: true
 
   /fastq@1.15.0:
