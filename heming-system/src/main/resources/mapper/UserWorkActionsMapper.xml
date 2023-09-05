@@ -30,4 +30,76 @@
             DATE(update_time) = DATE(NOW())
     </select>
 
+    <select id="selectByUserIdAndBookId" resultMap="userWorkActionsMap">
+        SELECT
+            id,
+            word_id,
+            user_id,
+            book_id,
+            state,
+            creator,
+            updater,
+            create_time,
+            update_time,
+            del
+        FROM
+            enstudy_user_work_actions
+        WHERE
+            del = 1
+        AND
+            user_id = #{userId}
+        AND
+            book_id = #{bookId}
+        AND
+            state = 0
+        LIMIT 1
+    </select>
+
+    <select id="selectListByUserIdAndBookId" resultSets="java.util.List" resultMap="userWorkActionsMap">
+        SELECT
+            id,
+            word_id,
+            user_id,
+            book_id,
+            state,
+            creator,
+            updater,
+            create_time,
+            update_time,
+            del
+        FROM
+            enstudy_user_work_actions
+        WHERE
+            del = 1
+        AND
+            user_id = #{userId}
+        AND
+            book_id = #{bookId}
+        LIMIT 10
+    </select>
+
+    <select id="selectByUserIdAndBookIdAndWordId" resultMap="userWorkActionsMap">
+        SELECT
+            id,
+            word_id,
+            user_id,
+            book_id,
+            state,
+            creator,
+            updater,
+            create_time,
+            update_time,
+            del
+        FROM
+            enstudy_user_work_actions
+        WHERE
+            del = 1
+        AND
+            user_id = #{userId}
+        AND
+            book_id = #{bookId}
+        AND
+            word_id =#{wordId}
+    </select>
+
 </mapper>

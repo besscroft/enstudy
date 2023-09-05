@@ -26,4 +26,11 @@ public interface WordMapper extends BaseMapper<Word> {
      */
     Integer selectWordCount();
 
+    /**
+     * 查询单词信息
+     * @param wordJsonId 单词数据 id
+     * @return 单词信息
+     */
+    Word selectByWordJsonId(@Param("wordJsonId") String wordJsonId);
+
 }

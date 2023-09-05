@@ -20,4 +20,15 @@ public interface UserWrongWordMapper extends BaseMapper<UserWrongWord> {
     Integer selectCountByUserIdAndBookId(@Param("userId") Long userId,
                                          @Param("bookId") String bookId);
 
+    /**
+     * 查询错题本信息
+     * @param userId 用户 id
+     * @param bookId 词典 id
+     * @param wordId 单词 id
+     * @return 用户错题本信息
+     */
+    UserWrongWord selectByUserIdAndBookIdAndWordId(@Param("userId") Long userId,
+                                                   @Param("bookId") String bookId,
+                                                   @Param("wordId") Long wordId);
+
 }

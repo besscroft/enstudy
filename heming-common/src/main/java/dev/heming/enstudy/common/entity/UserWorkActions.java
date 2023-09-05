@@ -42,7 +42,7 @@ public class UserWorkActions extends BaseEntity {
 
     /** 学习状态：0->未学；1->已学 */
     @TableField(value = "state")
-    @Schema(title = "学习状态：0->未学；1->已学", type = "Long")
-    private Long state;
+    @Schema(title = "学习状态：0->未学；1->已学", type = "Integer")
+    private Integer state;
 
 }

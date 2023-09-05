@@ -30,4 +30,28 @@
             user_id = #{userId}
     </select>
 
+    <select id="selectByUserIdAndBookIdAndWordId" resultMap="userWrongWordMap">
+        SELECT
+            id,
+            word_id,
+            user_id,
+            book_id,
+            fail_count,
+            creator,
+            updater,
+            create_time,
+            update_time,
+            del
+        FROM
+            enstudy_user_wrong_word
+        WHERE
+            del = 1
+        AND
+            user_id = #{userId}
+        AND
+            book_id = #{bookId}
+        AND
+            word_id =#{wordId}
+    </select>
+
 </mapper>

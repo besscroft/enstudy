@@ -46,4 +46,24 @@
             del = 1
     </select>
 
+    <select id="selectByWordJsonId" resultMap="wordMap">
+        SELECT
+            id,
+            word_json_id,
+            word_rank,
+            head_word,
+            book_id,
+            creator,
+            updater,
+            create_time,
+            update_time,
+            del
+        FROM
+            enstudy_word
+        WHERE
+            del = 1
+        AND
+            word_json_id = #{wordJsonId}
+    </select>
+
 </mapper>
