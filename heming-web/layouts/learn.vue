@@ -3,11 +3,10 @@
 
 <template>
   <Header />
-  <div class="p-2 grid grid-cols-1 gap-2 lg:grid-cols-4 lg:gap-4">
+  <div class="p-2 grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8">
     <Today />
     <Dictionary />
     <Work />
-    <Other />
   </div>
   <div p-2 w-full>
     <slot />

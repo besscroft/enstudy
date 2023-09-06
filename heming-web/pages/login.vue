@@ -6,6 +6,7 @@ import ky from 'ky'
 const user = useUserStore()
 const router = useRouter()
 const toast = useToast()
+const loading = ref(false)
 const nuxtApp = useNuxtApp()
 
 const loginForm = reactive<Login.ReqLoginForm>({
@@ -29,17 +30,23 @@ const handUserInfo = async () => {
 }
 
 const handleSubmitClick = async () => {
-  const json = await ky.post('/@api/user/login', {
-    json: {username: loginForm.username, password: loginForm.password}
-  }).json();
-  if (json.code === 200) {
-    user.setToken(json.data.tokenValue)
-    user.setTokenName(json.data.tokenName)
-    toast.add({ title: '登录成功!', timeout: 1000, ui: { width: 'w-full sm:w-96' }})
-    await handUserInfo()
-  } else {
-    console.log(json.message)
+  loading.value = true
+  try {
+    const json = await ky.post('/@api/user/login', {
+      json: {username: loginForm.username, password: loginForm.password}
+    }).json();
+    if (json.code === 200) {
+      user.setToken(json.data.tokenValue)
+      user.setTokenName(json.data.tokenName)
+      toast.add({ title: '登录成功!', timeout: 1000, ui: { width: 'w-full sm:w-96' }})
+      await handUserInfo()
+    } else {
+      console.log(json.message)
+    }
+  } catch (e) {
+    loading.value = false
   }
+  loading.value = false
 }
 
 const keyDown = (e) => {
@@ -102,11 +109,13 @@ definePageMeta({
             </div>
 
             <div class="mt-6">
-              <button
-                  @click="handleSubmitClick"
-                  class="font-ark w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-blue-500 rounded-md hover:bg-blue-400 focus:outline-none focus:bg-blue-400 focus:ring focus:ring-blue-300 focus:ring-opacity-50">
+              <v-btn
+                :loading="loading"
+                @click="handleSubmitClick"
+                class="font-ark w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-blue-500 rounded-md hover:bg-blue-400 focus:outline-none focus:bg-blue-400 focus:ring focus:ring-blue-300 focus:ring-opacity-50">
+              >
                 登录
-              </button>
+              </v-btn>
             </div>
 
             <p class="font-ark mt-6 text-sm text-center text-gray-400">还没有帐号？<a href="#" class="text-blue-500 focus:outline-none focus:underline hover:underline">立即注册</a>.</p>
