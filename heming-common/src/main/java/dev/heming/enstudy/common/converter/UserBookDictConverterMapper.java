@@ -6,7 +6,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
 /**
- * @Description 用户活动词库转换器
+ * @Description 用户活动词典转换器
  * @Author Bess Croft
  * @Date 2023/9/5 13:29
  */

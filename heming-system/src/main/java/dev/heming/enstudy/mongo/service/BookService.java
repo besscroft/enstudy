@@ -7,7 +7,7 @@ import dev.heming.enstudy.common.param.book.GetBookParam;
 import java.util.List;
 
 /**
- * @Description 词库 Service
+ * @Description 词典 Service
  * @Author Bess Croft
  * @Date 2023/8/26 15:26
  */

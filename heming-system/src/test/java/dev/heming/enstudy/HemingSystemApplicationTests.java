@@ -66,7 +66,7 @@ class HemingSystemApplicationTests {
     void syncMongoToMySQL() {
         log.info("开始执行任务！");
         List<BookDict> list = bookDictService.list();
-        log.info("查到词库: {} 个.", list.size());
+        log.info("查到词典: {} 个.", list.size());
         log.info("开始同步！");
         for (BookDict bookDict : list) {
             Query query = new Query(
@@ -74,7 +74,7 @@ class HemingSystemApplicationTests {
                             .where("bookId").is(bookDict.getBookId())
             );
             List<Book> bookList = mongoTemplate.find(query, Book.class);
-            log.info("词库: {} 有 {} 条数据.", bookDict.getBookId(), bookList.size());
+            log.info("词典: {} 有 {} 条数据.", bookDict.getBookId(), bookList.size());
             List<Word> wordList = new ArrayList<>();
             for (Book book : bookList) {
                 Word word = new Word();

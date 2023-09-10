@@ -15,6 +15,12 @@ const getWrongBook = async () => {
 onBeforeMount(async () => {
   await getWrongBook()
 })
+
+onMounted(async () => {
+  setTimeout(() => {
+    getWrongBook()
+  }, 1000 * 60)
+})
 </script>
 
 <template>

@@ -14,8 +14,8 @@ import java.util.List;
 public interface WordService extends IService<Word> {
 
     /**
-     * 根据词库 id 获取单词列表
-     * @param bookId 词库 id
+     * 根据词典 id 获取单词列表
+     * @param bookId 词典 id
      * @return 单词列表
      */
     List<Word> getWordListByBookId(String bookId);

@@ -10,7 +10,7 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * @Description 词库
+ * @Description 词典
  * @Author Bess Croft
  * @Date 2023/8/26 13:55
  */

@@ -50,7 +50,7 @@ definePageMeta({
               class="flex flex-col rounded-lg border border-gray-100 px-4 py-8 text-center"
           >
             <dt class="order-last text-lg font-ark text-gray-500">
-              词库总数
+              词典总数
             </dt>
 
             <dd class="text-4xl font-ark text-blue-600 md:text-5xl">{{ consoleInfo.dictCount || 0 }}</dd>

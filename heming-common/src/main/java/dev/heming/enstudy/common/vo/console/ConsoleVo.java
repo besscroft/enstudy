@@ -15,7 +15,7 @@ public class ConsoleVo {
     @Schema(title = "单词总数", type = "Integer")
     private Integer wordCount;
 
-    @Schema(title = "词库", type = "Integer")
+    @Schema(title = "词典", type = "Integer")
     private Integer dictCount;
 
     @Schema(title = "用户", type = "Integer")

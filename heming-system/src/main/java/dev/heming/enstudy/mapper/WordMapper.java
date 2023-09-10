@@ -14,8 +14,8 @@ import java.util.List;
 public interface WordMapper extends BaseMapper<Word> {
 
     /**
-     * 查询词库的所有单词
-     * @param bookId 词库 id
+     * 查询词典的所有单词
+     * @param bookId 词典 id
      * @return 单词列表
      */
     List<Word> selectAllByBookId(@Param("bookId") String bookId);
