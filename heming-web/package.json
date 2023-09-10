@@ -36,7 +36,6 @@
   "dependencies": {
     "ky": "^0.33.3",
     "ky-universal": "^0.12.0",
-    "tw-elements": "1.0.0-beta3",
     "vuetify": "^3.3.15"
   }
 }

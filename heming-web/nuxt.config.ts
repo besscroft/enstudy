@@ -38,7 +38,6 @@ export default defineNuxtConfig({
 
   css: [
     '@unocss/reset/tailwind.css',
-    'tw-elements/dist/css/tw-elements.min.css',
     '@mdi/font/css/materialdesignicons.css',
   ],
 
