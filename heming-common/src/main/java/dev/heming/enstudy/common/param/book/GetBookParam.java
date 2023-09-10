@@ -6,17 +6,17 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 /**
- * @Description 词库参数
+ * @Description 词典参数
  * @Author Bess Croft
  * @Date 2023/8/26 15:27
  */
 @Data
-@Schema(title = "词库参数")
+@Schema(title = "词典参数")
 public class GetBookParam {
 
-    /** 词库 ID */
-    @NotNull(message = "词库 ID 未填！")
-    @Schema(title = "词库 ID", type = "Long", requiredMode = Schema.RequiredMode.REQUIRED)
+    /** 词典 ID */
+    @NotNull(message = "词典 ID 未填！")
+    @Schema(title = "词典 ID", type = "Long", requiredMode = Schema.RequiredMode.REQUIRED)
     private Long bookId;
 
     /** 单词序号 */

@@ -1,6 +1,7 @@
 package dev.heming.enstudy.controller.api;
 
 import dev.heming.enstudy.common.constant.MessageConstants;
+import dev.heming.enstudy.common.entity.BookDict;
 import dev.heming.enstudy.common.param.dict.DictChoiceParam;
 import dev.heming.enstudy.common.result.CommonResult;
 import dev.heming.enstudy.common.vo.statistics.TodayVo;
@@ -13,12 +14,14 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
- * @Description 词库
+ * @Description 词典
  * @Author Bess Croft
  * @Date 2023/9/3 19:44
  */
-@Tag(name = "词库")
+@Tag(name = "词典")
 @RequestMapping("/dict")
 @RestController
 @RequiredArgsConstructor
@@ -33,8 +36,15 @@ public class DictController {
         return CommonResult.success(MessageConstants.SUCCESS);
     }
 
+    @GetMapping("/getDict")
+    @Operation(summary = "获取所有词典接口")
+    public CommonResult<List<BookDict>> getDict() {
+        List<BookDict> dict = userBookDictService.getAllDict();
+        return CommonResult.success(dict);
+    }
+
     @GetMapping("/getUserDict")
-    @Operation(summary = "获取活动词库")
+    @Operation(summary = "获取活动词典")
     public CommonResult<UserBookDictVo> getUserDict() {
         UserBookDictVo userDict = userBookDictService.getUserDict();
         return CommonResult.success(userDict);

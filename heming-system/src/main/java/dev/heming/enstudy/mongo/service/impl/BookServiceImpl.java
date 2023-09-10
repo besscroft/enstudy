@@ -27,7 +27,7 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
- * @Description 词库 Service 实现类
+ * @Description 词典 Service 实现类
  * @Author Bess Croft
  * @Date 2023/8/26 15:26
  */

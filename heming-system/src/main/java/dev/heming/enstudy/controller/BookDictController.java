@@ -22,7 +22,7 @@ import java.util.List;
  * @Author Bess Croft
  * @Date 2023/8/26 17:06
  */
-@Tag(name = "词库管理")
+@Tag(name = "词典管理")
 @RestController
 @RequestMapping("/bookDict")
 @RequiredArgsConstructor

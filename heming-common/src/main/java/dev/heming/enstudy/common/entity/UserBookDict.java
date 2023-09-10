@@ -8,7 +8,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
 /**
- * @Description 用户活动词库
+ * @Description 用户活动词典
  * @Author Bess Croft
  * @Date 2023/8/31 18:15
  */
@@ -18,7 +18,7 @@ import lombok.*;
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 @TableName(value = "enstudy_user_book_dict")
-@Schema(title = "用户活动词库")
+@Schema(title = "用户活动词典")
 public class UserBookDict extends BaseEntity {
 
     @TableId(type = IdType.AUTO)

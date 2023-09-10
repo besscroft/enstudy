@@ -19,9 +19,9 @@ public class ActionsParam {
     @Schema(title = "单词数据 id", type = "String", requiredMode = Schema.RequiredMode.REQUIRED)
     private String wordJsonId;
 
-    /** 词库 ID */
-    @NotBlank(message = "词库 ID 未填！")
-    @Schema(title = "词库 ID", type = "String", requiredMode = Schema.RequiredMode.REQUIRED)
+    /** 词典 ID */
+    @NotBlank(message = "词典 ID 未填！")
+    @Schema(title = "词典 ID", type = "String", requiredMode = Schema.RequiredMode.REQUIRED)
     private String bookId;
 
     /** 单词序号 */

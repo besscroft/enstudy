@@ -7,11 +7,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * @Description 用户活动词库控制器
+ * @Description 用户活动词典控制器
  * @Author Bess Croft
  * @Date 2023/8/31 21:38
  */
-@Tag(name = "用户活动词库")
+@Tag(name = "用户活动词典")
 @RestController
 @RequestMapping("/userBookDict")
 @RequiredArgsConstructor

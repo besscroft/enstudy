@@ -6,12 +6,12 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 /**
- * @Description 当前用户的活动词库返回参数
+ * @Description 当前用户的活动词典返回参数
  * @Author Bess Croft
  * @Date 2023/9/5 13:24
  */
 @Data
-@Schema(title = "当前用户的活动词库返回参数")
+@Schema(title = "当前用户的活动词典返回参数")
 @EqualsAndHashCode(callSuper = true)
 public class UserBookDictVo extends BaseEntity {
 

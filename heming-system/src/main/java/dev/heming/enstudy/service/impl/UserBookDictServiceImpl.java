@@ -1,6 +1,7 @@
 package dev.heming.enstudy.service.impl;
 
 import cn.dev33.satoken.stp.StpUtil;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import dev.heming.enstudy.common.constant.SystemConstants;
 import dev.heming.enstudy.common.converter.UserBookDictConverterMapper;
@@ -32,7 +33,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 /**
- * @Description 用户活动词库 服务实现类
+ * @Description 用户活动词典 服务实现类
  * @Author Bess Croft
  * @Date 2023/8/31 21:37
  */
@@ -51,7 +52,7 @@ public class UserBookDictServiceImpl extends ServiceImpl<UserBookDictMapper, Use
     public void choice(DictChoiceParam param) {
         long userId = StpUtil.getLoginIdAsLong();
         BookDict bookDict = bookDictMapper.selectById(param.getBookId());
-        Assert.notNull(bookDict, "为查询到当前词库信息！");
+        Assert.notNull(bookDict, "为查询到当前词典信息！");
         List<UserBookDict> userBookDictList = this.baseMapper.selectAllByUserId(userId);
         if (CollectionUtils.isEmpty(userBookDictList)) {
             // 如果没有数据
@@ -89,6 +90,12 @@ public class UserBookDictServiceImpl extends ServiceImpl<UserBookDictMapper, Use
                 this.updateById(dict);
             }
         }
+    }
+
+    @Override
+    public List<BookDict> getAllDict() {
+        // 缓存优化
+        return bookDictMapper.selectList(new QueryWrapper<>());
     }
 
     @Override
@@ -133,7 +140,7 @@ public class UserBookDictServiceImpl extends ServiceImpl<UserBookDictMapper, Use
 
     /**
      * 生成学习汇总数据
-     * @param bookId 词库 id
+     * @param bookId 词典 id
      */
     private void userActionsHandler(String bookId) {
         List<Word> wordList = wordService.getWordListByBookId(bookId);

@@ -12,15 +12,15 @@ import org.apache.ibatis.annotations.Param;
 public interface BookDictMapper extends BaseMapper<BookDict> {
 
     /**
-     * 查询词库信息
-     * @param bookId 词库 id
-     * @return 词库信息
+     * 查询词典信息
+     * @param bookId 词典 id
+     * @return 词典信息
      */
     BookDict selectByBookId(@Param("bookId") String bookId);
 
     /**
-     * 查询词库总数
-     * @return 词库总数
+     * 查询词典总数
+     * @return 词典总数
      */
     Integer selectDictCount();
 

@@ -87,15 +87,15 @@ definePageMeta({
         <template v-slot:title>
           <div space-x-2>
             {{ wordInfo.headWord }}
-            <UBadge color="black" cursor-pointer @click="handleAudio(2)">美[{{ wordInfo.content.word.content.usphone }}]</UBadge>
-            <UBadge cursor-pointer @click="handleAudio(1)">英[{{ wordInfo.content.word.content.ukphone }}]</UBadge>
+            <UBadge color="black" cursor-pointer @click="handleAudio(2)">美[{{ wordInfo.content?.word?.content?.usphone || '' }}]</UBadge>
+            <UBadge cursor-pointer @click="handleAudio(1)">英[{{ wordInfo.content?.word?.content?.ukphone  || '' }}]</UBadge>
           </div>
         </template>
 
         <v-card-text>
           <v-list lines="one">
             <v-list-item
-              v-for="item in wordInfo.content.word.content.trans"
+              v-for="item in wordInfo.content?.word?.content?.trans"
               :key="item"
               :title="item.pos + '. ' + item.tranCn"
               :subtitle="item.tranOther"
