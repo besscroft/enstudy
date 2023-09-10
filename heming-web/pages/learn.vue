@@ -128,7 +128,7 @@ definePageMeta({
             短语
           </v-btn>
           <v-btn
-            v-show="Array.isArray(exam)"
+            v-show="Array.isArray(exam) && exam.length > 0"
             @click="examShow = !examShow"
           >
             练习
@@ -150,7 +150,7 @@ definePageMeta({
             </v-card-text>
           </div>
         </v-expand-transition>
-        <v-expand-transition v-show="Array.isArray(exam)">
+        <v-expand-transition v-show="Array.isArray(exam) && exam.length > 0">
           <div v-show="examShow" px-4 py-2 space-y-2>
             <div v-for="item in exam" :key="item">
               <UAlert
