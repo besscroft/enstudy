@@ -29,11 +29,14 @@ onMounted(async () => {
     prepend-icon="mdi-file-document-alert-outline"
   >
     <template v-slot:title>
-      错题本
+      <span font-ark>错题本</span>
     </template>
 
-    <v-card-text>
-      {{ wrongBook.count || 0 }} 题
+    <v-card-text flex items-center>
+      <p w-full>{{ wrongBook.count || 0 }} 题</p>
+      <v-btn>
+        复习
+      </v-btn>
     </v-card-text>
   </v-card>
 </template>

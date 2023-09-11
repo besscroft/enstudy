@@ -82,13 +82,13 @@ definePageMeta({
     <v-no-ssr>
       <v-card
         :loading="loading"
-        mx-auto w-full md:w-160
+        mx-auto w-full sm:w-160
       >
         <template v-slot:title>
           <div space-x-2>
             {{ wordInfo.headWord }}
-            <UBadge color="black" cursor-pointer @click="handleAudio(2)">美[{{ wordInfo.content?.word?.content?.usphone || '' }}]</UBadge>
-            <UBadge cursor-pointer @click="handleAudio(1)">英[{{ wordInfo.content?.word?.content?.ukphone  || '' }}]</UBadge>
+            <UBadge color="black" cursor-pointer @click="handleAudio(2)"><span dark:text-black>美[{{ wordInfo.content?.word?.content?.usphone || '' }}]</span></UBadge>
+            <UBadge cursor-pointer @click="handleAudio(1)"><span dark:text-black>英[{{ wordInfo.content?.word?.content?.ukphone  || '' }}]</span></UBadge>
           </div>
         </template>
 
@@ -121,37 +121,20 @@ definePageMeta({
 
           <v-spacer></v-spacer>
 
-          <v-btn
-            v-show="Array.isArray(phrases)"
-            @click="phraseShow = !phraseShow"
-          >
-            短语
-          </v-btn>
-          <v-btn
-            v-show="Array.isArray(exam) && exam.length > 0"
-            @click="examShow = !examShow"
-          >
-            练习
+          <v-btn>
+            反馈(开发中)
           </v-btn>
         </v-card-actions>
-
-        <v-expand-transition v-show="Array.isArray(phrases)">
-          <div v-show="phraseShow">
-            <v-divider></v-divider>
-
-            <v-card-text>
-              <v-list lines="one">
-                <v-list-item
-                  v-for="item in phrases.slice(0, 3)"
-                  :key="item"
-                  :title="item.pContent + ' ' + item.pCn"
-                ></v-list-item>
-              </v-list>
-            </v-card-text>
-          </div>
-        </v-expand-transition>
-        <v-expand-transition v-show="Array.isArray(exam) && exam.length > 0">
-          <div v-show="examShow" px-4 py-2 space-y-2>
+        <div>
+          <v-list lines="one" v-show="Array.isArray(phrases) && phrases.length > 0">
+            <v-list-item
+              v-for="item in phrases.slice(0, 3)"
+              :key="item"
+              :title="item.pContent + ' ' + item.pCn"
+            ></v-list-item>
+          </v-list>
+          <v-spacer v-show="Array.isArray(exam) && exam.length > 0"></v-spacer>
+          <div v-show="Array.isArray(exam) && exam.length > 0" px-4 py-2 space-y-2>
             <div v-for="item in exam" :key="item">
               <UAlert
                 :description="item.question"
@@ -159,7 +142,7 @@ definePageMeta({
               />
             </div>
           </div>
-        </v-expand-transition>
+        </div>
       </v-card>
     </v-no-ssr>
   </div>

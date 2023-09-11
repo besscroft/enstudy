@@ -2,6 +2,7 @@
 const nuxtApp = useNuxtApp()
 
 const userDict = ref({})
+const progress = ref<number>(0)
 const items = ref([])
 const emit = defineEmits(['handleChoiceLoading'])
 const propsData = defineProps({
@@ -15,6 +16,7 @@ const getUserDict = async () => {
   const json = await nuxtApp.$api.get('/@api/dict/getUserDict').json();
   if (json.code === 200) {
     userDict.value = json.data
+    progress.value = userDict.bookSize === 0 ? 0 : (userDict.studied / userDict.bookSize * 100).toFixed(2)
   } else {
     console.log(json.message)
   }
@@ -71,7 +73,7 @@ onUnmounted(() => {
     prepend-icon="mdi-alphabetical"
   >
     <template v-slot:title>
-      单词进度
+      <span font-ark>单词进度</span>
     </template>
 
     <template v-slot:subtitle>
@@ -80,7 +82,7 @@ onUnmounted(() => {
 
     <v-card-text flex items-center>
       <p w-full>词典: {{ userDict.bookName || '未选择' }}</p>
-      <v-menu>
+      <v-menu location="start">
         <template v-slot:activator="{ props }">
           <v-btn
             color="primary"
@@ -103,6 +105,11 @@ onUnmounted(() => {
         </v-list>
       </v-menu>
     </v-card-text>
+    <v-progress-linear
+      :buffer-value="progress"
+      stream
+      color="light-blue"
+    ></v-progress-linear>
   </v-card>
 </template>
 
