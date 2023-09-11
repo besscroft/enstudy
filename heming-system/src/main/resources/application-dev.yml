@@ -15,7 +15,7 @@ spring:
       host: ${REDIS_HOST:localhost}
       # Redis服务器连接端口
       port: ${REDIS_PORT:6379}
-      # Redis服务器连接密码（默认为空）
+      # Redis服务器连接密码
       password: ${REDIS_PASSWORD:password}
       ssl:
         enabled: ${REDIS_SSL:false}

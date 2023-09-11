@@ -23,7 +23,7 @@ onBeforeMount(async () => {
     prepend-icon="mdi-chair-school"
   >
     <template v-slot:title>
-      今日概览
+      <span font-ark>今日概览</span>
     </template>
 
     <template v-slot:subtitle>

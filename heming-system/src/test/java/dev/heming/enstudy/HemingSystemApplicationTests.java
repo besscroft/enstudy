@@ -4,7 +4,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import dev.heming.enstudy.common.entity.Book;
 import dev.heming.enstudy.common.entity.BookDict;
 import dev.heming.enstudy.common.entity.Word;
+import dev.heming.enstudy.common.param.dict.DictChoiceParam;
 import dev.heming.enstudy.service.BookDictService;
+import dev.heming.enstudy.service.UserBookDictService;
 import dev.heming.enstudy.service.WordService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
@@ -37,6 +39,23 @@ class HemingSystemApplicationTests {
 
     @Autowired
     private WordService wordService;
+
+    @Autowired
+    private UserBookDictService userBookDictService;
+
+    @Test
+    void dataHandler() {
+        List<BookDict> dictList = bookDictService.list();
+        List<DictChoiceParam> params = new ArrayList<>();
+        for (BookDict bookDict : dictList) {
+            DictChoiceParam param = new DictChoiceParam();
+            param.setBookId(bookDict.getId());
+            params.add(param);
+        }
+        for (DictChoiceParam param : params) {
+            userBookDictService.choice(param);
+        }
+    }
 
     @Test
     void contextLoads() throws IOException {

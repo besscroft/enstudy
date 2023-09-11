@@ -22,7 +22,7 @@ import lombok.*;
 public class BookDict extends BaseEntity {
 
     @TableId(type = IdType.AUTO)
-    @Schema(title = "用户 id", type = "Long")
+    @Schema(title = "id", type = "Long")
     private Long id;
 
     /** 词典id */
