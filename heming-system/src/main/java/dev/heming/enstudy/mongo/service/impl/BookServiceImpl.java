@@ -14,6 +14,7 @@ import dev.heming.enstudy.mapper.WordMapper;
 import dev.heming.enstudy.mongo.service.BookService;
 import dev.heming.enstudy.common.param.book.GetBookParam;
 import dev.heming.enstudy.service.UserBookDictService;
+import dev.heming.enstudy.service.WordService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -43,6 +44,7 @@ public class BookServiceImpl implements BookService {
     private final UserBookDictService userBookDictService;
     private final UserWorkActionsMapper userWorkActionsMapper;
     private final WordMapper wordMapper;
+    private final WordService wordService;
     private final UserBookDictMapper userBookDictMapper;
     private final UserWrongWordMapper userWrongWordMapper;
     private final RedisTemplate<String, Object> redisTemplate;
@@ -68,16 +70,18 @@ public class BookServiceImpl implements BookService {
         Assert.notNull(userDict, "还未选择词典！");
         UserWorkActions actions = userWorkActionsMapper.selectByUserIdAndBookId(userId, userDict.getBookId());
         Assert.notNull(actions, "未生成学习数据，请联系管理员！");
-        Word word = wordMapper.selectById(actions.getWordId());
-        Assert.notNull(word, "单词数据不存在，请联系管理员！");
-        Query query = new Query(
-                Criteria
-                        .where("bookId").is(userDict.getBookId())
-                        .and("wordRank").is(word.getWordRank())
-                        .and("headWord").is(word.getHeadWord())
-        );
-        Book result = mongoTemplate.findOne(query, Book.class);
-        return result;
+        return wordService.getWordByWordIdAndBookId(actions.getWordId(), userDict.getBookId());
+    }
+
+    @Override
+    public Book getWorkWord() {
+        // TODO 优化
+        long userId = StpUtil.getLoginIdAsLong();
+        UserBookDictVo userDict = userBookDictService.getUserDict();
+        Assert.notNull(userDict, "还未选择词典！");
+        Long wordId = userWrongWordMapper.selectWordIdByUserIdAndBookId(userId, userDict.getBookId());
+        Assert.notNull(wordId, "当前错题本暂无错题！");
+        return wordService.getWordByWordIdAndBookId(wordId, userDict.getBookId());
     }
 
     @Override

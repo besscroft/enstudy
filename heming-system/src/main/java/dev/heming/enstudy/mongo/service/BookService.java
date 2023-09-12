@@ -27,6 +27,12 @@ public interface BookService {
     Book getWord();
 
     /**
+     * 获取当前用户活动词典对应的错题本的下一个单词信息
+     * @return 单词信息
+     */
+    Book getWorkWord();
+
+    /**
      * 获取当前用户活动词典的单词学习列表
      * @return 单词信息列表
      */

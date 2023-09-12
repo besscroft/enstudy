@@ -3,6 +3,7 @@ package dev.heming.enstudy.service.impl;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.pagehelper.PageHelper;
 import dev.heming.enstudy.common.constant.CacheConstants;
+import dev.heming.enstudy.common.entity.Book;
 import dev.heming.enstudy.common.entity.Word;
 import dev.heming.enstudy.common.vo.console.ConsoleVo;
 import dev.heming.enstudy.mapper.BookDictMapper;
@@ -11,8 +12,12 @@ import dev.heming.enstudy.mapper.WordMapper;
 import dev.heming.enstudy.service.WordService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
 import java.util.List;
 import java.util.Optional;
@@ -27,6 +32,7 @@ import java.util.concurrent.TimeUnit;
 @RequiredArgsConstructor
 public class WordServiceImpl extends ServiceImpl<WordMapper, Word> implements WordService {
 
+    private final MongoTemplate mongoTemplate;
     private final UserMapper userMapper;
     private final BookDictMapper bookDictMapper;
     private final RedisTemplate<String, Object> redisTemplate;
@@ -56,6 +62,20 @@ public class WordServiceImpl extends ServiceImpl<WordMapper, Word> implements Wo
                             return consoleVo;
                         }
                 );
+    }
+
+    @Override
+    public Book getWordByWordIdAndBookId(Long wordId, String bookId) {
+        // TODO 优化
+        Word word = this.baseMapper.selectById(wordId);
+        Assert.notNull(word, "单词数据不存在，请联系管理员！");
+        Query query = new Query(
+                Criteria
+                        .where("bookId").is(bookId)
+                        .and("wordRank").is(word.getWordRank())
+                        .and("headWord").is(word.getHeadWord())
+        );
+        return mongoTemplate.findOne(query, Book.class);
     }
 
 }

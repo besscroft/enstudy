@@ -40,6 +40,12 @@ public class BookController {
         return CommonResult.success(bookService.getWord());
     }
 
+    @GetMapping("/getWorkWord")
+    @Operation(summary = "获取错题本单个单词")
+    public CommonResult<Book> getWorkWord() {
+        return CommonResult.success(bookService.getWorkWord());
+    }
+
     @GetMapping("/getWordList")
     @Operation(summary = "获取单词列表")
     public CommonResult<List<Book>> getWordList() {
