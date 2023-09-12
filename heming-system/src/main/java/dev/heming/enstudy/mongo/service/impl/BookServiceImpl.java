@@ -2,6 +2,7 @@ package dev.heming.enstudy.mongo.service.impl;
 
 import cn.dev33.satoken.stp.StpUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import dev.heming.enstudy.common.constant.CacheConstants;
 import dev.heming.enstudy.common.constant.SystemConstants;
 import dev.heming.enstudy.common.entity.*;
 import dev.heming.enstudy.common.param.book.ActionsParam;
@@ -18,10 +19,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -42,6 +45,7 @@ public class BookServiceImpl implements BookService {
     private final WordMapper wordMapper;
     private final UserBookDictMapper userBookDictMapper;
     private final UserWrongWordMapper userWrongWordMapper;
+    private final RedisTemplate<String, Object> redisTemplate;
 
     @Override
     public Book getBook(GetBookParam param) {
@@ -124,8 +128,12 @@ public class BookServiceImpl implements BookService {
                 userWrongWordMapper.updateById(wrongWord);
             }
         }
+        workActions.setUpdateTime(LocalDateTime.now());
         userWorkActionsMapper.updateById(workActions);
         userBookDictMapper.updateById(userBookDict);
+        redisTemplate.delete(CacheConstants.USER_BOOK_DICT + userId);
+        redisTemplate.delete(CacheConstants.USER_WRONG_WORK + userId);
+        redisTemplate.delete(CacheConstants.TODAY + userId);
     }
 
 }

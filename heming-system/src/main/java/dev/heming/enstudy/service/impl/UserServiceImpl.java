@@ -63,7 +63,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         long userId = StpUtil.getLoginIdAsLong();
         User user = getUserById(userId);
         Assert.notNull(user, "暂未登录！");
-        Map<String, Object> map = new HashMap<>();
+        Map<String, Object> map = new HashMap<>(4);
         map.put("userName", user.getName());
         map.put("avatar", user.getAvatar());
         map.put("role", user.getRole());
@@ -87,7 +87,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Override
     @Transactional(rollbackFor = Exception.class)
     @CacheEvict(value = {
-            CacheConstants.USER
+            CacheConstants.USER,
+            CacheConstants.CONSOLE_INFO,
+            CacheConstants.USER_INFO
     }, allEntries = true)
     public void deleteUser(Long userId) {
         User user = getUserById(userId);
@@ -99,13 +101,16 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     }
 
     @Override
+    @Cacheable(value = CacheConstants.USER_INFO, key = "#username", unless = "#result == null")
     public User getUser(String username) {
-        // TODO 缓存优化
         return this.baseMapper.selectByUsername(username);
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
+    @CacheEvict(value = {
+            CacheConstants.CONSOLE_INFO
+    }, allEntries = true)
     public void addUser(UserAddParam param) {
         User user = UserConverterMapper.INSTANCE.AddParamToUser(param);
         if (Objects.equals(user.getRole(), RoleConstants.PLATFORM_SUPER_ADMIN)) {
@@ -119,7 +124,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Override
     @Transactional(rollbackFor = Exception.class)
     @CacheEvict(value = {
-            CacheConstants.USER
+            CacheConstants.USER,
+            CacheConstants.USER_INFO
     }, allEntries = true)
     public void updateUser(UserUpdateParam param) {
         User user = UserConverterMapper.INSTANCE.UpdateParamToUser(param);
@@ -139,7 +145,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     @Override
     @CacheEvict(value = {
-            CacheConstants.USER
+            CacheConstants.USER,
+            CacheConstants.USER_INFO
     }, allEntries = true)
     public void updateStatus(Long id, Integer status) {
         User user = this.baseMapper.selectById(id);
@@ -154,7 +161,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Override
     @Transactional(rollbackFor = Exception.class)
     @CacheEvict(value = {
-            CacheConstants.USER
+            CacheConstants.USER,
+            CacheConstants.USER_INFO
     }, allEntries = true)
     public void updatePassword(Long userId, Boolean isSelf,String oldPassword, String newPassword) {
         if (Boolean.TRUE.equals(isSelf)) {
@@ -170,6 +178,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     }
 
     @Override
+    @CacheEvict(value = {
+            CacheConstants.USER,
+            CacheConstants.USER_INFO
+    }, allEntries = true)
     public void logout() {
         StpUtil.logout();
     }

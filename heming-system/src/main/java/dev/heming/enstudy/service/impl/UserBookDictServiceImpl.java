@@ -3,6 +3,7 @@ package dev.heming.enstudy.service.impl;
 import cn.dev33.satoken.stp.StpUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import dev.heming.enstudy.common.constant.CacheConstants;
 import dev.heming.enstudy.common.constant.SystemConstants;
 import dev.heming.enstudy.common.converter.UserBookDictConverterMapper;
 import dev.heming.enstudy.common.entity.BookDict;
@@ -21,6 +22,7 @@ import dev.heming.enstudy.service.UserBookDictService;
 import dev.heming.enstudy.service.UserWorkActionsService;
 import dev.heming.enstudy.service.WordService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -31,6 +33,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @Description 用户活动词典 服务实现类
@@ -46,6 +49,7 @@ public class UserBookDictServiceImpl extends ServiceImpl<UserBookDictMapper, Use
     private final UserWorkActionsService userWorkActionsService;
     private final UserWrongWordMapper userWrongWordMapper;
     private final UserWorkActionsMapper userWorkActionsMapper;
+    private final RedisTemplate<String, Object> redisTemplate;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -94,48 +98,61 @@ public class UserBookDictServiceImpl extends ServiceImpl<UserBookDictMapper, Use
 
     @Override
     public List<BookDict> getAllDict() {
-        // 缓存优化
-        return bookDictMapper.selectList(new QueryWrapper<>());
+        return (List<BookDict>) Optional.ofNullable(redisTemplate.opsForValue().get(CacheConstants.ALL_BOOK_DICT))
+                .orElseGet(() -> {
+                    List<BookDict> dictList = bookDictMapper.selectList(new QueryWrapper<>());
+                    redisTemplate.opsForValue().set(CacheConstants.ALL_BOOK_DICT, dictList, 24, TimeUnit.HOURS);
+                    return dictList;
+                });
     }
 
     @Override
     public UserBookDictVo getUserDict() {
-        // TODO 缓存优化
         long userId = StpUtil.getLoginIdAsLong();
-        UserBookDict userBookDict = this.baseMapper.selectActionByUserId(userId);
-        if (ObjectUtils.isEmpty(userBookDict)) {
-            return new UserBookDictVo();
-        }
-        UserBookDictVo vo = UserBookDictConverterMapper.INSTANCE.UserBookDictToVo(userBookDict);
-        BookDict bookDict = bookDictMapper.selectByBookId(userBookDict.getBookId());
-        vo.setBookSize(bookDict.getBookSize());
-        return vo;
+        return (UserBookDictVo) Optional.ofNullable(redisTemplate.opsForValue().get(CacheConstants.USER_BOOK_DICT + userId))
+                .orElseGet(() -> {
+                    UserBookDict userBookDict = this.baseMapper.selectActionByUserId(userId);
+                    if (ObjectUtils.isEmpty(userBookDict)) {
+                        return new UserBookDictVo();
+                    }
+                    UserBookDictVo vo = UserBookDictConverterMapper.INSTANCE.UserBookDictToVo(userBookDict);
+                    BookDict bookDict = bookDictMapper.selectByBookId(userBookDict.getBookId());
+                    vo.setBookSize(bookDict.getBookSize());
+                    redisTemplate.opsForValue().set(CacheConstants.USER_BOOK_DICT + userId, vo, 24, TimeUnit.HOURS);
+                    return vo;
+                });
     }
 
     @Override
     public UserWrongWordVo getWrongBook() {
-        // TODO 缓存优化
         long userId = StpUtil.getLoginIdAsLong();
-        UserBookDict userBookDict = this.baseMapper.selectActionByUserId(userId);
-        UserWrongWordVo vo = new UserWrongWordVo();
-        vo.setUserId(userId);
-        if (ObjectUtils.isEmpty(userBookDict)) {
-            return vo;
-        }
-        Integer count = userWrongWordMapper.selectCountByUserIdAndBookId(userId, userBookDict.getBookId());
-        vo.setBookId(userBookDict.getBookId());
-        vo.setCount(count);
-        return vo;
+        return (UserWrongWordVo) Optional.ofNullable(redisTemplate.opsForValue().get(CacheConstants.USER_WRONG_WORK + userId))
+                .orElseGet(() -> {
+                    UserBookDict userBookDict = this.baseMapper.selectActionByUserId(userId);
+                    UserWrongWordVo vo = new UserWrongWordVo();
+                    vo.setUserId(userId);
+                    if (ObjectUtils.isEmpty(userBookDict)) {
+                        return vo;
+                    }
+                    Integer count = userWrongWordMapper.selectCountByUserIdAndBookId(userId, userBookDict.getBookId());
+                    vo.setBookId(userBookDict.getBookId());
+                    vo.setCount(count);
+                    redisTemplate.opsForValue().set(CacheConstants.USER_WRONG_WORK + userId, vo, 24, TimeUnit.HOURS);
+                    return vo;
+                });
     }
 
     @Override
     public TodayVo getToday() {
-        // TODO 缓存优化
         long userId = StpUtil.getLoginIdAsLong();
-        TodayVo vo = new TodayVo();
-        Integer count = userWorkActionsMapper.selectTodayCountByUserId(userId);
-        vo.setStudied(count);
-        return vo;
+        return (TodayVo) Optional.ofNullable(redisTemplate.opsForValue().get(CacheConstants.TODAY + userId))
+                .orElseGet(() -> {
+                    TodayVo vo = new TodayVo();
+                    Integer count = userWorkActionsMapper.selectTodayCountByUserId(userId);
+                    vo.setStudied(count);
+                    redisTemplate.opsForValue().set(CacheConstants.TODAY + userId, vo, 24, TimeUnit.HOURS);
+                    return vo;
+                });
     }
 
     /**
