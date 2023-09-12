@@ -8,6 +8,7 @@ const loading = ref(false)
 const dialogDelete = ref(false)
 const defaultUser = ref({})
 const toast = useToast()
+const router = useRouter()
 const dataList = ref<Array<any>>([])
 const pageInfo = reactive({
   total: 0,
@@ -106,6 +107,14 @@ definePageMeta({
       <v-icon
         cursor-pointer
         size="small"
+        @click="router.push({ path: `/admin/user/detail/${item.raw.id}` })"
+      >
+        mdi-clipboard-account
+      </v-icon>
+      <v-icon
+        cursor-pointer
+        size="small"
+        @click="router.push({ path: `/admin/user/edit/${item.raw.id}` })"
       >
         mdi-pencil
       </v-icon>
@@ -119,8 +128,8 @@ definePageMeta({
     </template>
   </v-data-table-server>
   <v-dialog
-      v-model="dialogDelete"
-      width="auto"
+    v-model="dialogDelete"
+    width="auto"
   >
     <v-card>
       <v-card-text>
