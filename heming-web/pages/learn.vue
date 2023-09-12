@@ -72,11 +72,12 @@ onMounted(() => {
 
 definePageMeta({
   layout: 'learn',
+  pageTransition: false,
 })
 </script>
 
 <template>
-  <div>
+  <div p-2>
     <v-no-ssr>
       <v-card
         :loading="loading"

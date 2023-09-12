@@ -65,6 +65,7 @@ onUnmounted(() => {
 
 definePageMeta({
   layout: 'default',
+  pageTransition: false,
 })
 </script>
 
