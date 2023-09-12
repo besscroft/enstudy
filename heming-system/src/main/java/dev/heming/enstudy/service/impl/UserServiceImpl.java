@@ -1,5 +1,6 @@
 package dev.heming.enstudy.service.impl;
 
+import cn.dev33.satoken.exception.NotRoleException;
 import cn.dev33.satoken.secure.SaSecureUtil;
 import cn.dev33.satoken.stp.SaTokenInfo;
 import cn.dev33.satoken.stp.StpUtil;
@@ -75,6 +76,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Cacheable(value = CacheConstants.USER, key = "#userId", unless = "#result == null")
     public User getUserById(Long userId) {
         log.info("查询用户信息：{}", userId);
+        long currentUserId = StpUtil.getLoginIdAsLong();
+        if (!Objects.equals(userId, currentUserId)) {
+            StpUtil.checkRoleOr(RoleConstants.PLATFORM_SUPER_ADMIN, RoleConstants.PLATFORM_ADMIN);
+        }
         return this.baseMapper.selectById(userId);
     }
 
