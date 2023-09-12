@@ -62,6 +62,7 @@ public class BookServiceImpl implements BookService {
     @Override
     public Book getWord() {
         // TODO 优化
+        // TODO 进度完成后，无法获取单词的问题，业务调整
         long userId = StpUtil.getLoginIdAsLong();
         UserBookDictVo userDict = userBookDictService.getUserDict();
         Assert.notNull(userDict, "还未选择词典！");
@@ -121,7 +122,7 @@ public class BookServiceImpl implements BookService {
                 userWrongWord.setUserId(userId);
                 userWrongWord.setBookId(param.getBookId());
                 userWrongWord.setWordId(word.getId());
-                userWrongWord.setFailCount(0);
+                userWrongWord.setFailCount(1);
                 userWrongWordMapper.insert(userWrongWord);
             } else {
                 wrongWord.setFailCount(wrongWord.getFailCount() + 1);
