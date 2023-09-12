@@ -2,8 +2,6 @@
 const nuxtApp = useNuxtApp()
 
 const wordInfo = ref({})
-const phraseShow = ref(false)
-const examShow = ref(false)
 const loading = ref(false)
 const phrases = ref([])
 const exam = ref([])

@@ -9,7 +9,7 @@ const drawer = ref(null)
       <Menu />
     </v-navigation-drawer>
 
-    <v-app-bar>
+    <v-app-bar dark>
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
 
       <v-app-bar-title>嗯学英语</v-app-bar-title>

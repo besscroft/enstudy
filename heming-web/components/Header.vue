@@ -8,7 +8,7 @@ const user = useUserStore()
 <template>
   <v-toolbar>
     <v-toolbar
-      color="primary"
+      color="green-accent-1"
       :dark="true"
     >
       <v-toolbar-title font-ark>嗯学英语</v-toolbar-title>

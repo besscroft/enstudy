@@ -11,9 +11,12 @@ import dev.heming.enstudy.mapper.WordMapper;
 import dev.heming.enstudy.service.WordService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @Description 单词服务实现类
@@ -26,6 +29,7 @@ public class WordServiceImpl extends ServiceImpl<WordMapper, Word> implements Wo
 
     private final UserMapper userMapper;
     private final BookDictMapper bookDictMapper;
+    private final RedisTemplate<String, Object> redisTemplate;
 
     @Override
     @Cacheable(value = CacheConstants.WORD_LIST, key = "#bookId", unless = "#result == null")
@@ -41,12 +45,17 @@ public class WordServiceImpl extends ServiceImpl<WordMapper, Word> implements Wo
 
     @Override
     public ConsoleVo getConsoleInfo() {
-        // TODO 缓存优化
-        ConsoleVo consoleVo = new ConsoleVo();
-        consoleVo.setDictCount(bookDictMapper.selectDictCount());
-        consoleVo.setWordCount(this.baseMapper.selectWordCount());
-        consoleVo.setUserCount(userMapper.selectUserCount());
-        return consoleVo;
+        return (ConsoleVo) Optional.ofNullable(redisTemplate.opsForValue().get(CacheConstants.CONSOLE_INFO))
+                .orElseGet(
+                        () -> {
+                            ConsoleVo consoleVo = new ConsoleVo();
+                            consoleVo.setDictCount(bookDictMapper.selectDictCount());
+                            consoleVo.setWordCount(this.baseMapper.selectWordCount());
+                            consoleVo.setUserCount(userMapper.selectUserCount());
+                            redisTemplate.opsForValue().set(CacheConstants.CONSOLE_INFO, consoleVo, 24, TimeUnit.HOURS);
+                            return consoleVo;
+                        }
+                );
     }
 
 }

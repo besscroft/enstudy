@@ -110,7 +110,6 @@ public class UserController {
     }
 
     @Operation(summary = "用户查询接口")
-    @SaCheckRole(value = { RoleConstants.PLATFORM_SUPER_ADMIN, RoleConstants.PLATFORM_ADMIN }, mode = SaMode.OR)
     @GetMapping("/getUser/{userId:[\\d]+}")
     public CommonResult<User> getUser(@PathVariable(name = "userId") Long userId) {
         User user = userService.getUserById(userId);
