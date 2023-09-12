@@ -36,9 +36,7 @@ definePageMeta({
 
       <div class="mt-8 sm:mt-12">
         <dl class="grid grid-cols-1 gap-4 sm:grid-cols-3">
-          <div
-              class="flex flex-col rounded-lg border border-gray-100 px-4 py-8 text-center"
-          >
+          <div class="flex flex-col rounded-lg border border-gray-100 px-4 py-8 text-center">
             <dt class="order-last text-lg font-ark text-gray-500">
               单词总数
             </dt>
@@ -46,9 +44,7 @@ definePageMeta({
             <dd class="text-4xl font-ark text-blue-600 md:text-5xl">{{ consoleInfo.wordCount || 0 }}</dd>
           </div>
 
-          <div
-              class="flex flex-col rounded-lg border border-gray-100 px-4 py-8 text-center"
-          >
+          <div class="flex flex-col rounded-lg border border-gray-100 px-4 py-8 text-center">
             <dt class="order-last text-lg font-ark text-gray-500">
               词典总数
             </dt>
@@ -56,9 +52,7 @@ definePageMeta({
             <dd class="text-4xl font-ark text-blue-600 md:text-5xl">{{ consoleInfo.dictCount || 0 }}</dd>
           </div>
 
-          <div
-              class="flex flex-col rounded-lg border border-gray-100 px-4 py-8 text-center"
-          >
+          <div class="flex flex-col rounded-lg border border-gray-100 px-4 py-8 text-center">
             <dt class="order-last text-lg font-ark text-gray-500">
               用户总数
             </dt>

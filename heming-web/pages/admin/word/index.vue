@@ -57,7 +57,8 @@ definePageMeta({
 </script>
 
 <template>
-  <v-data-table-server
+  <div>
+    <v-data-table-server
       overflow-y-auto
       fixed-header
       height="650px"
@@ -69,22 +70,23 @@ definePageMeta({
       :items-per-page-options="pageOptions"
       @update:options="(current) => { pageInfo.pageNum = current.page; pageInfo.pageSize = current.itemsPerPage; useWordPage() }"
       class="elevation-1"
-  >
-    <template v-slot:item.actions="{ item }">
-      <v-icon
+    >
+      <template v-slot:item.actions="{ item }">
+        <v-icon
           cursor-pointer
           size="small"
-      >
-        mdi-pencil
-      </v-icon>
-      <v-icon
+        >
+          mdi-pencil
+        </v-icon>
+        <v-icon
           cursor-pointer
           size="small"
-      >
-        mdi-delete
-      </v-icon>
-    </template>
-  </v-data-table-server>
+        >
+          mdi-delete
+        </v-icon>
+      </template>
+    </v-data-table-server>
+  </div>
 </template>
 
 <style scoped>
