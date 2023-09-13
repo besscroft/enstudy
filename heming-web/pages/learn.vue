@@ -24,9 +24,13 @@ const getWord = async () => {
     wordInfo.value = json.data
     if (json.data?.content?.word?.content?.phrase?.phrases) {
       phrases.value = json.data.content.word.content.phrase.phrases
+    } else {
+      phrases.value = []
     }
     if (json.data?.content?.word?.content?.exam) {
       exam.value = json.data.content.word.content.exam
+    } else {
+      exam.value = []
     }
   } else {
     console.log(json.message)

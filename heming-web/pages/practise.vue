@@ -22,12 +22,15 @@ const getWorkWord = async () => {
   const json = await nuxtApp.$api.get('/@api/book/getWorkWord').json();
   if (json.code === 200) {
     wordInfo.value = json.data
-    console.log(json.data)
     if (json.data?.content?.word?.content?.phrase?.phrases) {
       phrases.value = json.data.content.word.content.phrase.phrases
+    } else {
+      phrases.value = []
     }
     if (json.data?.content?.word?.content?.exam) {
       exam.value = json.data.content.word.content.exam
+    } else {
+      exam.value = []
     }
   } else {
     console.log(json.message)
