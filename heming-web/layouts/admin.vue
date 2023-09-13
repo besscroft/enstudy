@@ -12,7 +12,9 @@ const drawer = ref(null)
     <v-app-bar dark>
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
 
-      <v-app-bar-title>嗯学英语</v-app-bar-title>
+      <v-app-bar-title>
+        <a font-ark cursor-pointer href="https://github.com/besscroft/enstudy" target="_blank">嗯学英语</a>
+      </v-app-bar-title>
 
       <DarkToggle mr-4 />
     </v-app-bar>
