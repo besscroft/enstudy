@@ -63,8 +63,6 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public Book getWord() {
-        // TODO 优化
-        // TODO 进度完成后，无法获取单词的问题，业务调整
         long userId = StpUtil.getLoginIdAsLong();
         UserBookDictVo userDict = userBookDictService.getUserDict();
         Assert.notNull(userDict, "还未选择词典！");
@@ -75,7 +73,6 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public Book getWorkWord() {
-        // TODO 优化
         long userId = StpUtil.getLoginIdAsLong();
         UserBookDictVo userDict = userBookDictService.getUserDict();
         Assert.notNull(userDict, "还未选择词典！");
@@ -139,6 +136,19 @@ public class BookServiceImpl implements BookService {
         redisTemplate.delete(CacheConstants.USER_BOOK_DICT + userId);
         redisTemplate.delete(CacheConstants.USER_WRONG_WORK + userId);
         redisTemplate.delete(CacheConstants.TODAY + userId);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void failActions(ActionsParam param) {
+        long userId = StpUtil.getLoginIdAsLong();
+        Word word = wordMapper.selectByWordJsonId(param.getWordJsonId());
+        UserWrongWord wrongWord = userWrongWordMapper.selectByUserIdAndBookIdAndWordId(userId, param.getBookId(), word.getId());
+        if (Objects.equals(param.getState(), 0)) {
+            wrongWord.setFailCount(wrongWord.getFailCount() + 1);
+        }
+        wrongWord.setUpdateTime(LocalDateTime.now());
+        userWrongWordMapper.updateById(wrongWord);
     }
 
 }

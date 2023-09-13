@@ -59,4 +59,11 @@ public class BookController {
         return CommonResult.success(MessageConstants.SUCCESS);
     }
 
+    @PostMapping("/failActions")
+    @Operation(summary = "错题本单词反馈接口")
+    public CommonResult<Void> failActions(@RequestBody @Valid ActionsParam param) {
+        bookService.failActions(param);
+        return CommonResult.success(MessageConstants.SUCCESS);
+    }
+
 }

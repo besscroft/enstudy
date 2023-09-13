@@ -42,7 +42,7 @@ const handleActions = async (state: number) => {
   data.actionsParam.bookId = wordInfo.value.bookId
   data.actionsParam.wordRank = wordInfo.value.wordRank
   data.actionsParam.headWord = wordInfo.value.headWord
-  const json = await nuxtApp.$api.post('/@api/book/actions', {
+  const json = await nuxtApp.$api.post('/@api/book/failActions', {
     json: data.actionsParam
   }).json();
   if (json.code === 200) {

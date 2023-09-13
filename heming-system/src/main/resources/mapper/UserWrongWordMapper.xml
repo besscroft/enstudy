@@ -65,7 +65,7 @@
             user_id = #{userId}
         AND
             book_id = #{bookId}
-        <!-- TODO 查询条件补全 -->
+        ORDER BY update_time, create_time
         LIMIT 1
     </select>
 

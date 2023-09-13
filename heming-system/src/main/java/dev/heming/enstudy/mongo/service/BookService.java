@@ -44,4 +44,10 @@ public interface BookService {
      */
     void actions(ActionsParam param);
 
+    /**
+     * 错题本行为处理
+     * @param param 参数
+     */
+    void failActions(ActionsParam param);
+
 }
