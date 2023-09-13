@@ -1,6 +1,7 @@
 package dev.heming.enstudy.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import dev.heming.enstudy.common.entity.Book;
 import dev.heming.enstudy.common.entity.Word;
 import dev.heming.enstudy.common.vo.console.ConsoleVo;
 
@@ -33,5 +34,13 @@ public interface WordService extends IService<Word> {
      * @return 控制台统计信息
      */
     ConsoleVo getConsoleInfo();
+
+    /**
+     * 获取单词
+     * @param wordId 单词表 id
+     * @param bookId 词典 id
+     * @return 单词数据
+     */
+    Book getWordByWordIdAndBookId(Long wordId, String bookId);
 
 }

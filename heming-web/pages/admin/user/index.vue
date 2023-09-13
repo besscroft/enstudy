@@ -83,66 +83,68 @@ definePageMeta({
 </script>
 
 <template>
-  <v-data-table-server
-    fixed-header
-    height="650px"
-    :headers="headers"
-    :items="dataList"
-    :items-length="pageInfo.total"
-    :loading="loading"
-    items-per-page-text="选择"
-    :items-per-page-options="pageOptions"
-    @update:options="(current) => { pageInfo.pageNum = current.page; pageInfo.pageSize = current.itemsPerPage; useUserPage('') }"
-    class="elevation-1"
-  >
-    <template v-slot:item.avatar="{ item }">
-      <v-avatar color="primary" size="x-small">
-        <v-img
-          :src="item.columns.avatar"
-          alt="头像"
-        ></v-img>
-      </v-avatar>
-    </template>
-    <template v-slot:item.actions="{ item }">
-      <v-icon
-        cursor-pointer
-        size="small"
-        @click="router.push({ path: `/admin/user/detail/${item.raw.id}` })"
-      >
-        mdi-clipboard-account
-      </v-icon>
-      <v-icon
-        cursor-pointer
-        size="small"
-        @click="router.push({ path: `/admin/user/edit/${item.raw.id}` })"
-      >
-        mdi-pencil
-      </v-icon>
-      <v-icon
-        cursor-pointer
-        size="small"
-        @click="defaultUser = item.raw; dialogDelete = true"
-      >
-        mdi-delete
-      </v-icon>
-    </template>
-  </v-data-table-server>
-  <v-dialog
-    v-model="dialogDelete"
-    width="auto"
-  >
-    <v-card>
-      <v-card-text>
-        确定要删除吗？
-      </v-card-text>
-      <v-card-actions>
-        <v-btn color="primary" block @click="handleUserDelete">确定</v-btn>
-      </v-card-actions>
-      <v-card-actions>
-        <v-btn color="primary" block @click="dialogDelete = false">取消</v-btn>
-      </v-card-actions>
-    </v-card>
-  </v-dialog>
+  <div>
+    <v-data-table-server
+      fixed-header
+      height="650px"
+      :headers="headers"
+      :items="dataList"
+      :items-length="pageInfo.total"
+      :loading="loading"
+      items-per-page-text="选择"
+      :items-per-page-options="pageOptions"
+      @update:options="(current) => { pageInfo.pageNum = current.page; pageInfo.pageSize = current.itemsPerPage; useUserPage('') }"
+      class="elevation-1"
+    >
+      <template v-slot:item.avatar="{ item }">
+        <v-avatar color="primary" size="x-small">
+          <v-img
+            :src="item.columns.avatar"
+            alt="头像"
+          ></v-img>
+        </v-avatar>
+      </template>
+      <template v-slot:item.actions="{ item }">
+        <v-icon
+          cursor-pointer
+          size="small"
+          @click="router.push({ path: `/admin/user/detail/${item.raw.id}` })"
+        >
+          mdi-clipboard-account
+        </v-icon>
+        <v-icon
+          cursor-pointer
+          size="small"
+          @click="router.push({ path: `/admin/user/edit/${item.raw.id}` })"
+        >
+          mdi-pencil
+        </v-icon>
+        <v-icon
+          cursor-pointer
+          size="small"
+          @click="defaultUser = item.raw; dialogDelete = true"
+        >
+          mdi-delete
+        </v-icon>
+      </template>
+    </v-data-table-server>
+    <v-dialog
+      v-model="dialogDelete"
+      width="auto"
+    >
+      <v-card>
+        <v-card-text>
+          确定要删除吗？
+        </v-card-text>
+        <v-card-actions>
+          <v-btn color="primary" block @click="handleUserDelete">确定</v-btn>
+        </v-card-actions>
+        <v-card-actions>
+          <v-btn color="primary" block @click="dialogDelete = false">取消</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+  </div>
 </template>
 
 <style scoped>

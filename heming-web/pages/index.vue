@@ -2,7 +2,8 @@
 const router = useRouter()
 
 definePageMeta({
-  layout: 'layout',
+  layout: 'default',
+  pageTransition: false,
 })
 </script>
 

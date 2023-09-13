@@ -56,34 +56,36 @@ definePageMeta({
 </script>
 
 <template>
-  <v-data-table-server
+  <div>
+    <v-data-table-server
       overflow-y-auto
-    fixed-header
-    height="650px"
-    :headers="headers"
-    :items="dataList"
-    :items-length="pageInfo.total"
-    :loading="loading"
-    items-per-page-text="选择"
-    :items-per-page-options="pageOptions"
-    @update:options="(current) => { pageInfo.pageNum = current.page; pageInfo.pageSize = current.itemsPerPage; useDictPage() }"
-    class="elevation-1"
-  >
-    <template v-slot:item.actions="{ item }">
-      <v-icon
-        cursor-pointer
-        size="small"
-      >
-        mdi-pencil
-      </v-icon>
-      <v-icon
-        cursor-pointer
-        size="small"
-      >
-        mdi-delete
-      </v-icon>
-    </template>
-  </v-data-table-server>
+      fixed-header
+      height="650px"
+      :headers="headers"
+      :items="dataList"
+      :items-length="pageInfo.total"
+      :loading="loading"
+      items-per-page-text="选择"
+      :items-per-page-options="pageOptions"
+      @update:options="(current) => { pageInfo.pageNum = current.page; pageInfo.pageSize = current.itemsPerPage; useDictPage() }"
+      class="elevation-1"
+    >
+      <template v-slot:item.actions="{ item }">
+        <v-icon
+          cursor-pointer
+          size="small"
+        >
+          mdi-pencil
+        </v-icon>
+        <v-icon
+          cursor-pointer
+          size="small"
+        >
+          mdi-delete
+        </v-icon>
+      </template>
+    </v-data-table-server>
+  </div>
 </template>
 
 <style scoped>

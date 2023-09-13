@@ -54,4 +54,19 @@
             word_id =#{wordId}
     </select>
 
+    <select id="selectWordIdByUserIdAndBookId" resultType="java.lang.Long">
+        SELECT
+            word_id
+        FROM
+            enstudy_user_wrong_word
+        WHERE
+            del = 1
+        AND
+            user_id = #{userId}
+        AND
+            book_id = #{bookId}
+        ORDER BY update_time, create_time
+        LIMIT 1
+    </select>
+
 </mapper>

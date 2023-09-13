@@ -3,6 +3,7 @@ const router = useRouter()
 
 definePageMeta({
   layout: 'layout',
+  pageTransition: false,
 })
 </script>
 

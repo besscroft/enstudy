@@ -40,6 +40,12 @@ public class BookController {
         return CommonResult.success(bookService.getWord());
     }
 
+    @GetMapping("/getWorkWord")
+    @Operation(summary = "获取错题本单个单词")
+    public CommonResult<Book> getWorkWord() {
+        return CommonResult.success(bookService.getWorkWord());
+    }
+
     @GetMapping("/getWordList")
     @Operation(summary = "获取单词列表")
     public CommonResult<List<Book>> getWordList() {
@@ -50,6 +56,13 @@ public class BookController {
     @Operation(summary = "单词反馈接口")
     public CommonResult<Void> actions(@RequestBody @Valid ActionsParam param) {
         bookService.actions(param);
+        return CommonResult.success(MessageConstants.SUCCESS);
+    }
+
+    @PostMapping("/failActions")
+    @Operation(summary = "错题本单词反馈接口")
+    public CommonResult<Void> failActions(@RequestBody @Valid ActionsParam param) {
+        bookService.failActions(param);
         return CommonResult.success(MessageConstants.SUCCESS);
     }
 

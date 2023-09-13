@@ -203,7 +203,6 @@ definePageMeta({
       </VRow>
     </VForm>
   </div>
-
 </template>
 
 <style scoped>

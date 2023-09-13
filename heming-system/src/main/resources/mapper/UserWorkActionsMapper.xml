@@ -50,8 +50,7 @@
             user_id = #{userId}
         AND
             book_id = #{bookId}
-        AND
-            state = 0
+        ORDER BY state, update_time
         LIMIT 1
     </select>
 

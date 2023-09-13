@@ -5,7 +5,9 @@ definePageMeta({
 </script>
 
 <template>
-  反馈管理
+  <div>
+    反馈管理
+  </div>
 </template>
 
 <style scoped>
