@@ -1,8 +1,18 @@
-## 嗯学英语
+<h2 align="center">嗯学英语</h2>
 
+<p align="center">
 学英语，就嗯学！
+</p>
+<p align="center">
+  <img src="https://img.shields.io/badge/%E5%BC%80%E5%8F%91%E8%BF%9B%E5%BA%A6-%E5%BC%80%E5%8F%91%E4%B8%AD-brightgreen?style=flat-square" alt="开发进度">
+  <a href="https://github.com/besscroft/enstudy/blob/master/LICENSE"><img src="https://img.shields.io/github/license/besscroft/enstudy?style=flat-square" alt="许可证"></a>
+  <img src="https://img.shields.io/github/repo-size/besscroft/enstudy?style=flat-square&color=328657" alt="存储库大小">
+</p>
 
-[![](https://img.shields.io/badge/%E5%BC%80%E5%8F%91%E8%BF%9B%E5%BA%A6-%E5%BC%80%E5%8F%91%E4%B8%AD-brightgreen?style=flat-square)]() [![](https://img.shields.io/github/license/besscroft/enstudy?style=flat-square)](https://github.com/besscroft/enstudy/blob/master/LICENSE) ![GitHub repo size](https://img.shields.io/github/repo-size/besscroft/enstudy?style=flat-square&color=328657)
+
+<p align="center">
+  <img width="360" src="./doc/image/enstudy.png">
+</p>
 
 ### 代码贡献
 
