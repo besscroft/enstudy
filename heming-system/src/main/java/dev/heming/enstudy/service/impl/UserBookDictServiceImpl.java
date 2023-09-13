@@ -94,6 +94,8 @@ public class UserBookDictServiceImpl extends ServiceImpl<UserBookDictMapper, Use
                 this.updateById(dict);
             }
         }
+        redisTemplate.delete(CacheConstants.USER_BOOK_DICT + userId);
+        redisTemplate.delete(CacheConstants.USER_WRONG_WORK + userId);
     }
 
     @Override
