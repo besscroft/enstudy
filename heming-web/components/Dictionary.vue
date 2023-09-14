@@ -16,7 +16,7 @@ const getUserDict = async () => {
   const json = await nuxtApp.$api.get('/@api/dict/getUserDict').json();
   if (json.code === 200) {
     userDict.value = json.data
-    progress.value = userDict.bookSize === 0 ? 0 : (userDict.studied / userDict.bookSize * 100).toFixed(2)
+    progress.value = json.data.bookSize === 0 ? 0 : (json.data.studied / json.data.bookSize * 100).toFixed(2)
   } else {
     console.log(json.message)
   }
