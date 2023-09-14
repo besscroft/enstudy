@@ -112,7 +112,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
     @CacheEvict(value = {
             CacheConstants.CONSOLE_INFO
     }, allEntries = true)
@@ -153,6 +152,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             CacheConstants.USER,
             CacheConstants.USER_INFO
     }, allEntries = true)
+    @Transactional(rollbackFor = Exception.class)
     public void updateStatus(Long id, Integer status) {
         User user = this.baseMapper.selectById(id);
         Assert.notNull(user, "用户不存在！");

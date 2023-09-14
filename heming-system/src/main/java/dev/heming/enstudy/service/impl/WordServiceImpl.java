@@ -3,8 +3,11 @@ package dev.heming.enstudy.service.impl;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.pagehelper.PageHelper;
 import dev.heming.enstudy.common.constant.CacheConstants;
+import dev.heming.enstudy.common.converter.WordConverterMapper;
 import dev.heming.enstudy.common.entity.Book;
 import dev.heming.enstudy.common.entity.Word;
+import dev.heming.enstudy.common.param.word.WordAddParam;
+import dev.heming.enstudy.common.param.word.WordUpdateParam;
 import dev.heming.enstudy.common.vo.console.ConsoleVo;
 import dev.heming.enstudy.mapper.BookDictMapper;
 import dev.heming.enstudy.mapper.UserMapper;
@@ -17,6 +20,7 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import java.util.List;
@@ -76,6 +80,30 @@ public class WordServiceImpl extends ServiceImpl<WordMapper, Word> implements Wo
                         .and("headWord").is(word.getHeadWord())
         );
         return mongoTemplate.findOne(query, Book.class);
+    }
+
+    @Override
+    public void addWord(WordAddParam param) {
+        Word word = WordConverterMapper.INSTANCE.AddParamToWord(param);
+        // TODO mongo 新增数据
+        Assert.isTrue(this.baseMapper.insert(word) > 0, "新增单词失败！");
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void updateWord(WordUpdateParam param) {
+        Word oldWord = this.baseMapper.selectById(param.getId());
+        Assert.notNull(oldWord, "未找到要更新的数据！");
+        Word word = WordConverterMapper.INSTANCE.UpdateParamToWord(param);
+        // TODO 更新 mongo 数据
+        Assert.isTrue(this.baseMapper.updateById(word) > 0, "更新单词失败！");
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void deleteWord(Long wordId) {
+        // TODO 删除 mongo 数据
+        Assert.isTrue(this.baseMapper.deleteById(wordId) > 0, "词典单词失败！");
     }
 
 }

@@ -25,9 +25,9 @@ public class BookDict extends BaseEntity {
     @Schema(title = "id", type = "Long")
     private Long id;
 
-    /** 词典id */
+    /** 词典 id */
     @TableField(value = "book_id")
-    @Schema(title = "词典id", type = "String")
+    @Schema(title = "词典 id", type = "String")
     private String bookId;
 
     /** 词典名称 */

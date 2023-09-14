@@ -3,6 +3,8 @@ package dev.heming.enstudy.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import dev.heming.enstudy.common.entity.Book;
 import dev.heming.enstudy.common.entity.Word;
+import dev.heming.enstudy.common.param.word.WordAddParam;
+import dev.heming.enstudy.common.param.word.WordUpdateParam;
 import dev.heming.enstudy.common.vo.console.ConsoleVo;
 
 import java.util.List;
@@ -42,5 +44,23 @@ public interface WordService extends IService<Word> {
      * @return 单词数据
      */
     Book getWordByWordIdAndBookId(Long wordId, String bookId);
+
+    /**
+     * 新增单词
+     * @param param 新增参数
+     */
+    void addWord(WordAddParam param);
+
+    /**
+     * 更新单词
+     * @param param 更新参数
+     */
+    void updateWord(WordUpdateParam param);
+
+    /**
+     * 删除单词
+     * @param wordId 单词 id
+     */
+    void deleteWord(Long wordId);
 
 }
