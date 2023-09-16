@@ -49,9 +49,10 @@ spring:
       connection-test-query: select 1
   # 缓存
   cache:
-    type: CAFFEINE
-    caffeine:
-      spec: maximumSize=500,initialCapacity=100,expireAfterAccess=600s
+    type: REDIS
+    redis:
+      timeToLive: 68400000
+      cacheNullValues: true
 
 # MyBatis配置
 mybatis:

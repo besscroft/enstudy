@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import dev.heming.enstudy.common.constant.CacheConstants;
 import dev.heming.enstudy.common.constant.SystemConstants;
-import dev.heming.enstudy.common.converter.UserBookDictConverterMapper;
+import dev.heming.enstudy.common.converter.UserBookDictConverter;
 import dev.heming.enstudy.common.entity.BookDict;
 import dev.heming.enstudy.common.entity.UserBookDict;
 import dev.heming.enstudy.common.entity.UserWorkActions;
@@ -50,6 +50,7 @@ public class UserBookDictServiceImpl extends ServiceImpl<UserBookDictMapper, Use
     private final UserWrongWordMapper userWrongWordMapper;
     private final UserWorkActionsMapper userWorkActionsMapper;
     private final RedisTemplate<String, Object> redisTemplate;
+    private final UserBookDictConverter userBookDictConverter;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -117,7 +118,7 @@ public class UserBookDictServiceImpl extends ServiceImpl<UserBookDictMapper, Use
                     if (ObjectUtils.isEmpty(userBookDict)) {
                         return new UserBookDictVo();
                     }
-                    UserBookDictVo vo = UserBookDictConverterMapper.INSTANCE.UserBookDictToVo(userBookDict);
+                    UserBookDictVo vo = userBookDictConverter.UserBookDictToVo(userBookDict);
                     BookDict bookDict = bookDictMapper.selectByBookId(userBookDict.getBookId());
                     vo.setBookSize(bookDict.getBookSize());
                     redisTemplate.opsForValue().set(CacheConstants.USER_BOOK_DICT + userId, vo, 24, TimeUnit.HOURS);

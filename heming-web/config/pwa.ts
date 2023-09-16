@@ -14,7 +14,7 @@ export const pwa: ModuleOptions = {
     name: appName,
     short_name: appName,
     description: appDescription,
-    theme_color: '#ffffff',
+    theme_color: '#38bdf8',
     icons: [
       {
         src: 'pwa-192x192.png',
@@ -73,7 +73,7 @@ export const pwa: ModuleOptions = {
   registerWebManifestInRouteRules: true,
   writePlugin: true,
   devOptions: {
-    enabled: process.env.VITE_PLUGIN_PWA === 'true',
+    enabled: true,
     navigateFallback: scope,
   },
 }

@@ -31,4 +31,7 @@ public interface CacheConstants {
     /** 获取用户今日记录 */
     String TODAY = "today:userId:";
 
+    /** 单词详情 */
+    String BOOK_WORD = "bookDict:#{bookId}:word:#{wordId}";
+
 }
