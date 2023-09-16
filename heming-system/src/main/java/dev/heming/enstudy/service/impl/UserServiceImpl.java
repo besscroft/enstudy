@@ -1,6 +1,5 @@
 package dev.heming.enstudy.service.impl;
 
-import cn.dev33.satoken.exception.NotRoleException;
 import cn.dev33.satoken.secure.SaSecureUtil;
 import cn.dev33.satoken.stp.SaTokenInfo;
 import cn.dev33.satoken.stp.StpUtil;
@@ -9,13 +8,14 @@ import com.github.pagehelper.PageHelper;
 import dev.heming.enstudy.common.constant.CacheConstants;
 import dev.heming.enstudy.common.constant.RoleConstants;
 import dev.heming.enstudy.common.constant.SystemConstants;
-import dev.heming.enstudy.common.converter.UserConverterMapper;
+import dev.heming.enstudy.common.converter.UserConverter;
 import dev.heming.enstudy.common.entity.User;
 import dev.heming.enstudy.common.exception.HeMingFileException;
 import dev.heming.enstudy.common.param.user.UserAddParam;
 import dev.heming.enstudy.common.param.user.UserUpdateParam;
 import dev.heming.enstudy.mapper.UserMapper;
 import dev.heming.enstudy.service.UserService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -37,7 +37,10 @@ import java.util.Objects;
  */
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
+
+    private final UserConverter userConverter;
 
     @Override
     public SaTokenInfo login(String username, String password) {
@@ -116,7 +119,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             CacheConstants.CONSOLE_INFO
     }, allEntries = true)
     public void addUser(UserAddParam param) {
-        User user = UserConverterMapper.INSTANCE.AddParamToUser(param);
+        User user = userConverter.AddParamToUser(param);
         if (Objects.equals(user.getRole(), RoleConstants.PLATFORM_SUPER_ADMIN)) {
             throw new HeMingFileException("违反规则！超级管理员角色不允许被添加！");
         }
@@ -132,7 +135,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             CacheConstants.USER_INFO
     }, allEntries = true)
     public void updateUser(UserUpdateParam param) {
-        User user = UserConverterMapper.INSTANCE.UpdateParamToUser(param);
+        User user = userConverter.UpdateParamToUser(param);
         User oldUser = this.baseMapper.selectById(user.getId());
         // 如果原来不是超级管理员，现在是超级管理员，或者原来是超级管理员，现在不是超级管理员，抛出异常
         if ((!Objects.equals(oldUser.getRole(), RoleConstants.PLATFORM_SUPER_ADMIN) && Objects.equals(user.getRole(), RoleConstants.PLATFORM_SUPER_ADMIN))
