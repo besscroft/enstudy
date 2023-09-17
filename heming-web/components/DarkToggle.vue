@@ -21,10 +21,9 @@ function toggleDark() {
 
 <template>
   <v-no-ssr>
-    <button v-if="router.currentRoute.value.path === '/'" class="!outline-none" @click="toggleDark">
+    <button v-if="router.currentRoute.value.path === '/'" class="!outline-none" @click="toggleDark" title="切换主题">
       <div class="i-carbon-sun dark:i-carbon-moon" />
     </button>
-    <v-btn v-else class="!outline-none" @click="toggleDark" icon="mdi-theme-light-dark">
-    </v-btn>
+    <v-btn v-else class="!outline-none" @click="toggleDark" icon="mdi-theme-light-dark"  title="切换主题" />
   </v-no-ssr>
 </template>
