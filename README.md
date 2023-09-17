@@ -1,4 +1,7 @@
-<h2 align="center">嗯学英语</h2>
+<h1 align="center">
+<img width="28" src="./doc/image/maskable-icon.png">
+嗯学英语
+</h1>
 
 <p align="center">
 学英语，就嗯学！
