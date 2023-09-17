@@ -26,6 +26,7 @@ onMounted(async () => {
 
 <template>
   <v-card
+    variant="flat"
     mx-auto w-full
     prepend-icon="mdi-file-document-alert-outline"
   >

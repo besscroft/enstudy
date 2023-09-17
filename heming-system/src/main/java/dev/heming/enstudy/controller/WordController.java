@@ -9,6 +9,7 @@ import dev.heming.enstudy.common.param.word.WordAddParam;
 import dev.heming.enstudy.common.param.word.WordUpdateParam;
 import dev.heming.enstudy.common.result.CommonResult;
 import dev.heming.enstudy.common.utils.CommonPage;
+import dev.heming.enstudy.common.vo.word.WordInfoVo;
 import dev.heming.enstudy.service.WordService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -91,6 +92,20 @@ public class WordController {
     public CommonResult<Void> delete(@PathVariable(name = "wordId") Long wordId) {
         wordService.deleteWord(wordId);
         return CommonResult.success(MessageConstants.DELETE_SUCCESS);
+    }
+
+    @Operation(summary = "单词详情接口")
+//    @SaCheckRole(
+//            value = {
+//                    RoleConstants.PLATFORM_SUPER_ADMIN,
+//                    RoleConstants.PLATFORM_ADMIN,
+//                    RoleConstants.PLATFORM_SELF_PROVISIONER
+//            },
+//            mode = SaMode.OR
+//    )
+    @GetMapping("/get/{wordId:[\\d]+}")
+    public CommonResult<WordInfoVo> getWordById(@PathVariable(name = "wordId") Long wordId) {
+        return CommonResult.success(wordService.getWordById(wordId));
     }
 
 }

@@ -161,7 +161,3 @@ definePageMeta({
     <audio id="usAudio" v-show="false" controls :src="`https://dict.youdao.com/dictvoice?audio=${wordInfo.headWord}&type=2`" />
   </div>
 </template>
-
-<style scoped>
-
-</style>

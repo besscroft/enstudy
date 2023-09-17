@@ -106,6 +106,7 @@ definePageMeta({
       </template>
       <template v-slot:item.actions="{ item }">
         <v-icon
+          title="详情"
           cursor-pointer
           size="small"
           @click="router.push({ path: `/admin/user/detail/${item.raw.id}` })"
@@ -113,6 +114,7 @@ definePageMeta({
           mdi-clipboard-account
         </v-icon>
         <v-icon
+          title="编辑"
           cursor-pointer
           size="small"
           @click="router.push({ path: `/admin/user/edit/${item.raw.id}` })"
@@ -120,6 +122,7 @@ definePageMeta({
           mdi-pencil
         </v-icon>
         <v-icon
+          title="删除"
           cursor-pointer
           size="small"
           @click="defaultUser = item.raw; dialogDelete = true"
@@ -137,16 +140,12 @@ definePageMeta({
           确定要删除吗？
         </v-card-text>
         <v-card-actions>
-          <v-btn color="primary" block @click="handleUserDelete">确定</v-btn>
+          <v-btn title="确定" color="primary" block @click="handleUserDelete">确定</v-btn>
         </v-card-actions>
         <v-card-actions>
-          <v-btn color="primary" block @click="dialogDelete = false">取消</v-btn>
+          <v-btn title="取消" color="primary" block @click="dialogDelete = false">取消</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
   </div>
 </template>
-
-<style scoped>
-
-</style>

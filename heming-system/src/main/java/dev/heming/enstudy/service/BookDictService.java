@@ -40,4 +40,11 @@ public interface BookDictService extends IService<BookDict> {
      */
     void deleteDict(Long dictId);
 
+    /**
+     * 获取词典信息
+     * @param dictId 词典 id
+     * @return 词典信息
+     */
+    BookDict getDictById(Long dictId);
+
 }

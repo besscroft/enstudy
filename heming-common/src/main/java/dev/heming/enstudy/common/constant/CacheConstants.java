@@ -34,4 +34,10 @@ public interface CacheConstants {
     /** 单词详情 */
     String BOOK_WORD = "bookDict:#{bookId}:word:#{wordId}";
 
+    /** 词典信息 */
+    String BOOK_INFO = "book:info:bookId:";
+
+    /** 单词信息 */
+    String WORD_INFO = "word:info:wordId:";
+
 }

@@ -49,7 +49,7 @@ const submitHandler = async () => {
   loading.value = false
 }
 
-onMounted(async () => {
+onBeforeMount(async () => {
   const id = Number(router.currentRoute.value.params.id)
   const json = await nuxtApp.$api.get(`/@api/user/getUser/${id}`).json();
   if (json.code === 200) {
@@ -204,7 +204,3 @@ definePageMeta({
     </VForm>
   </div>
 </template>
-
-<style scoped>
-
-</style>

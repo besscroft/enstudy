@@ -16,7 +16,7 @@ import lombok.Data;
 public class WordAddParam {
 
     /** 单词数据 */
-    @Schema(title = "单词数据", type = "String", requiredMode = Schema.RequiredMode.REQUIRED)
+    @Schema(title = "单词数据", type = "dev.heming.enstudy.common.entity.Book", requiredMode = Schema.RequiredMode.REQUIRED)
     @NotNull(message = "单词数据不能为空！")
     private Book wordJson;
 

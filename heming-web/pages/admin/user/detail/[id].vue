@@ -27,6 +27,9 @@ definePageMeta({
 <template>
   <div>
     <VCard title="用户信息">
+      <template v-slot:prepend>
+        <v-btn density="compact" icon="mdi-arrow-left" title="返回" @click="router.push('/admin/user')"></v-btn>
+      </template>
       <VCardText class="d-flex">
         <!-- 👉 Avatar -->
         <VAvatar
@@ -113,7 +116,3 @@ definePageMeta({
     </VCard>
   </div>
 </template>
-
-<style scoped>
-
-</style>

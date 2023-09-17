@@ -6,6 +6,7 @@ import dev.heming.enstudy.common.entity.Word;
 import dev.heming.enstudy.common.param.word.WordAddParam;
 import dev.heming.enstudy.common.param.word.WordUpdateParam;
 import dev.heming.enstudy.common.vo.console.ConsoleVo;
+import dev.heming.enstudy.common.vo.word.WordInfoVo;
 
 import java.util.List;
 
@@ -62,5 +63,12 @@ public interface WordService extends IService<Word> {
      * @param wordId 单词 id
      */
     void deleteWord(Long wordId);
+
+    /**
+     * 获取单词详情
+     * @param wordId 单词 id
+     * @return 单词详情
+     */
+    WordInfoVo getWordById(Long wordId);
 
 }
