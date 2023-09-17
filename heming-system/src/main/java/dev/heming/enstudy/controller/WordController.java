@@ -95,14 +95,14 @@ public class WordController {
     }
 
     @Operation(summary = "单词详情接口")
-//    @SaCheckRole(
-//            value = {
-//                    RoleConstants.PLATFORM_SUPER_ADMIN,
-//                    RoleConstants.PLATFORM_ADMIN,
-//                    RoleConstants.PLATFORM_SELF_PROVISIONER
-//            },
-//            mode = SaMode.OR
-//    )
+    @SaCheckRole(
+            value = {
+                    RoleConstants.PLATFORM_SUPER_ADMIN,
+                    RoleConstants.PLATFORM_ADMIN,
+                    RoleConstants.PLATFORM_SELF_PROVISIONER
+            },
+            mode = SaMode.OR
+    )
     @GetMapping("/get/{wordId:[\\d]+}")
     public CommonResult<WordInfoVo> getWordById(@PathVariable(name = "wordId") Long wordId) {
         return CommonResult.success(wordService.getWordById(wordId));
