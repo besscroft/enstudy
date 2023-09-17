@@ -69,6 +69,7 @@ onUnmounted(() => {
 
 <template>
   <v-card
+    variant="flat"
     mx-auto w-full
     prepend-icon="mdi-alphabetical"
   >

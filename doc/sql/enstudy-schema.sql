@@ -1,5 +1,5 @@
 /*
- Date: 12/09/2023 13:45:39
+ Date: 17/09/2023 20:13:47
 */
 
 SET NAMES utf8mb4;
@@ -11,7 +11,7 @@ SET FOREIGN_KEY_CHECKS = 0;
 DROP TABLE IF EXISTS `enstudy_book_dict`;
 CREATE TABLE `enstudy_book_dict`  (
   `id` bigint NOT NULL AUTO_INCREMENT,
-  `book_id` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '词典id',
+  `book_id` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '词典 id',
   `book_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '词典名称',
   `book_size` int NULL DEFAULT NULL COMMENT '词典词数',
   `creator` bigint NULL DEFAULT NULL COMMENT '创建者',
@@ -20,8 +20,9 @@ CREATE TABLE `enstudy_book_dict`  (
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
   `status` tinyint NOT NULL DEFAULT 0 COMMENT '词典启用状态：0->禁用；1->启用',
   `del` tinyint NOT NULL DEFAULT 1 COMMENT '逻辑删除：0->删除状态；1->可用状态',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 82 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '词库表' ROW_FORMAT = Dynamic;
+  PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE INDEX `uk_book_id`(`book_id`, `del`) USING HASH COMMENT '词典 id 唯一索引'
+) ENGINE = InnoDB AUTO_INCREMENT = 84 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '词库表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for enstudy_user
@@ -64,7 +65,8 @@ CREATE TABLE `enstudy_user_book_dict`  (
   `create_time` datetime NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
   `del` tinyint NOT NULL DEFAULT 1 COMMENT '逻辑删除：0->删除状态；1->可用状态',
-  PRIMARY KEY (`id`) USING BTREE
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `idx_user_id`(`user_id` ASC, `del` ASC) USING BTREE COMMENT '用户 id 索引'
 ) ENGINE = InnoDB AUTO_INCREMENT = 100 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '用户活动词库表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -82,7 +84,10 @@ CREATE TABLE `enstudy_user_work_actions`  (
   `create_time` datetime NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
   `del` tinyint NOT NULL DEFAULT 1 COMMENT '逻辑删除：0->删除状态；1->可用状态',
-  PRIMARY KEY (`id`) USING BTREE
+  PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE INDEX `idx_user_id_and_book_id_and_word_id`(`user_id` ASC, `book_id` ASC, `word_id` ASC, `del` ASC) USING BTREE COMMENT '用户 id 和词典 id 和单词 id 索引',
+  INDEX `idx_user_id_and_book_id`(`user_id` ASC, `book_id` ASC, `del` ASC) USING BTREE COMMENT '用户 id 和词典 id 索引',
+  INDEX `idx_update_time`(`update_time` ASC) USING BTREE COMMENT '更新时间索引'
 ) ENGINE = InnoDB AUTO_INCREMENT = 182245 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '用户学习行为表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -100,8 +105,10 @@ CREATE TABLE `enstudy_user_wrong_word`  (
   `create_time` datetime NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
   `del` tinyint NOT NULL DEFAULT 1 COMMENT '逻辑删除：0->删除状态；1->可用状态',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 19 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '用户错题本' ROW_FORMAT = Dynamic;
+  PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE INDEX `idx_user_id_and_book_id_and_word_id`(`user_id` ASC, `book_id` ASC, `word_id` ASC, `del` ASC) USING BTREE COMMENT '用户 id 和词典 id 和单词 id 索引',
+  INDEX `idx_user_id_and_book_id`(`user_id` ASC, `book_id` ASC, `del` ASC) USING BTREE COMMENT '用户 id 和词典 id 索引'
+) ENGINE = InnoDB AUTO_INCREMENT = 32 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '用户错题本' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for enstudy_word
@@ -109,7 +116,7 @@ CREATE TABLE `enstudy_user_wrong_word`  (
 DROP TABLE IF EXISTS `enstudy_word`;
 CREATE TABLE `enstudy_word`  (
   `id` bigint NOT NULL AUTO_INCREMENT,
-  `word_json_id` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '单词数据id',
+  `word_json_id` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '单词数据 id',
   `word_rank` int NOT NULL COMMENT '单词序号',
   `head_word` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '单词',
   `book_id` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '词典 id',
@@ -118,7 +125,9 @@ CREATE TABLE `enstudy_word`  (
   `create_time` datetime NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
   `del` tinyint NOT NULL DEFAULT 1 COMMENT '逻辑删除：0->删除状态；1->可用状态',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 153010 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '单词表' ROW_FORMAT = Dynamic;
+  PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE INDEX `uk_word_json_id`(`word_json_id`, `del`) USING HASH COMMENT '单词数据 id 索引',
+  INDEX `idx_book_id`(`book_id` ASC, `del` ASC) USING BTREE COMMENT '词典 id 索引'
+) ENGINE = InnoDB AUTO_INCREMENT = 153018 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '单词表' ROW_FORMAT = Dynamic;
 
 SET FOREIGN_KEY_CHECKS = 1;

@@ -22,7 +22,7 @@ const handleChoiceLoading = (val: boolean) => {
         <Work />
       </div>
       <div sm:hidden p2>
-        <v-card>
+        <v-card variant="flat">
           <v-tabs
             v-model="tab"
             color="deep-purple-accent-4"

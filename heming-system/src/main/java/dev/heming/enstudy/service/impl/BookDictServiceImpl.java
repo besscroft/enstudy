@@ -2,6 +2,7 @@ package dev.heming.enstudy.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.pagehelper.PageHelper;
+import dev.heming.enstudy.common.constant.CacheConstants;
 import dev.heming.enstudy.common.converter.BookDictConverter;
 import dev.heming.enstudy.common.entity.BookDict;
 import dev.heming.enstudy.common.param.dict.BookDictAddParam;
@@ -9,6 +10,7 @@ import dev.heming.enstudy.common.param.dict.BookDictUpdateParam;
 import dev.heming.enstudy.mapper.BookDictMapper;
 import dev.heming.enstudy.service.BookDictService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -51,6 +53,12 @@ public class BookDictServiceImpl extends ServiceImpl<BookDictMapper, BookDict> i
     @Transactional(rollbackFor = Exception.class)
     public void deleteDict(Long dictId) {
         Assert.isTrue(this.baseMapper.deleteById(dictId) > 0, "词典删除失败！");
+    }
+
+    @Override
+    @Cacheable(value = CacheConstants.BOOK_INFO, key = "#dictId", unless = "#result == null")
+    public BookDict getDictById(Long dictId) {
+        return this.baseMapper.selectById(dictId);
     }
 
 }

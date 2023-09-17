@@ -93,4 +93,18 @@ public class BookDictController {
         return CommonResult.success(MessageConstants.DELETE_SUCCESS);
     }
 
+    @Operation(summary = "词典详情接口")
+    @SaCheckRole(
+            value = {
+                    RoleConstants.PLATFORM_SUPER_ADMIN,
+                    RoleConstants.PLATFORM_ADMIN,
+                    RoleConstants.PLATFORM_SELF_PROVISIONER
+            },
+            mode = SaMode.OR
+    )
+    @GetMapping("/get/{dictId:[\\d]+}")
+    public CommonResult<BookDict> getDictById(@PathVariable(name = "dictId") Long dictId) {
+        return CommonResult.success(bookDictService.getDictById(dictId));
+    }
+
 }

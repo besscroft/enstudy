@@ -6,7 +6,9 @@ const nuxtApp = useNuxtApp()
 const loading = ref<boolean>(false)
 const toast = useToast()
 
-const addDictRuleForm = reactive<Dict.AddDictRequestData>({
+const updateDictRuleForm = reactive<Dict.UpdateDictRequestData>({
+  /** id */
+  id: undefined,
   /** 词典 id */
   bookId: undefined,
   /** 词典名称 */
@@ -18,8 +20,8 @@ const addDictRuleForm = reactive<Dict.AddDictRequestData>({
 const submitHandler = async () => {
   loading.value = true
   try {
-    const json = await nuxtApp.$api.post('/@api/bookDict/addDict', {
-      json: addDictRuleForm,
+    const json = await nuxtApp.$api.put('/@api/bookDict/updateDict', {
+      json: updateDictRuleForm,
     }).json();
     if (json.code === 200) {
       toast.add({ title: '更新成功!', timeout: 1000, ui: { width: 'w-full sm:w-96' }})
@@ -33,6 +35,19 @@ const submitHandler = async () => {
   }
   loading.value = false
 }
+
+onBeforeMount(async () => {
+  const id = Number(router.currentRoute.value.params.id)
+  const json = await nuxtApp.$api.get(`/@api/bookDict/get/${id}`).json();
+  if (json.code === 200) {
+    updateDictRuleForm.id = json.data.id
+    updateDictRuleForm.bookId = json.data.bookId
+    updateDictRuleForm.bookName = json.data.bookName
+    updateDictRuleForm.bookSize = json.data.bookSize
+  } else {
+    console.log(json.message)
+  }
+})
 
 definePageMeta({
   layout: 'admin',
@@ -51,11 +66,11 @@ definePageMeta({
 
             <VCol cols="12" md="9">
               <VTextField
-              id="firstNameHorizontalIcons"
-              v-model="addDictRuleForm.bookId"
-              prepend-inner-icon="mdi-identifier"
-              placeholder="词典 id"
-              persistent-placeholder
+                id="firstNameHorizontalIcons"
+                v-model="updateDictRuleForm.bookId"
+                prepend-inner-icon="mdi-identifier"
+                placeholder="词典 id"
+                persistent-placeholder
               />
             </VCol>
           </VRow>
@@ -70,7 +85,7 @@ definePageMeta({
             <VCol cols="12" md="9">
               <VTextField
                 id="emailHorizontalIcons"
-                v-model="addDictRuleForm.bookName"
+                v-model="updateDictRuleForm.bookName"
                 prepend-inner-icon="mdi-form-textbox"
                 placeholder="词典名称"
                 persistent-placeholder
@@ -88,7 +103,7 @@ definePageMeta({
             <VCol cols="12" md="9">
               <VTextField
                 id="mobileHorizontalIcons"
-                v-model="addDictRuleForm.bookSize"
+                v-model="updateDictRuleForm.bookSize"
                 prepend-inner-icon="mdi-counter"
                 placeholder="词典词数"
                 persistent-placeholder

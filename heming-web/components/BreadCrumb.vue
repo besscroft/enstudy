@@ -22,16 +22,58 @@ const handleRouterChange = async (uri: any) => {
       title: '用户管理',
     })
   }
+  if (uri.startsWith('/admin/user/detail')) {
+    routes.value.push({
+      href: '/admin/user/detail',
+      title: '用户详情',
+    })
+  }
+  if (uri.startsWith('/admin/user/edit')) {
+    routes.value.push({
+      href: '/admin/user/edit',
+      title: '用户编辑',
+    })
+  }
   if (uri === '/admin/dict') {
     routes.value.push({
       href: '/admin/dict',
       title: '词典管理',
     })
   }
+  if (uri === '/admin/dict/add') {
+    routes.value.push({
+      href: '/admin/dict/add',
+      title: '词典新增',
+    })
+  }
+  if (uri.startsWith('/admin/dict/edit')) {
+    routes.value.push({
+      href: '/admin/dict/edit',
+      title: '词典编辑',
+    })
+  }
   if (uri === '/admin/word') {
     routes.value.push({
       href: '/admin/word',
       title: '单词维护',
+    })
+  }
+  if (uri === '/admin/word/add') {
+    routes.value.push({
+      href: '/admin/word/add',
+      title: '单词新增',
+    })
+  }
+  if (uri.startsWith('/admin/word/edit')) {
+    routes.value.push({
+      href: '/admin/word/edit',
+      title: '单词编辑',
+    })
+  }
+  if (uri.startsWith('/admin/word/detail')) {
+    routes.value.push({
+      href: '/admin/word/detail',
+      title: '单词详情',
     })
   }
   if (uri === '/admin/feedback') {

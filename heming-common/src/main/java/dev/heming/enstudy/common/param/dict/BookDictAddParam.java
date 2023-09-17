@@ -15,7 +15,7 @@ import lombok.Data;
 public class BookDictAddParam {
 
     /** 词典 id */
-    @Schema(title = "词典id", type = "String", requiredMode = Schema.RequiredMode.REQUIRED)
+    @Schema(title = "词典 id", type = "String", requiredMode = Schema.RequiredMode.REQUIRED)
     @NotBlank(message = "词典 id 不能为空！")
     private String bookId;
 
@@ -26,7 +26,7 @@ public class BookDictAddParam {
 
     /** 词典词数 */
     @Schema(title = "词典词数", type = "Integer", requiredMode = Schema.RequiredMode.REQUIRED)
-    @NotNull(message = "词典次数不能为空！")
+    @NotNull(message = "词典词数不能为空！")
     private Integer bookSize;
 
 }

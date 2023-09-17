@@ -11,12 +11,14 @@ import dev.heming.enstudy.common.entity.Word;
 import dev.heming.enstudy.common.param.word.WordAddParam;
 import dev.heming.enstudy.common.param.word.WordUpdateParam;
 import dev.heming.enstudy.common.vo.console.ConsoleVo;
+import dev.heming.enstudy.common.vo.word.WordInfoVo;
 import dev.heming.enstudy.mapper.BookDictMapper;
 import dev.heming.enstudy.mapper.UserMapper;
 import dev.heming.enstudy.mapper.WordMapper;
 import dev.heming.enstudy.service.WordService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -143,6 +145,25 @@ public class WordServiceImpl extends ServiceImpl<WordMapper, Word> implements Wo
         );
         DeleteResult deleteResult = mongoTemplate.remove(query, Book.class);
         Assert.isTrue(deleteResult.getDeletedCount() > 0 && this.baseMapper.deleteById(wordId) > 0, "删除失败！");
+    }
+
+    @Override
+    @Cacheable(value = CacheConstants.WORD_INFO, key = "#wordId", unless = "#result == null")
+    public WordInfoVo getWordById(Long wordId) {
+        Word word = this.baseMapper.selectById(wordId);
+        Assert.notNull(word, "单词数据不存在！");
+        Query query = new Query(
+                Criteria
+                        .where("bookId").is(word.getBookId())
+                        .and("wordRank").is(word.getWordRank())
+                        .and("headWord").is(word.getHeadWord())
+        );
+        Book book = mongoTemplate.findOne(query, Book.class);
+        Assert.notNull(book, "单词数据不存在！");
+        WordInfoVo vo = new WordInfoVo();
+        BeanUtils.copyProperties(word, vo);
+        vo.setWordJson(book);
+        return vo;
     }
 
 }

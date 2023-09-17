@@ -84,6 +84,7 @@ definePageMeta({
   <div p-2>
     <v-no-ssr>
       <v-card
+        variant="flat"
         :loading="loading"
         mx-auto w-full sm:w-160
       >
@@ -152,7 +153,3 @@ definePageMeta({
   <audio id="ukAudio" v-show="false" controls :src="`https://dict.youdao.com/dictvoice?audio=${wordInfo.headWord}&type=1`" />
   <audio id="usAudio" v-show="false" controls :src="`https://dict.youdao.com/dictvoice?audio=${wordInfo.headWord}&type=2`" />
 </template>
-
-<style scoped>
-
-</style>
