@@ -129,6 +129,7 @@ public class BookServiceImpl implements BookService {
                 wrongWord.setFailCount(wrongWord.getFailCount() + 1);
                 userWrongWordMapper.updateById(wrongWord);
             }
+            redisTemplate.delete(CacheConstants.CONSOLE_INFO);
         }
         workActions.setUpdateTime(LocalDateTime.now());
         userWorkActionsMapper.updateById(workActions);
@@ -146,6 +147,7 @@ public class BookServiceImpl implements BookService {
         UserWrongWord wrongWord = userWrongWordMapper.selectByUserIdAndBookIdAndWordId(userId, param.getBookId(), word.getId());
         if (Objects.equals(param.getState(), 0)) {
             wrongWord.setFailCount(wrongWord.getFailCount() + 1);
+            redisTemplate.delete(CacheConstants.CONSOLE_INFO);
         }
         wrongWord.setUpdateTime(LocalDateTime.now());
         userWrongWordMapper.updateById(wrongWord);
