@@ -1,5 +1,17 @@
 /*
- Date: 17/09/2023 20:13:47
+ Navicat Premium Data Transfer
+
+ Source Server         : localmysql
+ Source Server Type    : MySQL
+ Source Server Version : 100614 (10.6.14-MariaDB-1:10.6.14+maria~ubu2004)
+ Source Host           : localhost:3306
+ Source Schema         : enstudy
+
+ Target Server Type    : MySQL
+ Target Server Version : 100614 (10.6.14-MariaDB-1:10.6.14+maria~ubu2004)
+ File Encoding         : 65001
+
+ Date: 20/09/2023 15:28:13
 */
 
 SET NAMES utf8mb4;
@@ -13,7 +25,7 @@ CREATE TABLE `enstudy_book_dict`  (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `book_id` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '词典 id',
   `book_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '词典名称',
-  `book_size` int NULL DEFAULT NULL COMMENT '词典词数',
+  `book_size` int NOT NULL DEFAULT 0 COMMENT '词典词数',
   `creator` bigint NULL DEFAULT NULL COMMENT '创建者',
   `updater` bigint NULL DEFAULT NULL COMMENT '更新者',
   `create_time` datetime NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '创建时间',
@@ -21,7 +33,7 @@ CREATE TABLE `enstudy_book_dict`  (
   `status` tinyint NOT NULL DEFAULT 0 COMMENT '词典启用状态：0->禁用；1->启用',
   `del` tinyint NOT NULL DEFAULT 1 COMMENT '逻辑删除：0->删除状态；1->可用状态',
   PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE INDEX `uk_book_id`(`book_id`, `del`) USING HASH COMMENT '词典 id 唯一索引'
+  UNIQUE INDEX `uk_book_id`(`book_id` ASC, `del` ASC) USING BTREE COMMENT '词典 id 唯一索引'
 ) ENGINE = InnoDB AUTO_INCREMENT = 84 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '词库表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -58,7 +70,7 @@ CREATE TABLE `enstudy_user_book_dict`  (
   `user_id` bigint NOT NULL COMMENT '用户 id',
   `book_id` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '词典 id',
   `book_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '词典名称',
-  `studied` int NULL DEFAULT NULL COMMENT '已学词数',
+  `studied` int NOT NULL DEFAULT 0 COMMENT '已学词数',
   `action` tinyint NOT NULL DEFAULT 0 COMMENT '用户使用状态：0->停用状态；1->使用状态',
   `creator` bigint NULL DEFAULT NULL COMMENT '创建者',
   `updater` bigint NULL DEFAULT NULL COMMENT '更新者',
@@ -78,7 +90,7 @@ CREATE TABLE `enstudy_user_work_actions`  (
   `word_id` bigint NOT NULL COMMENT '单词 id',
   `user_id` bigint NOT NULL COMMENT '用户 id',
   `book_id` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '词典 id',
-  `state` tinyint NULL DEFAULT 0 COMMENT '学习状态：0->未学；1->已学',
+  `state` tinyint NOT NULL DEFAULT 0 COMMENT '学习状态：0->未学；1->已学',
   `creator` bigint NULL DEFAULT NULL COMMENT '创建者',
   `updater` bigint NULL DEFAULT NULL COMMENT '更新者',
   `create_time` datetime NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '创建时间',
@@ -99,7 +111,7 @@ CREATE TABLE `enstudy_user_wrong_word`  (
   `word_id` bigint NOT NULL COMMENT '单词 id',
   `user_id` bigint NOT NULL COMMENT '用户 id',
   `book_id` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '词典 id',
-  `fail_count` int NULL DEFAULT 0 COMMENT '错误次数',
+  `fail_count` int NOT NULL DEFAULT 0 COMMENT '错误次数',
   `creator` bigint NULL DEFAULT NULL COMMENT '创建者',
   `updater` bigint NULL DEFAULT NULL COMMENT '更新者',
   `create_time` datetime NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '创建时间',
@@ -108,7 +120,7 @@ CREATE TABLE `enstudy_user_wrong_word`  (
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `idx_user_id_and_book_id_and_word_id`(`user_id` ASC, `book_id` ASC, `word_id` ASC, `del` ASC) USING BTREE COMMENT '用户 id 和词典 id 和单词 id 索引',
   INDEX `idx_user_id_and_book_id`(`user_id` ASC, `book_id` ASC, `del` ASC) USING BTREE COMMENT '用户 id 和词典 id 索引'
-) ENGINE = InnoDB AUTO_INCREMENT = 32 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '用户错题本' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 35 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '用户错题本' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for enstudy_word
