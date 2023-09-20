@@ -1,6 +1,7 @@
 <script setup lang="ts">
-const nuxtApp = useNuxtApp()
+import { VSkeletonLoader } from 'vuetify/labs/VSkeletonLoader'
 
+const nuxtApp = useNuxtApp()
 const wordInfo = ref({})
 const loading = ref(false)
 const phrases = ref([])
@@ -83,71 +84,76 @@ definePageMeta({
 <template>
   <div p-2>
     <v-no-ssr>
-      <v-card
+      <v-skeleton-loader
+        mx-auto w-full sm:w-160
+        :loading="loading"
+        type="table-heading, list-item-two-line, button, button"
+      >
+        <v-card
         variant="flat"
         :loading="loading"
-        mx-auto w-full sm:w-160
-      >
-        <template v-slot:title>
-          <div space-x-2>
-            {{ wordInfo.headWord }}
-            <UBadge color="black" cursor-pointer @click="handleAudio(2)"><span dark:text-black>美[{{ wordInfo.content?.word?.content?.usphone || '' }}]</span></UBadge>
-            <UBadge cursor-pointer @click="handleAudio(1)"><span dark:text-black>英[{{ wordInfo.content?.word?.content?.ukphone  || '' }}]</span></UBadge>
-          </div>
-        </template>
+        >
+          <template v-slot:title>
+            <div space-x-2>
+              {{ wordInfo.headWord }}
+              <UBadge color="black" cursor-pointer @click="handleAudio(2)"><span dark:text-black>美[{{ wordInfo.content?.word?.content?.usphone || '' }}]</span></UBadge>
+              <UBadge cursor-pointer @click="handleAudio(1)"><span dark:text-black>英[{{ wordInfo.content?.word?.content?.ukphone  || '' }}]</span></UBadge>
+            </div>
+          </template>
 
-        <v-card-text>
-          <v-list lines="one">
-            <v-list-item
-              v-for="item in wordInfo.content?.word?.content?.trans"
-              :key="item"
-              :title="item.pos + '. ' + item.tranCn"
-              :subtitle="item.tranOther"
-            ></v-list-item>
-          </v-list>
-        </v-card-text>
+          <v-card-text>
+            <v-list lines="one">
+              <v-list-item
+                v-for="item in wordInfo.content?.word?.content?.trans"
+                :key="item"
+                :title="item.pos + '. ' + item.tranCn"
+                :subtitle="item.tranOther"
+              ></v-list-item>
+            </v-list>
+          </v-card-text>
 
-        <v-card-actions>
-          <v-btn
-            color="green-accent-3"
-            variant="text"
-            @click="handleActions(1)"
-          >
-            学会了
-          </v-btn>
-          <v-btn
-            color="deep-orange-accent-3"
-            variant="text"
-            @click="handleActions(0)"
-          >
-            不认识
-          </v-btn>
+          <v-card-actions>
+            <v-btn
+              color="green-accent-3"
+              variant="text"
+              @click="handleActions(1)"
+            >
+              学会了
+            </v-btn>
+            <v-btn
+              color="deep-orange-accent-3"
+              variant="text"
+              @click="handleActions(0)"
+            >
+              不认识
+            </v-btn>
 
-          <v-spacer></v-spacer>
+            <v-spacer></v-spacer>
 
-          <v-btn>
-            反馈(开发中)
-          </v-btn>
-        </v-card-actions>
-        <div>
-          <v-list lines="one" v-show="Array.isArray(phrases) && phrases.length > 0">
-            <v-list-item
-              v-for="item in phrases.slice(0, 3)"
-              :key="item"
-              :title="item.pContent + ' ' + item.pCn"
-            ></v-list-item>
-          </v-list>
-          <v-spacer v-show="Array.isArray(exam) && exam.length > 0"></v-spacer>
-          <div v-show="Array.isArray(exam) && exam.length > 0" px-4 py-2 space-y-2>
-            <div v-for="item in exam" :key="item">
-              <UAlert
-                :description="item.question"
-                :avatar="{ src: 'https://besscroft.com/uploads/avatar.jpeg' }"
-              />
+            <v-btn>
+              反馈(开发中)
+            </v-btn>
+          </v-card-actions>
+          <div>
+            <v-list lines="one" v-show="Array.isArray(phrases) && phrases.length > 0">
+              <v-list-item
+                v-for="item in phrases.slice(0, 3)"
+                :key="item"
+                :title="item.pContent + ' ' + item.pCn"
+              ></v-list-item>
+            </v-list>
+            <v-spacer v-show="Array.isArray(exam) && exam.length > 0"></v-spacer>
+            <div v-show="Array.isArray(exam) && exam.length > 0" px-4 py-2 space-y-2>
+              <div v-for="item in exam" :key="item">
+                <UAlert
+                  :description="item.question"
+                  :avatar="{ src: 'https://besscroft.com/uploads/avatar.jpeg' }"
+                />
+              </div>
             </div>
           </div>
-        </div>
-      </v-card>
+        </v-card>
+      </v-skeleton-loader>
     </v-no-ssr>
   </div>
   <audio id="ukAudio" v-show="false" controls :src="`https://dict.youdao.com/dictvoice?audio=${wordInfo.headWord}&type=1`" />

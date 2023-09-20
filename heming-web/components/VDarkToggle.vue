@@ -19,7 +19,7 @@ function toggleDark() {
 </script>
 
 <template>
-  <button class="!outline-none" @click="toggleDark" title="切换主题">
-    <div class="i-carbon-sun dark:i-carbon-moon" />
-  </button>
+  <v-no-ssr>
+    <v-btn class="!outline-none" @click="toggleDark" icon="mdi-theme-light-dark"  title="切换主题" />
+  </v-no-ssr>
 </template>
