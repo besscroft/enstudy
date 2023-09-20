@@ -4,7 +4,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 /**
- * @Description
+ * @Description 控制台统计返回参数
  * @Author Bess Croft
  * @Date 2023/9/5 14:33
  */
@@ -20,5 +20,8 @@ public class ConsoleVo {
 
     @Schema(title = "用户", type = "Integer")
     private Integer userCount;
+
+    @Schema(title = "错题总数", type = "Long")
+    private Long wrongCount;
 
 }

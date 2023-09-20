@@ -35,30 +35,46 @@ definePageMeta({
       </div>
 
       <div class="mt-8 sm:mt-12">
-        <dl class="grid grid-cols-1 gap-4 sm:grid-cols-3">
-          <div class="flex flex-col rounded-lg border border-gray-100 px-4 py-8 text-center">
-            <dt class="order-last text-lg font-ark text-gray-500">
-              单词总数
-            </dt>
+        <dl class="grid grid-cols-1 gap-4 sm:grid-cols-4 sm:gap-8">
+          <v-card prepend-icon="mdi-alphabetical" h-36>
+            <template v-slot:title>
+              <span font-ark>单词总数</span>
+            </template>
 
-            <dd class="text-4xl font-ark text-blue-600 md:text-5xl">{{ consoleInfo.wordCount || 0 }}</dd>
-          </div>
+            <v-card-text>
+              <span font-ark text-3xl>{{ consoleInfo.wordCount || 0 }}</span>
+            </v-card-text>
+          </v-card>
 
-          <div class="flex flex-col rounded-lg border border-gray-100 px-4 py-8 text-center">
-            <dt class="order-last text-lg font-ark text-gray-500">
-              词典总数
-            </dt>
+          <v-card prepend-icon="mdi-book-open-page-variant" h-36>
+            <template v-slot:title>
+              <span font-ark>词典总数</span>
+            </template>
 
-            <dd class="text-4xl font-ark text-blue-600 md:text-5xl">{{ consoleInfo.dictCount || 0 }}</dd>
-          </div>
+            <v-card-text>
+              <span font-ark text-3xl>{{ consoleInfo.dictCount || 0 }}</span>
+            </v-card-text>
+          </v-card>
 
-          <div class="flex flex-col rounded-lg border border-gray-100 px-4 py-8 text-center">
-            <dt class="order-last text-lg font-ark text-gray-500">
-              用户总数
-            </dt>
+          <v-card prepend-icon="mdi-account-group" h-36>
+            <template v-slot:title>
+              <span font-ark>用户总数</span>
+            </template>
 
-            <dd class="text-4xl font-ark text-blue-600 md:text-5xl">{{ consoleInfo.userCount || 0 }}</dd>
-          </div>
+            <v-card-text>
+              <span font-ark text-3xl>{{ consoleInfo.userCount || 0 }}</span>
+            </v-card-text>
+          </v-card>
+
+          <v-card prepend-icon="mdi-square-rounded-badge-outline" h-36>
+            <template v-slot:title>
+              <span font-ark>错题总数</span>
+            </template>
+
+            <v-card-text>
+              <span font-ark text-3xl>{{ consoleInfo.wrongCount || 0 }}</span>
+            </v-card-text>
+          </v-card>
         </dl>
       </div>
     </div>

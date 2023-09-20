@@ -6,16 +6,38 @@ const breakpoints = useBreakpoints(breakpointsTailwind)
 const smAndLarger = breakpoints.greaterOrEqual('sm')
 const choiceLoading = ref<boolean>(false)
 const tab = ref(null)
+const banner = ref<boolean>(true)
 
 const handleChoiceLoading = (val: boolean) => {
   choiceLoading.value = val
 }
+
+onBeforeMount(() => {
+  if (Math.random() > 0.3) {
+    banner.value = false
+  }
+})
 </script>
 
 <template>
   <v-app>
     <div v-if="router.currentRoute.value.path === '/learn'">
       <Header />
+      <v-banner v-if="banner" lines="one" icon="mdi-github">
+        <template v-slot:text>
+          您的 Star 对我们很重要！
+        </template>
+
+        <template v-slot:actions>
+          <a href="https://github.com/besscroft/enstudy" target="_blank">
+            <v-btn>去 Star</v-btn>
+          </a>
+
+          <v-btn @click="banner = false">
+            关闭
+          </v-btn>
+        </template>
+      </v-banner>
       <div v-if="smAndLarger" p2 grid sm:px16 md:px20 lg:24 grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8>
         <Today />
         <Dictionary :choiceLoading="choiceLoading" @handleChoiceLoading="handleChoiceLoading" />

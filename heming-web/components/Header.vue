@@ -18,7 +18,7 @@ const user = useUserStore()
         icon="mdi-view-dashboard"
         @click="router.push('/admin')"
       />
-      <DarkToggle />
+      <VDarkToggle />
     </v-toolbar>
   </v-toolbar>
 </template>

@@ -16,7 +16,7 @@ const drawer = ref(null)
         <a font-ark cursor-pointer href="https://github.com/besscroft/enstudy" target="_blank">嗯学英语</a>
       </v-app-bar-title>
 
-      <DarkToggle mr-4 />
+      <VDarkToggle mr-4 />
     </v-app-bar>
 
     <v-main>

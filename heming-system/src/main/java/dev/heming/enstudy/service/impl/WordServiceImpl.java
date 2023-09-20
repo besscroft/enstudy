@@ -1,5 +1,6 @@
 package dev.heming.enstudy.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.pagehelper.PageHelper;
 import com.mongodb.client.result.DeleteResult;
@@ -14,6 +15,7 @@ import dev.heming.enstudy.common.vo.console.ConsoleVo;
 import dev.heming.enstudy.common.vo.word.WordInfoVo;
 import dev.heming.enstudy.mapper.BookDictMapper;
 import dev.heming.enstudy.mapper.UserMapper;
+import dev.heming.enstudy.mapper.UserWrongWordMapper;
 import dev.heming.enstudy.mapper.WordMapper;
 import dev.heming.enstudy.service.WordService;
 import lombok.RequiredArgsConstructor;
@@ -50,6 +52,7 @@ public class WordServiceImpl extends ServiceImpl<WordMapper, Word> implements Wo
     private final BookDictMapper bookDictMapper;
     private final RedisTemplate<String, Object> redisTemplate;
     private final WordConverter wordConverter;
+    private final UserWrongWordMapper  userWrongWordMapper;
 
     @Override
     @Cacheable(value = CacheConstants.WORD_LIST, key = "#bookId", unless = "#result == null")
@@ -72,6 +75,7 @@ public class WordServiceImpl extends ServiceImpl<WordMapper, Word> implements Wo
                             consoleVo.setDictCount(bookDictMapper.selectDictCount());
                             consoleVo.setWordCount(this.baseMapper.selectWordCount());
                             consoleVo.setUserCount(userMapper.selectUserCount());
+                            consoleVo.setWrongCount(userWrongWordMapper.selectCount(new QueryWrapper<>()));
                             redisTemplate.opsForValue().set(CacheConstants.CONSOLE_INFO, consoleVo, 24, TimeUnit.HOURS);
                             return consoleVo;
                         }

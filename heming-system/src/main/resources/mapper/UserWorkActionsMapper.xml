@@ -26,8 +26,7 @@
             del = 1
         AND
             user_id = #{userId}
-        AND
-            DATE(update_time) = DATE(NOW())
+        <![CDATA[ AND update_time >= CURDATE() AND update_time < CURDATE() + INTERVAL 1 DAY ]]>
     </select>
 
     <select id="selectByUserIdAndBookId" resultMap="userWorkActionsMap">
