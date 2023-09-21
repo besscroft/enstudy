@@ -1,17 +1,6 @@
 /*
- Navicat Premium Data Transfer
-
- Source Server         : localmysql
- Source Server Type    : MySQL
- Source Server Version : 100614 (10.6.14-MariaDB-1:10.6.14+maria~ubu2004)
- Source Host           : localhost:3306
- Source Schema         : enstudy
-
- Target Server Type    : MySQL
- Target Server Version : 100614 (10.6.14-MariaDB-1:10.6.14+maria~ubu2004)
- File Encoding         : 65001
-
- Date: 20/09/2023 15:28:13
+ 数据库表结构
+ Date: 21/09/2023 17:28:27
 */
 
 SET NAMES utf8mb4;
@@ -120,7 +109,7 @@ CREATE TABLE `enstudy_user_wrong_word`  (
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `idx_user_id_and_book_id_and_word_id`(`user_id` ASC, `book_id` ASC, `word_id` ASC, `del` ASC) USING BTREE COMMENT '用户 id 和词典 id 和单词 id 索引',
   INDEX `idx_user_id_and_book_id`(`user_id` ASC, `book_id` ASC, `del` ASC) USING BTREE COMMENT '用户 id 和词典 id 索引'
-) ENGINE = InnoDB AUTO_INCREMENT = 35 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '用户错题本' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 36 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '用户错题本' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for enstudy_word
