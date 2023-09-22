@@ -17,18 +17,15 @@ import dev.heming.enstudy.mapper.UserMapper;
 import dev.heming.enstudy.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @Description 用户 Service 实现类
@@ -41,6 +38,7 @@ import java.util.Objects;
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
 
     private final UserConverter userConverter;
+    private final RedisTemplate<String, Object> redisTemplate;
 
     @Override
     public SaTokenInfo login(String username, String password) {
@@ -65,25 +63,31 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Override
     public Map<String, Object> info() {
         long userId = StpUtil.getLoginIdAsLong();
-        User user = getUserById(userId);
-        Assert.notNull(user, "暂未登录！");
-        Map<String, Object> map = new HashMap<>(4);
-        map.put("userName", user.getName());
-        map.put("avatar", user.getAvatar());
-        map.put("role", user.getRole());
-        map.put("email", user.getEmail());
-        return map;
+        return (Map<String, Object>) Optional.ofNullable(redisTemplate.opsForValue().get(CacheConstants.USER_INFO_ID + userId))
+                .orElseGet(() -> {
+                    User user = getUserById(userId);
+                    Assert.notNull(user, "暂未登录！");
+                    Map<String, Object> map = Map.of(
+                            "userName", Optional.ofNullable(user.getName()).orElse(""),
+                            "avatar", Optional.ofNullable(user.getAvatar()).orElse(""),
+                            "role", Optional.ofNullable(user.getRole()).orElse(""),
+                            "email", Optional.ofNullable(user.getEmail()).orElse("")
+                    );
+                    return map;
+                });
     }
 
     @Override
-    @Cacheable(value = CacheConstants.USER, key = "#userId", unless = "#result == null")
     public User getUserById(Long userId) {
-        log.info("查询用户信息：{}", userId);
-        long currentUserId = StpUtil.getLoginIdAsLong();
-        if (!Objects.equals(userId, currentUserId)) {
-            StpUtil.checkRoleOr(RoleConstants.PLATFORM_SUPER_ADMIN, RoleConstants.PLATFORM_ADMIN);
-        }
-        return this.baseMapper.selectById(userId);
+        return (User) Optional.ofNullable(redisTemplate.opsForValue().get(CacheConstants.USER_ID + userId)).orElseGet(() -> {
+            long currentUserId = StpUtil.getLoginIdAsLong();
+            if (!Objects.equals(userId, currentUserId)) {
+                StpUtil.checkRoleOr(RoleConstants.PLATFORM_SUPER_ADMIN, RoleConstants.PLATFORM_ADMIN);
+            }
+            User user = this.baseMapper.selectById(userId);
+            redisTemplate.opsForValue().set(CacheConstants.USER_ID + userId, user, 24, TimeUnit.HOURS);
+            return user;
+        });
     }
 
     @Override
@@ -94,11 +98,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    @CacheEvict(value = {
-            CacheConstants.USER,
-            CacheConstants.CONSOLE_INFO,
-            CacheConstants.USER_INFO
-    }, allEntries = true)
     public void deleteUser(Long userId) {
         User user = getUserById(userId);
         Assert.notNull(user, "用户不存在！");
@@ -106,18 +105,22 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             throw new HeMingFileException("超级管理员不允许被删除！");
         }
         Assert.isTrue(this.baseMapper.deleteById(userId) > 0, "用户删除失败！");
+        redisTemplate.delete(CacheConstants.USER_NAME + user.getUsername());
+        redisTemplate.delete(CacheConstants.USER_INFO_ID + userId);
+        redisTemplate.delete(CacheConstants.USER_ID + userId);
+        redisTemplate.delete(CacheConstants.CONSOLE_INFO);
     }
 
     @Override
-    @Cacheable(value = CacheConstants.USER_INFO, key = "#username", unless = "#result == null")
     public User getUser(String username) {
-        return this.baseMapper.selectByUsername(username);
+        return (User) Optional.ofNullable(redisTemplate.opsForValue().get(CacheConstants.USER_NAME + username)).orElseGet(() -> {
+            User user = this.baseMapper.selectByUsername(username);
+            redisTemplate.opsForValue().set(CacheConstants.USER_NAME + username, user, 24, TimeUnit.HOURS);
+            return user;
+        });
     }
 
     @Override
-    @CacheEvict(value = {
-            CacheConstants.CONSOLE_INFO
-    }, allEntries = true)
     public void addUser(UserAddParam param) {
         User user = userConverter.AddParamToUser(param);
         if (Objects.equals(user.getRole(), RoleConstants.PLATFORM_SUPER_ADMIN)) {
@@ -126,14 +129,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         user.setStatus(SystemConstants.STATUS_NO);
         user.setPassword(SaSecureUtil.sha256(param.getPassword().trim()));
         Assert.isTrue(this.baseMapper.insert(user) > 0, "新增用户失败！");
+        redisTemplate.delete(CacheConstants.CONSOLE_INFO);
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    @CacheEvict(value = {
-            CacheConstants.USER,
-            CacheConstants.USER_INFO
-    }, allEntries = true)
     public void updateUser(UserUpdateParam param) {
         User user = userConverter.UpdateParamToUser(param);
         User oldUser = this.baseMapper.selectById(user.getId());
@@ -148,13 +148,12 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             throw new HeMingFileException("违反规则！更新用户失败！");
         }
         Assert.isTrue(this.baseMapper.updateById(user) > 0, "更新用户失败！");
+        redisTemplate.delete(CacheConstants.USER_NAME + user.getUsername());
+        redisTemplate.delete(CacheConstants.USER_INFO_ID + user.getId());
+        redisTemplate.delete(CacheConstants.USER_ID + user.getId());
     }
 
     @Override
-    @CacheEvict(value = {
-            CacheConstants.USER,
-            CacheConstants.USER_INFO
-    }, allEntries = true)
     @Transactional(rollbackFor = Exception.class)
     public void updateStatus(Long id, Integer status) {
         User user = this.baseMapper.selectById(id);
@@ -164,15 +163,14 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         }
         user.setStatus(status);
         Assert.isTrue(this.baseMapper.updateById(user) > 0, "更新用户状态失败！");
+        redisTemplate.delete(CacheConstants.USER_NAME + user.getUsername());
+        redisTemplate.delete(CacheConstants.USER_INFO_ID + user.getId());
+        redisTemplate.delete(CacheConstants.USER_ID + user.getId());
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    @CacheEvict(value = {
-            CacheConstants.USER,
-            CacheConstants.USER_INFO
-    }, allEntries = true)
-    public void updatePassword(Long userId, Boolean isSelf,String oldPassword, String newPassword) {
+    public void updatePassword(Long userId, Boolean isSelf, String oldPassword, String newPassword) {
         if (Boolean.TRUE.equals(isSelf)) {
             // 如果是自己要修改密码，那么就从上下文中获取用户 id
             userId = StpUtil.getLoginIdAsLong();
@@ -186,11 +184,12 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     }
 
     @Override
-    @CacheEvict(value = {
-            CacheConstants.USER,
-            CacheConstants.USER_INFO
-    }, allEntries = true)
     public void logout() {
+        long userId = StpUtil.getLoginIdAsLong();
+        User user = getUserById(userId);
+        redisTemplate.delete(CacheConstants.USER_NAME + user.getUsername());
+        redisTemplate.delete(CacheConstants.USER_INFO_ID + userId);
+        redisTemplate.delete(CacheConstants.USER_ID + userId);
         StpUtil.logout();
     }
 

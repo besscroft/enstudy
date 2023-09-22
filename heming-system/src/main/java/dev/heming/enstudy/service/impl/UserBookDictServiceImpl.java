@@ -68,7 +68,7 @@ public class UserBookDictServiceImpl extends ServiceImpl<UserBookDictMapper, Use
             userBookDict.setStudied(0);
             userBookDict.setAction(SystemConstants.STATUS_OK);
             this.save(userBookDict);
-            // TODO 异步生成学习汇总数据
+            // 生成学习汇总数据
             userActionsHandler(bookDict.getBookId());
         } else {
             // 有数据
@@ -86,9 +86,15 @@ public class UserBookDictServiceImpl extends ServiceImpl<UserBookDictMapper, Use
                 userBookDict.setStudied(0);
                 userBookDict.setAction(SystemConstants.STATUS_OK);
                 this.save(userBookDict);
-                // TODO 异步生成学习汇总数据
+                // 生成学习汇总数据
                 userActionsHandler(bookDict.getBookId());
             } else {
+                // 查询是否已生成学习数据
+                Integer exist = userWorkActionsMapper.selectActionsDataExistByUserIdAndBookId(userId, bookDict.getBookId());
+                if (Objects.isNull(exist)) {
+                    // 生成学习汇总数据
+                    userActionsHandler(bookDict.getBookId());
+                }
                 // 更新
                 UserBookDict dict = bookDictOp.get();
                 dict.setAction(SystemConstants.STATUS_OK);
@@ -166,9 +172,10 @@ public class UserBookDictServiceImpl extends ServiceImpl<UserBookDictMapper, Use
         List<Word> wordList = wordService.getWordListByBookId(bookId);
         if (!CollectionUtils.isEmpty(wordList)) {
             List<UserWorkActions> actionsList = new ArrayList<>();
+            long userId = StpUtil.getLoginIdAsLong();
             for (Word word: wordList) {
                 UserWorkActions actions = new UserWorkActions();
-                actions.setUserId(StpUtil.getLoginIdAsLong());
+                actions.setUserId(userId);
                 actions.setBookId(bookId);
                 actions.setWordId(word.getId());
                 actionsList.add(actions);

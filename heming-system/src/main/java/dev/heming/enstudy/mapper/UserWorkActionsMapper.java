@@ -49,4 +49,13 @@ public interface UserWorkActionsMapper extends BaseMapper<UserWorkActions> {
                                                      @Param("bookId") String bookId,
                                                      @Param("wordId") Long wordId);
 
+    /**
+     * 查询用户当前词典是否有学习数据
+     * @param userId 用户 id
+     * @param bookId 词典 id
+     * @return 学习数据是否存在 null->不存在 1->存在
+     */
+    Integer selectActionsDataExistByUserIdAndBookId(@Param("userId") Long userId,
+                                                    @Param("bookId") String bookId);
+
 }

@@ -8,10 +8,13 @@ package dev.heming.enstudy.common.constant;
 public interface CacheConstants {
 
     /** 用户信息 */
-    String USER = "user:userId:";
+    String USER_ID = "user:userId:";
 
     /** 用户信息 */
-    String USER_INFO = "user:username:";
+    String USER_NAME = "user:username:";
+
+    /** 用户登录信息 */
+    String USER_INFO_ID = "user:info:userId:";
 
     /** 单词列表信息 */
     String WORD_LIST = "word:bookId:";
