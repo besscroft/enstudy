@@ -100,4 +100,17 @@
             word_id =#{wordId}
     </select>
 
+    <select id="selectActionsDataExistByUserIdAndBookId" resultType="java.lang.Integer">
+        SELECT
+            1
+        FROM
+            enstudy_user_work_actions
+        WHERE
+            del = 1
+        AND
+            user_id = #{userId}
+        AND
+            book_id = #{bookId}
+    </select>
+
 </mapper>
