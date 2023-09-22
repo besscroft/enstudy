@@ -10,12 +10,14 @@ import dev.heming.enstudy.common.param.dict.BookDictUpdateParam;
 import dev.heming.enstudy.mapper.BookDictMapper;
 import dev.heming.enstudy.service.BookDictService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @Description 词典服务实现类
@@ -27,6 +29,7 @@ import java.util.List;
 public class BookDictServiceImpl extends ServiceImpl<BookDictMapper, BookDict> implements BookDictService {
 
     private final BookDictConverter bookDictConverter;
+    private final RedisTemplate<String, Object> redisTemplate;
 
     @Override
     public List<BookDict> bookDictPage(Integer pageNum, Integer pageSize) {
@@ -47,18 +50,23 @@ public class BookDictServiceImpl extends ServiceImpl<BookDictMapper, BookDict> i
         Assert.notNull(oldBookDict, "未找到要更新的数据！");
         BookDict bookDict = bookDictConverter.UpdateParamToBookDict(param);
         Assert.isTrue(this.baseMapper.updateById(bookDict) > 0, "更新词典失败！");
+        redisTemplate.delete(CacheConstants.BOOK_INFO + bookDict.getId());
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void deleteDict(Long dictId) {
         Assert.isTrue(this.baseMapper.deleteById(dictId) > 0, "词典删除失败！");
+        redisTemplate.delete(CacheConstants.BOOK_INFO + dictId);
     }
 
     @Override
-    @Cacheable(value = CacheConstants.BOOK_INFO, key = "#dictId", unless = "#result == null")
     public BookDict getDictById(Long dictId) {
-        return this.baseMapper.selectById(dictId);
+        return (BookDict) Optional.ofNullable(redisTemplate.opsForValue().get(CacheConstants.BOOK_INFO + dictId)).orElseGet(() -> {
+            BookDict bookDict = this.baseMapper.selectById(dictId);
+            redisTemplate.opsForValue().set(CacheConstants.BOOK_INFO + dictId, bookDict, 24, TimeUnit.HOURS);
+            return bookDict;
+        });
     }
 
 }

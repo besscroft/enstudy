@@ -21,8 +21,6 @@ import dev.heming.enstudy.service.WordService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -55,9 +53,12 @@ public class WordServiceImpl extends ServiceImpl<WordMapper, Word> implements Wo
     private final UserWrongWordMapper  userWrongWordMapper;
 
     @Override
-    @Cacheable(value = CacheConstants.WORD_LIST, key = "#bookId", unless = "#result == null")
     public List<Word> getWordListByBookId(String bookId) {
-        return this.baseMapper.selectAllByBookId(bookId);
+        return (List<Word>) Optional.ofNullable(redisTemplate.opsForValue().get(CacheConstants.WORD_LIST + bookId)).orElseGet(() -> {
+            List<Word> wordList = this.baseMapper.selectAllByBookId(bookId);
+            redisTemplate.opsForValue().set(CacheConstants.WORD_LIST + bookId, wordList, 24, TimeUnit.HOURS);
+            return wordList;
+        });
     }
 
     @Override
@@ -103,15 +104,13 @@ public class WordServiceImpl extends ServiceImpl<WordMapper, Word> implements Wo
     }
 
     @Override
-    @CacheEvict(value = {
-            CacheConstants.CONSOLE_INFO
-    }, allEntries = true)
     public void addWord(WordAddParam param) {
         Word word = wordConverter.AddParamToWord(param);
         Book book = mongoTemplate.insert(param.getWordJson());
         Assert.notNull(book.getId(), "新增单词失败！");
         word.setWordJsonId(book.getId());
         Assert.isTrue(this.baseMapper.insert(word) > 0, "新增单词失败！");
+        redisTemplate.delete(CacheConstants.CONSOLE_INFO);
     }
 
     @Override
@@ -135,6 +134,10 @@ public class WordServiceImpl extends ServiceImpl<WordMapper, Word> implements Wo
                 .set("bookId", word.getBookId());
         UpdateResult updateResult = mongoTemplate.updateFirst(query, update, Book.class);
         Assert.isTrue(updateResult.getModifiedCount() > 0 && this.baseMapper.updateById(word) > 0, "更新单词失败！");
+        redisTemplate.delete(CacheConstants.WORD_INFO + word.getId());
+        String key = StringUtils.replace(CacheConstants.BOOK_WORD, "#{bookId}", book.getId())
+                .replace("#{wordId}", word.getId().toString());
+        redisTemplate.delete(CacheConstants.BOOK_WORD + key);
     }
 
     @Override
@@ -149,25 +152,31 @@ public class WordServiceImpl extends ServiceImpl<WordMapper, Word> implements Wo
         );
         DeleteResult deleteResult = mongoTemplate.remove(query, Book.class);
         Assert.isTrue(deleteResult.getDeletedCount() > 0 && this.baseMapper.deleteById(wordId) > 0, "删除失败！");
+        redisTemplate.delete(CacheConstants.WORD_INFO + wordId);
+        String key = StringUtils.replace(CacheConstants.BOOK_WORD, "#{bookId}", word.getBookId())
+                .replace("#{wordId}", word.getId().toString());
+        redisTemplate.delete(CacheConstants.BOOK_WORD + key);
     }
 
     @Override
-    @Cacheable(value = CacheConstants.WORD_INFO, key = "#wordId", unless = "#result == null")
     public WordInfoVo getWordById(Long wordId) {
-        Word word = this.baseMapper.selectById(wordId);
-        Assert.notNull(word, "单词数据不存在！");
-        Query query = new Query(
-                Criteria
-                        .where("bookId").is(word.getBookId())
-                        .and("wordRank").is(word.getWordRank())
-                        .and("headWord").is(word.getHeadWord())
-        );
-        Book book = mongoTemplate.findOne(query, Book.class);
-        Assert.notNull(book, "单词数据不存在！");
-        WordInfoVo vo = new WordInfoVo();
-        BeanUtils.copyProperties(word, vo);
-        vo.setWordJson(book);
-        return vo;
+        return (WordInfoVo) Optional.ofNullable(redisTemplate.opsForValue().get(CacheConstants.WORD_INFO + wordId)).orElseGet(() -> {
+            Word word = this.baseMapper.selectById(wordId);
+            Assert.notNull(word, "单词数据不存在！");
+            Query query = new Query(
+                    Criteria
+                            .where("bookId").is(word.getBookId())
+                            .and("wordRank").is(word.getWordRank())
+                            .and("headWord").is(word.getHeadWord())
+            );
+            Book book = mongoTemplate.findOne(query, Book.class);
+            Assert.notNull(book, "单词数据不存在！");
+            WordInfoVo vo = new WordInfoVo();
+            BeanUtils.copyProperties(word, vo);
+            vo.setWordJson(book);
+            redisTemplate.opsForValue().set(CacheConstants.WORD_INFO + wordId, vo, 24, TimeUnit.HOURS);
+            return vo;
+        });
     }
 
 }

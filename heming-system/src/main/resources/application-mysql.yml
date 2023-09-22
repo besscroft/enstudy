@@ -47,12 +47,6 @@ spring:
       connection-timeout: 5000
       # 检测连接是否有效
       connection-test-query: select 1
-  # 缓存
-  cache:
-    type: REDIS
-    redis:
-      timeToLive: 68400000
-      cacheNullValues: true
 
 # MyBatis配置
 mybatis:
