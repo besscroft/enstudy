@@ -96,13 +96,13 @@ management:
 # SpringDoc 配置
 springdoc:
   api-docs:
-    enabled: ${DOC_ENABLE:true}
+    enabled: ${DOC_ENABLE:false}
     path: "/api-docs"
   swagger-ui:
-    enabled: ${DOC_ENABLE:true}
+    enabled: ${DOC_ENABLE:false}
     path: "/swagger-ui.html"
   # 配置扫描的包
-  packagesToScan: dev.heming.enstudy.controller,dev.heming.enstudy.api.controller
+  packagesToScan: dev.heming.enstudy.controller
   show-actuator: false
   cache:
     disabled: false
