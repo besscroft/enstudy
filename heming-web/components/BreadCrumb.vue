@@ -124,7 +124,3 @@ onBeforeMount(async () => {
     </span>
   </div>
 </template>
-
-<style scoped>
-
-</style>

@@ -1,5 +1,4 @@
 <script setup lang="ts">
-const router = useRouter()
 const drawer = ref(null)
 </script>
 
@@ -29,7 +28,3 @@ const drawer = ref(null)
     </v-main>
   </v-app>
 </template>
-
-<style scoped>
-
-</style>

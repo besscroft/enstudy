@@ -5,7 +5,7 @@ const router = useRouter()
 const wrongBook = ref({})
 
 const getWrongBook = async () => {
-  const json = await nuxtApp.$api.get('/@api/dict/getWrongBook').json();
+  const json = await nuxtApp.$api.get('/@api/dictApi/getWrongBook').json();
   if (json.code === 200) {
     wrongBook.value = json.data
   } else {
@@ -42,7 +42,3 @@ onMounted(async () => {
     </v-card-text>
   </v-card>
 </template>
-
-<style scoped>
-
-</style>

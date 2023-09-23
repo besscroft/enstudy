@@ -21,11 +21,11 @@ import java.util.List;
  * @Author Bess Croft
  * @Date 2023/9/3 19:44
  */
-@Tag(name = "词典")
-@RequestMapping("/dict")
+@Tag(name = "词典 API")
+@RequestMapping("/dictApi")
 @RestController
 @RequiredArgsConstructor
-public class DictController {
+public class ApiDictController {
 
     private final UserBookDictService userBookDictService;
 

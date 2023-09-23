@@ -94,6 +94,9 @@ export default defineNuxtConfig({
         { name: 'description', content: appDescription },
         { name: 'apple-mobile-web-app-status-bar-style', content: 'black' },
       ],
+      htmlAttrs: {
+        lang: 'zh'
+      }
     },
     pageTransition: { name: 'page', mode: 'out-in' },
   },

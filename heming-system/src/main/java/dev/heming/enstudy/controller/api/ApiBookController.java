@@ -19,12 +19,12 @@ import java.util.List;
  * @Author Bess Croft
  * @Date 2023/8/26 15:22
  */
-@Tag(name = "单词")
-@RequestMapping("/book")
+@Tag(name = "单词 API")
+@RequestMapping("/bookApi")
 @RestController
 @RequiredArgsConstructor
 
-public class BookController {
+public class ApiBookController {
 
     private final BookService bookService;
 
@@ -53,7 +53,7 @@ public class BookController {
     }
 
     @PostMapping("/actions")
-    @Operation(summary = "单词反馈接口")
+    @Operation(summary = "单词学习反馈接口")
     public CommonResult<Void> actions(@RequestBody @Valid ActionsParam param) {
         bookService.actions(param);
         return CommonResult.success(MessageConstants.SUCCESS);

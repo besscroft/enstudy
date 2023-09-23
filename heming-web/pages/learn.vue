@@ -1,11 +1,15 @@
 <script setup lang="ts">
 import { VSkeletonLoader } from 'vuetify/labs/VSkeletonLoader'
+import { VBottomSheet } from 'vuetify/labs/VBottomSheet'
 
 const nuxtApp = useNuxtApp()
 const wordInfo = ref({})
 const loading = ref(false)
+const feedbackLoading = ref(false)
+const toast = useToast()
 const phrases = ref([])
 const exam = ref([])
+const sheet = ref(false)
 
 const data = reactive({
   form: {},
@@ -16,11 +20,18 @@ const data = reactive({
     headWord: '',
     state: 0,
   },
+  feedBackParam: {
+    wordJsonId: '',
+    bookId: '',
+    wordRank: 0,
+    headWord: '',
+    content: '',
+  }
 })
 
 const getWord = async () => {
   loading.value = true
-  const json = await nuxtApp.$api.get('/@api/book/getWord').json();
+  const json = await nuxtApp.$api.get('/@api/bookApi/getWord').json();
   if (json.code === 200) {
     wordInfo.value = json.data
     if (json.data?.content?.word?.content?.phrase?.phrases) {
@@ -46,7 +57,7 @@ const handleActions = async (state: number) => {
   data.actionsParam.bookId = wordInfo.value.bookId
   data.actionsParam.wordRank = wordInfo.value.wordRank
   data.actionsParam.headWord = wordInfo.value.headWord
-  const json = await nuxtApp.$api.post('/@api/book/actions', {
+  const json = await nuxtApp.$api.post('/@api/bookApi/actions', {
     json: data.actionsParam
   }).json();
   if (json.code === 200) {
@@ -55,6 +66,29 @@ const handleActions = async (state: number) => {
     console.log(json.message)
   }
   loading.value = false
+}
+
+const handleFeedBackSubmit = async () => {
+  if (data.feedBackParam.content === '') {
+    toast.add({ title: '请先填写反馈内容！', timeout: 1000, ui: { width: 'w-full sm:w-96' }})
+    return
+  }
+  feedbackLoading.value = true
+  data.feedBackParam.wordJsonId = wordInfo.value.id
+  data.feedBackParam.bookId = wordInfo.value.bookId
+  data.feedBackParam.wordRank = wordInfo.value.wordRank
+  data.feedBackParam.headWord = wordInfo.value.headWord
+  const json = await nuxtApp.$api.post('/@api/feedbackApi/submit', {
+    json: data.feedBackParam
+  }).json();
+  if (json.code === 200) {
+    toast.add({ title: '提交成功!', timeout: 1000, ui: { width: 'w-full sm:w-96' }})
+    data.feedBackParam.content = ''
+    sheet.value = false
+  } else {
+    console.log(json.message)
+  }
+  feedbackLoading.value = false
 }
 
 const handleAudio = (type: number) => {
@@ -130,8 +164,8 @@ definePageMeta({
 
             <v-spacer></v-spacer>
 
-            <v-btn>
-              反馈(开发中)
+            <v-btn @click="sheet = !sheet">
+              反馈
             </v-btn>
           </v-card-actions>
           <div>
@@ -155,7 +189,32 @@ definePageMeta({
         </v-card>
       </v-skeleton-loader>
     </v-no-ssr>
+    <audio id="ukAudio" v-show="false" controls :src="`https://dict.youdao.com/dictvoice?audio=${wordInfo.headWord}&type=1`" />
+    <audio id="usAudio" v-show="false" controls :src="`https://dict.youdao.com/dictvoice?audio=${wordInfo.headWord}&type=2`" />
+    <v-bottom-sheet v-model="sheet">
+      <v-card class="text-center">
+        <v-card-text>
+          <div space-x-2>
+            <v-btn @click="sheet = !sheet">
+              关闭
+            </v-btn>
+            <v-btn @click="handleFeedBackSubmit" :loading="feedbackLoading">
+              提交
+            </v-btn>
+          </div>
+          <div p-2>
+            <v-textarea
+              label="反馈内容"
+              variant="outlined"
+              bg-color="amber-lighten-4"
+              color="orange orange-darken-4"
+              rows="12"
+              row-height="24"
+              v-model="data.feedBackParam.content"
+            ></v-textarea>
+          </div>
+        </v-card-text>
+      </v-card>
+    </v-bottom-sheet>
   </div>
-  <audio id="ukAudio" v-show="false" controls :src="`https://dict.youdao.com/dictvoice?audio=${wordInfo.headWord}&type=1`" />
-  <audio id="usAudio" v-show="false" controls :src="`https://dict.youdao.com/dictvoice?audio=${wordInfo.headWord}&type=2`" />
 </template>

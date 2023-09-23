@@ -121,8 +121,8 @@ definePageMeta({
       </template>
     </v-data-table-server>
     <v-dialog
-        v-model="dialogDelete"
-        width="auto"
+      v-model="dialogDelete"
+      width="auto"
     >
       <v-card>
         <v-card-text>
