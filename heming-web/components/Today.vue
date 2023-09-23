@@ -4,7 +4,7 @@ const nuxtApp = useNuxtApp()
 const today = ref({})
 
 const getToday = async () => {
-  const json = await nuxtApp.$api.get('/@api/dict/getToday').json();
+  const json = await nuxtApp.$api.get('/@api/dictApi/getToday').json();
   if (json.code === 200) {
     today.value = json.data
   } else {
@@ -36,7 +36,3 @@ onBeforeMount(async () => {
     </v-card-text>
   </v-card>
 </template>
-
-<style scoped>
-
-</style>

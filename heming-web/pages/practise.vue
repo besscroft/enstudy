@@ -21,7 +21,7 @@ const data = reactive({
 
 const getWorkWord = async () => {
   loading.value = true
-  const json = await nuxtApp.$api.get('/@api/book/getWorkWord').json();
+  const json = await nuxtApp.$api.get('/@api/bookApi/getWorkWord').json();
   if (json.code === 200) {
     wordInfo.value = json.data
     if (json.data?.content?.word?.content?.phrase?.phrases) {
@@ -47,7 +47,7 @@ const handleActions = async (state: number) => {
   data.actionsParam.bookId = wordInfo.value.bookId
   data.actionsParam.wordRank = wordInfo.value.wordRank
   data.actionsParam.headWord = wordInfo.value.headWord
-  const json = await nuxtApp.$api.post('/@api/book/failActions', {
+  const json = await nuxtApp.$api.post('/@api/bookApi/failActions', {
     json: data.actionsParam
   }).json();
   if (json.code === 200) {

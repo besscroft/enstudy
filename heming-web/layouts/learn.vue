@@ -73,7 +73,3 @@ onBeforeMount(() => {
     </div>
   </v-app>
 </template>
-
-<style scoped>
-
-</style>

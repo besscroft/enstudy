@@ -29,7 +29,3 @@ const drawer = ref(null)
     </v-main>
   </v-app>
 </template>
-
-<style scoped>
-
-</style>

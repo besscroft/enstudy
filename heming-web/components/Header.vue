@@ -22,7 +22,3 @@ const user = useUserStore()
     </v-toolbar>
   </v-toolbar>
 </template>
-
-<style scoped>
-
-</style>

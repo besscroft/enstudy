@@ -13,7 +13,7 @@ const propsData = defineProps({
 })
 
 const getUserDict = async () => {
-  const json = await nuxtApp.$api.get('/@api/dict/getUserDict').json();
+  const json = await nuxtApp.$api.get('/@api/dictApi/getUserDict').json();
   if (json.code === 200) {
     userDict.value = json.data
     progress.value = json.data.bookSize === 0 ? 0 : (json.data.studied / json.data.bookSize * 100).toFixed(2)
@@ -24,7 +24,7 @@ const getUserDict = async () => {
 
 const handleMenu = async () => {
   if (items.value.length === 0) {
-    const json = await nuxtApp.$api.get('/@api/dict/getDict').json();
+    const json = await nuxtApp.$api.get('/@api/dictApi/getDict').json();
     if (json.code === 200) {
       items.value = json.data
     } else {
@@ -36,7 +36,7 @@ const handleMenu = async () => {
 const clickItem = async (item: string) => {
   emit('handleChoiceLoading', true)
   try {
-    const json = await nuxtApp.$api.post('/@api/dict/choice', {
+    const json = await nuxtApp.$api.post('/@api/dictApi/choice', {
       json: {
         bookId: item,
       }
@@ -113,7 +113,3 @@ onUnmounted(() => {
     ></v-progress-linear>
   </v-card>
 </template>
-
-<style scoped>
-
-</style>
