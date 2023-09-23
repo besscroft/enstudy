@@ -53,7 +53,7 @@ public class ApiBookController {
     }
 
     @PostMapping("/actions")
-    @Operation(summary = "单词反馈接口")
+    @Operation(summary = "单词学习反馈接口")
     public CommonResult<Void> actions(@RequestBody @Valid ActionsParam param) {
         bookService.actions(param);
         return CommonResult.success(MessageConstants.SUCCESS);

@@ -1,4 +1,4 @@
-package dev.heming.enstudy.common.param.book;
+package dev.heming.enstudy.common.param.feedback;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
@@ -6,13 +6,13 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 /**
- * @Description 单词学习反馈接口请求参数
+ * @Description 反馈接口请求参数
  * @Author Bess Croft
- * @Date 2023/9/5 16:53
+ * @Date 2023/9/23 16:10
  */
 @Data
-@Schema(title = "单词学习反馈接口请求参数")
-public class ActionsParam {
+@Schema(title = "反馈接口请求参数")
+public class FeedBackParam {
 
     /** 单词数据 id */
     @NotBlank(message = "单词数据 id 未填！")
@@ -34,9 +34,9 @@ public class ActionsParam {
     @Schema(title = "单词", type = "String", requiredMode = Schema.RequiredMode.REQUIRED)
     private String headWord;
 
-    /** 状态: 0-不认识，1-学会了 */
-    @NotNull(message = "状态未填！")
-    @Schema(title = "状态: 0-不认识，1-学会了", type = "Integer", requiredMode = Schema.RequiredMode.REQUIRED)
-    private Integer state;
+    /** 反馈内容 */
+    @NotBlank(message = "反馈内容未填！")
+    @Schema(title = "反馈内容", type = "String", requiredMode = Schema.RequiredMode.REQUIRED)
+    private String content;
 
 }
