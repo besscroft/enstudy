@@ -111,6 +111,7 @@
             user_id = #{userId}
         AND
             book_id = #{bookId}
+        LIMIT 1
     </select>
 
 </mapper>
