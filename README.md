@@ -21,7 +21,7 @@
 
 [提出新想法 & 提交 Bug](https://github.com/besscroft/enstudy/issues/new) | [Fork & Pull Request](https://github.com/besscroft/enstudy/fork)
 
-DiyFile 欢迎各种贡献，包括但不限于改进，新功能，文档和代码改进，问题和错误报告。
+enstudy 欢迎各种贡献，包括但不限于改进，新功能，文档和代码改进，问题和错误报告。
 
 ### 如何部署
 
@@ -29,7 +29,7 @@ DiyFile 欢迎各种贡献，包括但不限于改进，新功能，文档和代
 
 `doc/sql/enstudy-schema.sql` 文件是表结构，可以先创建表，`doc/sql/enstudy-data.sql` 是数据，创建表之后导入。
 
-`doc/mongo/enstudy.gz` 是存储在 MongoDB 的单词详细数据，你需要使用 MongoRestore 命令来进行导入。
+`doc/mongo/enstudy.gz` 是存储在 MongoDB 的单词详细数据，先创建 `book` 集合，然后你需要使用 MongoRestore 命令来进行导入。
 
 默认登录用户 `enstudy`，默认登录密码 `666666`
 
@@ -111,6 +111,8 @@ git clone https://github.com/besscroft/enstudy.git
 cd heming-web
 
 pnpm i
+
+pnpm run dev
 ```
 
 如果您有任何建议，欢迎反馈！
