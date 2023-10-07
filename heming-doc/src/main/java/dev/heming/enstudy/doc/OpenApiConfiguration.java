@@ -1,6 +1,5 @@
 package dev.heming.enstudy.doc;
 
-import io.swagger.v3.oas.models.ExternalDocumentation;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.info.License;
@@ -18,13 +17,15 @@ public class OpenApiConfiguration {
     @Bean
     public OpenAPI springShopOpenAPI() {
         return new OpenAPI()
-                .info(new Info().title("嗯学英语")
+                .info(new Info()
+                        .title("嗯学英语")
                         .description("学英语，就嗯学！")
-                        .version("v0.0.1")
-                        .license(new License().name("MIT license").url("https://github.com/besscroft/enstudy/blob/main/LICENSE")))
-                .externalDocs(new ExternalDocumentation()
-                        .description("恩学英语 API 文档")
-                        .url("https://doc.enstudy.heming.dev"));
+                        .version("v0.2.5")
+                        .license(new License()
+                                .name("MIT license")
+                                .url("https://github.com/besscroft/enstudy/blob/main/LICENSE")
+                        )
+                );
     }
 
 }
